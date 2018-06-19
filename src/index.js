@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootswatch/dist/materia/bootstrap.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

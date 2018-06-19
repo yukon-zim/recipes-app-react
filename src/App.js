@@ -8,7 +8,7 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <div className="App">
+                <div>
                     <Switch>
                         <Redirect exact from='/' to='/recipes'/>
                         <Route exact path='/recipes' component={RecipeList}/>

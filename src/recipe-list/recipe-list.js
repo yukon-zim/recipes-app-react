@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {orderBy} from 'lodash';
 
 
 export default class RecipeList extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            currentSortByField: null,
+            currentSortByOrder: null,
             searchInProgress: false,
             recipes: []
         }
@@ -14,6 +17,26 @@ export default class RecipeList extends Component{
         const response = await fetch('http://localhost:1337/recipes');
         const jsonData = await response.json();
         return jsonData;
+    }
+    sortByColumnHeader(field) {
+        let recipes = this.state.recipes;
+        let currentSortByOrder = this.state.currentSortByOrder;
+        if (field === this.state.currentSortByField) {
+            if (this.state.currentSortByOrder === 'asc') {
+                currentSortByOrder = 'desc';
+            } else {
+                currentSortByOrder = 'asc';
+            }
+            recipes = orderBy(recipes, field, currentSortByOrder);
+        } else {
+            currentSortByOrder = 'asc';
+            recipes = orderBy(recipes, field, currentSortByOrder);
+        }
+        this.setState({
+            recipes: recipes,
+            currentSortByField: field,
+            currentSortByOrder: currentSortByOrder,
+        });
     }
     async componentDidMount() {
         this.setState({ searchInProgress: true});
@@ -27,6 +50,7 @@ export default class RecipeList extends Component{
         const noRecipesFound = this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
         const searchInProgress = this.state.searchInProgress;
+        const blankUrl = '#';
         return (
             <div className="container-fluid">
                 <div className="mb-4">
@@ -43,18 +67,18 @@ export default class RecipeList extends Component{
                         <thead>
                         <tr className="row">
                             <th className="col-7 ml-2">
-                                <a onClick={ (event) => {this.sortByColumnHeader('name')}} href="">Name</a>
+                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('name')}}>Name</a>
                             </th>
                             <th className="col-2">
-                                <a onClick={ (event) => {this.sortByColumnHeader('category')}} href="">Category</a>
+                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('category')}}>Category</a>
                             </th>
                             <th className="col-2">
-                                <a onClick={ (event) => {this.sortByColumnHeader('numberOfServings')}} href="">Servings</a>
+                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('numberOfServings')}}>Servings</a>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        { recipes.map(recipe => {
+                        { this.state.recipes.map(recipe => {
                             return (
                                 <tr className="row" key={recipe.id}>
                                     <td className="col-7 ml-2">
@@ -96,6 +120,7 @@ export default class RecipeList extends Component{
                     <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>
                 </div>
                 <div>
+                    {/*}
                     <div>
                         <label for="csv-file-upload">Import recipes by CSV:</label>
                     </div>
@@ -110,8 +135,8 @@ export default class RecipeList extends Component{
         {importError}
       </span>
                     </div>
-                    */}
                     </div>
+                */}
                 </div>
             </div>
         )
