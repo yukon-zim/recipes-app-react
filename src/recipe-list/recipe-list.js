@@ -11,7 +11,8 @@ export default class RecipeList extends Component{
             currentSortByOrder: null,
             searchInProgress: false,
             recipes: []
-        }
+        };
+        this.recipeUrl = 'http://localhost:1337/recipes';
     }
     async getRecipes() {
         const response = await fetch('http://localhost:1337/recipes');
@@ -38,13 +39,27 @@ export default class RecipeList extends Component{
             currentSortByOrder: currentSortByOrder,
         });
     }
+    async searchRecipes(searchTerm) {
+        this.setState({
+            searchInProgress: true
+        });
+        if (!searchTerm.trim()) {
+            this.searchInProgress = false;
+        }
+        const response = await fetch(`${this.recipeUrl}?searchTerm=${searchTerm}`);
+        const jsonData = await response.json();
+        console.log(jsonData);
+        this.setState({
+            recipes: jsonData,
+            searchInProgress: false
+        });
+    }
     async componentDidMount() {
-        this.setState({ searchInProgress: true});
         const recipes = await this.getRecipes();
         this.setState({
             recipes,
             searchInProgress: false
-        })
+        });
     }
     render() {
         const noRecipesFound = this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
