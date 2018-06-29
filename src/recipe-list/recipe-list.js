@@ -40,12 +40,15 @@ export default class RecipeList extends Component{
         });
     }
     async searchRecipes(searchTerm) {
+        if (!searchTerm.trim()) {
+            this.setState({
+                recipes: this.state.fullRecipeList
+            });
+            return;
+        }
         this.setState({
             searchInProgress: true
         });
-        if (!searchTerm.trim()) {
-            this.searchInProgress = false;
-        }
         const response = await fetch(`${this.recipeUrl}?searchTerm=${searchTerm}`);
         const jsonData = await response.json();
         console.log(jsonData);
@@ -57,6 +60,7 @@ export default class RecipeList extends Component{
     async componentDidMount() {
         const recipes = await this.getRecipes();
         this.setState({
+            fullRecipeList: recipes,
             recipes,
             searchInProgress: false
         });
