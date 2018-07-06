@@ -3,12 +3,14 @@ import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-d
 import RecipeList from './recipe-list/recipe-list';
 import RecipeDetail from './recipe-detail/recipe-detail';
 import './App.css';
+import Header from './header/header';
 
 class App extends Component {
     render() {
         return (
             <Router>
                 <div>
+                    <Header/>
                     <Switch>
                         <Redirect exact from='/' to='/recipes'/>
                         <Route exact path='/recipes' component={RecipeList}/>

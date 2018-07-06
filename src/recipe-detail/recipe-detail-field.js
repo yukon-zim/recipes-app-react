@@ -24,7 +24,8 @@ export default class RecipeDetailField extends Component {
                 )}
                 {this.props.isFieldInEditMode(this.props.fieldName) && (
                     <InputType id={this.props.fieldName}
-                           value={recipe[this.props.fieldName] || ''} // pass a string even if fieldName is null/undefined
+                        // pass a value:string even if fieldName is null/undefined to avoid controlled component error
+                           value={recipe[this.props.fieldName] || ''}
                            onChange={event => {
                                this.props.setRecipeField(this.props.fieldName, event.target.value)
                            }}

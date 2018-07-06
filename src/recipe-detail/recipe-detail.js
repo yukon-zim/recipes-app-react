@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
+import Moment from 'moment';
 
 
 export default class RecipeDetail extends Component {
@@ -17,30 +18,52 @@ export default class RecipeDetail extends Component {
             newRecipeMode: false
         }
     }
+
     async getRecipe(recipeId) {
         const response = await fetch(`http://localhost:1337/recipes/${recipeId}`);
         const jsonData = await response.json();
         return jsonData;
     }
 
-    async componentDidMount() {
-        const recipeId = this.props.match.params.id;
-        const recipe = await this.getRecipe(recipeId);
-        this.setState({
-            recipe
-        })
+    async updateRecipe() {
+        const urlId = this.state.recipeId;
+        try {
+            this.formError = '';
+            const updatedRecipe = await this.updateRecipeRequest(urlId, this.state.recipe);
+            this.recipeForm.reset();
+            this.setState({
+                recipe: updatedRecipe
+            })
+        } catch (err) {
+            this.formError = this.errorService.extractErrorMessage(err, `updating recipe ID ${urlId}`);
+        }
     }
+
+    async updateRecipeRequest(recipeId, updatedRecipe) {
+        const response = await fetch(`http://localhost:1337/recipes/${recipeId}`, {
+            method: 'PUT',
+            body:  JSON.stringify(updatedRecipe)
+        });
+        const jsonData = await response.json();
+        return jsonData;
+    }
+
+    deleteRecipe() {
+
+    }
+
     setRecipeField(fieldName, fieldValue, index) {
         const recipe = this.state.recipe;
         if (!index) {
-        recipe[fieldName] = fieldValue;
+            recipe[fieldName] = fieldValue;
         } else {
-        recipe[fieldName][index] = fieldValue;
+            recipe[fieldName][index] = fieldValue;
         }
         this.setState({
             recipe
         })
     }
+
     editField(fieldName, index) {
         this.setState({
             fieldInEditMode: {
@@ -49,6 +72,7 @@ export default class RecipeDetail extends Component {
             },
         });
     }
+
     isFieldInEditMode(fieldName, index) {
         if (this.state.newRecipeMode) {
             return true;
@@ -58,6 +82,7 @@ export default class RecipeDetail extends Component {
         }
         return this.state.fieldInEditMode.fieldName === fieldName && this.state.fieldInEditMode.fieldIndex === index;
     }
+
     unfocusField() {
         this.setState({
             fieldInEditMode: {
@@ -66,11 +91,13 @@ export default class RecipeDetail extends Component {
             },
         });
     }
+
     unfocusFieldOnEnter(event) {
         if (event.key === 'Enter') {
             this.unfocusField()
         }
     }
+
     addListItem(fieldName) {
         const recipe = this.state.recipe;
         recipe[fieldName].push('');
@@ -79,6 +106,7 @@ export default class RecipeDetail extends Component {
             recipe
         });
     }
+
     moveListItemUp(itemIndex, fieldName) {
         const recipe = this.state.recipe;
         const [itemToMove] = recipe[fieldName].splice(itemIndex, 1);
@@ -98,6 +126,7 @@ export default class RecipeDetail extends Component {
             recipe
         });
     }
+
     deleteListItem(index, fieldName) {
         const recipe = this.state.recipe;
         recipe[fieldName].splice(index, 1);
@@ -106,11 +135,41 @@ export default class RecipeDetail extends Component {
             recipe
         });
     }
+
+
     handleSubmit(event) {
         event.preventDefault();
     }
+
+    async componentDidMount() {
+        const recipeId = this.props.match.params.id;
+        const recipe = await this.getRecipe(recipeId);
+        this.setState({
+            recipe,
+            recipeId
+        })
+    }
+
     render() {
+        const newRecipeMode = false; //temp measure
         const recipe = this.state.recipe;
+        const commonProps = {
+            recipe,
+            isFieldInEditMode: this.isFieldInEditMode.bind(this),
+            editField: this.editField.bind(this),
+            unfocusField: this.unfocusField.bind(this),
+            unfocusFieldOnEnter: this.unfocusFieldOnEnter.bind(this),
+            setRecipeField: this.setRecipeField.bind(this)
+
+        };
+        const commonListProps = {
+            moveListItemUp: this.moveListItemUp.bind(this),
+            moveListItemDown: this.moveListItemDown.bind(this),
+            addListItem: this.addListItem.bind(this),
+            removeListItem: this.deleteListItem.bind(this),
+        };
+        const dateCreatedText = Moment(recipe.dateCreated).format("M/d/YYYY");
+        const dateModifiedText = Moment(recipe.dateModified).format("M/d/YYYY");
         return (
             <div>
                 <div className="container-fluid">
@@ -122,90 +181,76 @@ export default class RecipeDetail extends Component {
                           onSubmit={this.handleSubmit}>
                         <div><span>ID </span>{recipe.id}</div>
                         <RecipeDetailField
-                        recipe={recipe}
-                        type='text'
-                        isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                        editField={this.editField.bind(this)}
-                        unfocusField={this.unfocusField.bind(this)}
-                        unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                        setRecipeField={this.setRecipeField.bind(this)}
-                        fieldName="name"
-                        label="Name: "
-                        required={true}
-                        requiredErrorText="Name is required."
+                            {...commonProps}
+                            type='text'
+                            fieldName="name"
+                            label="Name: "
+                            required={true}
+                            requiredErrorText="Name is required."
                         />
                         <RecipeDetailField
-                            recipe={recipe}
+                            {...commonProps}
                             type='text'
-                            isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                            editField={this.editField.bind(this)}
-                            unfocusField={this.unfocusField.bind(this)}
-                            unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                            setRecipeField={this.setRecipeField.bind(this)}
                             fieldName="category"
                             label="Category: "
                             required={false}
                         />
                         <RecipeDetailField
-                            recipe={recipe}
+                            {...commonProps}
                             type='text'
-                            isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                            editField={this.editField.bind(this)}
-                            unfocusField={this.unfocusField.bind(this)}
-                            unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                            setRecipeField={this.setRecipeField.bind(this)}
                             fieldName="numberOfServings"
                             label="Number of Servings: "
                             required={false}
                         />
                         <RecipeDetailListField
-                            recipe={recipe}
+                            {...commonProps}
+                            {...commonListProps}
                             type='text'
                             listType='unordered'
-                            isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                            editField={this.editField.bind(this)}
-                            unfocusField={this.unfocusField.bind(this)}
-                            unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                            setRecipeField={this.setRecipeField.bind(this)}
-                            moveListItemUp={this.moveListItemUp.bind(this)}
-                            moveListItemDown={this.moveListItemDown.bind(this)}
-                            addListItem={this.addListItem.bind(this)}
-                            removeListItem={this.deleteListItem.bind(this)}
                             addListItemLabel="Add ingredient"
                             fieldName="ingredients"
                             label="Ingredients: "
                             required={true}
+                            requiredErrorText="At least one ingredient is required."
                         />
                         <RecipeDetailListField
-                            recipe={recipe}
+                            {...commonProps}
+                            {...commonListProps}
                             type='text'
                             listType='ordered'
-                            isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                            editField={this.editField.bind(this)}
-                            unfocusField={this.unfocusField.bind(this)}
-                            unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                            setRecipeField={this.setRecipeField.bind(this)}
-                            moveListItemUp={this.moveListItemUp.bind(this)}
-                            moveListItemDown={this.moveListItemDown.bind(this)}
-                            addListItem={this.addListItem.bind(this)}
-                            removeListItem={this.deleteListItem.bind(this)}
                             addListItemLabel="Add instruction"
                             fieldName="instructions"
                             label="Instructions: "
                             required={true}
+                            requiredErrorText="At least one instruction is required."
                         />
+                        <div>
+                            <label>Date Created:
+                                <span>{dateCreatedText}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label>Date Modified:
+                                <span>{dateModifiedText}</span>
+                            </label>
+                        </div>
                         <RecipeDetailField
-                            recipe={recipe}
+                            {...commonProps}
                             type='textarea'
-                            isFieldInEditMode={this.isFieldInEditMode.bind(this)}
-                            editField={this.editField.bind(this)}
-                            unfocusField={this.unfocusField.bind(this)}
-                            unfocusFieldOnEnter={this.unfocusFieldOnEnter.bind(this)}
-                            setRecipeField={this.setRecipeField.bind(this)}
                             fieldName="notes"
                             label="Notes: "
                             required={false}
                         />
+                        {!newRecipeMode && (
+                            <div>
+                                {/*{!form.pristine && (*/}
+                                    <button className="btn btn-primary" onClick={() => this.updateRecipe()}>Update recipe</button>
+                                {/*)}*/}
+                                {/*{!form.dirty && (*/}
+                                    <button className="btn btn-warning" onClick={() => this.deleteRecipe()}>Delete recipe</button>
+                                {/*)}*/}
+                            </div>
+                        )}
                     </form>
                 </div>
             </div>
