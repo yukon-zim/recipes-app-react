@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class RecipeDetailField extends Component {
+export default class RecipeDetailListField extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,10 +32,12 @@ export default class RecipeDetailField extends Component {
                                     {!this.props.isFieldInEditMode(this.props.fieldName, index) && (
                                         <span onClick={() => {
                                             this.props.editField(this.props.fieldName, index)
-                                        }}>{listItem}</span>
+                                        }}>{listItem}
+                                        </span>
                                     )}
                                     {this.props.isFieldInEditMode(this.props.fieldName, index) && (
                                         <InputType id={`${this.props.fieldName}-${index}`}
+                                                   className="recipe-detail-list-field"
                                                    value={listItem || ''} // pass a string even if fieldName is null/undefined
                                                    onChange={event => {
                                                        this.props.setRecipeField(this.props.fieldName, event.target.value, index)
@@ -56,30 +58,24 @@ export default class RecipeDetailField extends Component {
                                             onClick={() => this.props.moveListItemUp(index, this.props.fieldName)}>
                                             <i className="fas fa-arrow-up">up</i>
                                         </button>
-                                        )}
+                                    )}
                                     {!(index === recipe[this.props.fieldName].length - 1) && (
-                                    <button
-                                        className="btn btn-light btn-sm"
-                                        title="move down"
-                                        onClick={() => this.props.moveListItemDown(index, this.props.fieldName)}>
-                                        <i className="fas fa-arrow-down">down</i>
-                                    </button>
+                                        <button
+                                            className="btn btn-light btn-sm"
+                                            title="move down"
+                                            onClick={() => this.props.moveListItemDown(index, this.props.fieldName)}>
+                                            <i className="fas fa-arrow-down">down</i>
+                                        </button>
                                     )}
                                     <button
                                         className="btn btn-light btn-sm"
                                         title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
                                         <i className="fas fa-trash-alt">delete</i>
                                     </button>
-                                    {this.props.isFieldInEditMode(this.props.fieldName) && (recipe.name.invalid && (recipe.name.dirty || recipe.name.touched)) && (
-                                        <div>
-                                            <div className="alert alert-danger">
-                                                {recipe.name.errors.required && (
-                                                    <div>
-                                                        {this.props.requiredErrorText}
-                                                    </div>
-                                                )}
+                                    {this.props.isFieldInEditMode(this.props.fieldName) && this.props.required && (
+                                            <div className="alert alert-danger form-list-field-invalid">
+                                                {this.props.requiredErrorText}
                                             </div>
-                                        </div>
                                     )}
                                 </div>
                             </li>

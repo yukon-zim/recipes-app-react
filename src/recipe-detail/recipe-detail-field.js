@@ -24,6 +24,7 @@ export default class RecipeDetailField extends Component {
                 )}
                 {this.props.isFieldInEditMode(this.props.fieldName) && (
                     <InputType id={this.props.fieldName}
+                               className="recipe-detail-field"
                         // pass a value:string even if fieldName is null/undefined to avoid controlled component error
                            value={recipe[this.props.fieldName] || ''}
                            onChange={event => {
@@ -38,16 +39,10 @@ export default class RecipeDetailField extends Component {
                            required={this.props.required}
                     />
                 )}
-                {this.props.isFieldInEditMode(this.props.fieldName) && (recipe.name.invalid && (recipe.name.dirty || recipe.name.touched)) && (
-                    <div>
-                        <div className="alert alert-danger">
-                            {recipe.name.errors.required && (
-                                <div>
-                                    {this.props.requiredErrorText}
-                                </div>
-                            )}
+                {this.props.isFieldInEditMode(this.props.fieldName) && this.props.required && (
+                        <div className="alert alert-danger form-field-invalid">
+                            {this.props.requiredErrorText}
                         </div>
-                    </div>
                 )}
             </div>
         )

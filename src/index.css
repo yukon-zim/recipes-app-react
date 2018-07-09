@@ -6,3 +6,9 @@ body {
 .error-message {
   color: red;
 }
+.recipe-detail-list-field:valid ~ .form-list-field-invalid {
+  display: none;
+}
+.recipe-detail-field:valid ~ .form-field-invalid {
+  display: none;
+}

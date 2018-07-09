@@ -16,7 +16,7 @@ export default class RecipeDetail extends Component {
                 fieldIndex: ''
             },
             newRecipeMode: false
-        }
+        };
     }
 
     async getRecipe(recipeId) {
@@ -54,14 +54,14 @@ export default class RecipeDetail extends Component {
 
     setRecipeField(fieldName, fieldValue, index) {
         const recipe = this.state.recipe;
-        if (!index) {
+        if (index === null || index === undefined) {
             recipe[fieldName] = fieldValue;
         } else {
             recipe[fieldName][index] = fieldValue;
         }
         this.setState({
             recipe
-        })
+        });
     }
 
     editField(fieldName, index) {
