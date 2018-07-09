@@ -16,7 +16,7 @@ export default class RecipeDetailField extends Component {
         let InputType = this.props.type === 'textarea' ? 'textarea' : 'input';
         return (
             <div>
-                <label>{this.props.label}</label>
+                <label>{this.props.label}&nbsp;</label>
                 {!this.props.isFieldInEditMode(this.props.fieldName) && (
                     <span onClick={() => {
                         this.props.editField(this.props.fieldName)

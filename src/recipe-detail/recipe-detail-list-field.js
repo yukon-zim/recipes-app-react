@@ -23,7 +23,7 @@ export default class RecipeDetailListField extends Component {
         }
         return (
             <div>
-                <label>{this.props.label}</label>
+                <label>{this.props.label}&nbsp;</label>
                 <ListType>
                     {recipe[this.props.fieldName].map((listItem, index) => {
                         return (

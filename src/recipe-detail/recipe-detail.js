@@ -15,7 +15,8 @@ export default class RecipeDetail extends Component {
                 fieldName: '',
                 fieldIndex: ''
             },
-            newRecipeMode: false
+            newRecipeMode: false,
+            formIsDirty: false
         };
     }
 
@@ -26,16 +27,25 @@ export default class RecipeDetail extends Component {
     }
 
     async updateRecipe() {
-        const urlId = this.state.recipeId;
-        try {
-            this.formError = '';
-            const updatedRecipe = await this.updateRecipeRequest(urlId, this.state.recipe);
-            this.recipeForm.reset();
+        if (this.recipeForm.checkValidity()) {
+            const urlId = this.state.recipeId;
+            try {
+                const updatedRecipe = await this.updateRecipeRequest(urlId, this.state.recipe);
+                this.recipeForm.reset();
+                this.setState({
+                    recipe: updatedRecipe,
+                    formError: '',
+                    formIsDirty: false
+                })
+            } catch (err) {
+                this.setState({
+                    formError: err.message
+                })
+            }
+        } else {
             this.setState({
-                recipe: updatedRecipe
+                formError: 'Recipe not saved - check errors on form'
             })
-        } catch (err) {
-            this.formError = this.errorService.extractErrorMessage(err, `updating recipe ID ${urlId}`);
         }
     }
 
@@ -45,7 +55,10 @@ export default class RecipeDetail extends Component {
             body:  JSON.stringify(updatedRecipe)
         });
         const jsonData = await response.json();
-        return jsonData;
+        if (response.ok) {
+            return jsonData;
+        }
+        throw new Error(jsonData.message)
     }
 
     deleteRecipe() {
@@ -60,7 +73,8 @@ export default class RecipeDetail extends Component {
             recipe[fieldName][index] = fieldValue;
         }
         this.setState({
-            recipe
+            recipe,
+            formIsDirty: true
         });
     }
 
@@ -106,7 +120,8 @@ export default class RecipeDetail extends Component {
         recipe[fieldName].push('');
         this.editField(`${fieldName}`, recipe[fieldName].length - 1);
         this.setState({
-            recipe
+            recipe,
+            formIsDirty: true
         });
     }
 
@@ -114,9 +129,9 @@ export default class RecipeDetail extends Component {
         const recipe = this.state.recipe;
         const [itemToMove] = recipe[fieldName].splice(itemIndex, 1);
         recipe[fieldName].splice(itemIndex - 1, 0, itemToMove);
-        // this.recipeForm.form.markAsDirty();
         this.setState({
-            recipe
+            recipe,
+            formIsDirty: true
         });
     }
 
@@ -124,18 +139,18 @@ export default class RecipeDetail extends Component {
         const recipe = this.state.recipe;
         const [itemToMove] = recipe[fieldName].splice(itemIndex, 1);
         recipe[fieldName].splice(itemIndex + 1, 0, itemToMove);
-        // this.recipeForm.form.markAsDirty();
         this.setState({
-            recipe
+            recipe,
+            formIsDirty: true
         });
     }
 
     deleteListItem(index, fieldName) {
         const recipe = this.state.recipe;
         recipe[fieldName].splice(index, 1);
-        // this.recipeForm.form.markAsDirty();
         this.setState({
-            recipe
+            recipe,
+            formIsDirty: true
         });
     }
 
@@ -173,6 +188,7 @@ export default class RecipeDetail extends Component {
         };
         const dateCreatedText = Moment(recipe.dateCreated).format("M/d/YYYY");
         const dateModifiedText = Moment(recipe.dateModified).format("M/d/YYYY");
+        const formIsValid = this.recipeForm ? this.recipeForm.checkValidity() : false;
         return (
             <div>
                 <div className="container-fluid">
@@ -182,12 +198,18 @@ export default class RecipeDetail extends Component {
                     <h4> The Deets</h4>
                     <form ref={form => this.recipeForm = form}
                           onSubmit={this.handleSubmit}>
-                        <div><span>ID </span>{recipe.id}</div>
+                        <div>
+                            <span>ID: </span>
+                            {recipe.id}
+                        </div>
+                        <div>
+                            <span className="error-message">{this.state.formError}</span>
+                        </div>
                         <RecipeDetailField
                             {...commonProps}
                             type='text'
                             fieldName="name"
-                            label="Name: "
+                            label="Name:"
                             required={true}
                             requiredErrorText="Name is required."
                         />
@@ -195,14 +217,14 @@ export default class RecipeDetail extends Component {
                             {...commonProps}
                             type='text'
                             fieldName="category"
-                            label="Category: "
+                            label="Category:"
                             required={false}
                         />
                         <RecipeDetailField
                             {...commonProps}
                             type='text'
                             fieldName="numberOfServings"
-                            label="Number of Servings: "
+                            label="Number of Servings:"
                             required={false}
                         />
                         <RecipeDetailListField
@@ -212,7 +234,7 @@ export default class RecipeDetail extends Component {
                             listType='unordered'
                             addListItemLabel="Add ingredient"
                             fieldName="ingredients"
-                            label="Ingredients: "
+                            label="Ingredients:"
                             required={true}
                             requiredErrorText="Ingredient name is required."
                         />
@@ -223,17 +245,17 @@ export default class RecipeDetail extends Component {
                             listType='ordered'
                             addListItemLabel="Add instruction"
                             fieldName="instructions"
-                            label="Instructions: "
+                            label="Instructions:"
                             required={true}
                             requiredErrorText="Instruction text is required."
                         />
                         <div>
-                            <label>Date Created:
+                            <label>Date Created:&nbsp;
                                 <span>{dateCreatedText}</span>
                             </label>
                         </div>
                         <div>
-                            <label>Date Modified:
+                            <label>Date Modified:&nbsp;
                                 <span>{dateModifiedText}</span>
                             </label>
                         </div>
@@ -246,12 +268,13 @@ export default class RecipeDetail extends Component {
                         />
                         {!newRecipeMode && (
                             <div>
-                                {/*{!form.pristine && (*/}
-                                    <button className="btn btn-primary" onClick={() => this.updateRecipe()}>Update recipe</button>
-                                {/*)}*/}
-                                {/*{!form.dirty && (*/}
-                                    <button className="btn btn-warning" onClick={() => this.deleteRecipe()}>Delete recipe</button>
-                                {/*)}*/}
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => this.updateRecipe()}
+                                    disabled={!this.state.formIsDirty || !formIsValid}>Update recipe</button>
+                                <button
+                                    className="btn btn-warning"
+                                    onClick={() => this.deleteRecipe()}>Delete recipe</button>
                             </div>
                         )}
                     </form>
