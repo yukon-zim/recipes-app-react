@@ -67,12 +67,14 @@ export default class RecipeDetailListField extends Component {
                                             <i className="fas fa-arrow-down">down</i>
                                         </button>
                                     )}
+                                    {(recipe[this.props.fieldName].length > 1 ) && (
                                     <button
                                         className="btn btn-light btn-sm"
                                         title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
                                         <i className="fas fa-trash-alt">delete</i>
                                     </button>
-                                    {this.props.isFieldInEditMode(this.props.fieldName) && this.props.required && (
+                                    )}
+                                    {this.props.isFieldInEditMode(this.props.fieldName, index) && this.props.required && (
                                             <div className="alert alert-danger form-list-field-invalid">
                                                 {this.props.requiredErrorText}
                                             </div>

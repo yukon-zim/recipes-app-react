@@ -80,6 +80,9 @@ export default class RecipeDetail extends Component {
         if (this.state.recipe[fieldName] === '') {
             return true;
         }
+        if (index !== null && index !== undefined && this.state.recipe[fieldName][index] === '') {
+            return true;
+        }
         return this.state.fieldInEditMode.fieldName === fieldName && this.state.fieldInEditMode.fieldIndex === index;
     }
 
@@ -211,7 +214,7 @@ export default class RecipeDetail extends Component {
                             fieldName="ingredients"
                             label="Ingredients: "
                             required={true}
-                            requiredErrorText="At least one ingredient is required."
+                            requiredErrorText="Ingredient name is required."
                         />
                         <RecipeDetailListField
                             {...commonProps}
@@ -222,7 +225,7 @@ export default class RecipeDetail extends Component {
                             fieldName="instructions"
                             label="Instructions: "
                             required={true}
-                            requiredErrorText="At least one instruction is required."
+                            requiredErrorText="Instruction text is required."
                         />
                         <div>
                             <label>Date Created:
