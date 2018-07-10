@@ -1,3 +1,4 @@
+/* eslint no-restricted-globals: 0 */
 import React, {Component} from 'react';
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
@@ -62,8 +63,31 @@ export default class RecipeDetail extends Component {
         throw new Error(jsonData.message)
     }
 
-    deleteRecipe() {
+    async deleteRecipe() {
+        const urlId = this.state.recipeId;
+        if (confirm(`Are you sure you want to delete this recipe? This action cannot be undone.`)) {
+            try {
+                this.formError = '';
+                await this.deleteRecipeRequest(urlId);
+                this.goToListView();
+                this.setState({
+                    formError: ''
+                });
+            } catch (err) {
+                this.setState({
+                    formError: err.message
+                })
+            }
+        }
+    }
 
+    async deleteRecipeRequest(recipeId) {
+        const response = await fetch(`http://localhost:1337/recipes/${recipeId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Delete failed - check network logs')
+        }
     }
 
     setRecipeField(fieldName, fieldValue, index) {
@@ -155,6 +179,9 @@ export default class RecipeDetail extends Component {
         });
     }
 
+    goToListView() {
+        this.props.history.push('/recipes');
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -202,7 +229,7 @@ export default class RecipeDetail extends Component {
                         <Prompt
                             when={this.state.formIsDirty}
                             message="Unsaved changes - are you sure you want to leave this page?"
-                            />
+                        />
                         <div>
                             <span>ID: </span>
                             {recipe.id}
