@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
 import Moment from 'moment';
+import {Prompt} from 'react-router-dom';
 
 
 export default class RecipeDetail extends Component {
@@ -198,6 +199,10 @@ export default class RecipeDetail extends Component {
                     <h4> The Deets</h4>
                     <form ref={form => this.recipeForm = form}
                           onSubmit={this.handleSubmit}>
+                        <Prompt
+                            when={this.state.formIsDirty}
+                            message="Unsaved changes - are you sure you want to leave this page?"
+                            />
                         <div>
                             <span>ID: </span>
                             {recipe.id}
