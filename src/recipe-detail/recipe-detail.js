@@ -10,14 +10,14 @@ export default class RecipeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipe: {
-                name: ''
-            },
+            recipe: this.createEmptyRecipe(),
+            recipeId: undefined,
             fieldInEditMode: {
                 fieldName: '',
                 fieldIndex: ''
             },
             newRecipeMode: false,
+            formError: '',
             formIsDirty: false
         };
     }
@@ -63,16 +63,41 @@ export default class RecipeDetail extends Component {
         throw new Error(jsonData.message)
     }
 
+    async saveNewRecipe(){
+        try {
+            const savedNewRecipe = await this.newRecipeRequest(this.state.recipe);
+            this.setState({
+                formIsDirty: false
+            });
+            this.goToId(savedNewRecipe.id)
+        } catch (err) {
+            this.setState({
+                formError: err.message
+            });
+        }
+    }
+
+    async newRecipeRequest(newRecipe) {
+        const response = await fetch(`http://localhost:1337/recipes`, {
+            method: 'POST',
+            body:  JSON.stringify(newRecipe)
+        });
+        const jsonData = await response.json();
+        if (response.ok) {
+            return jsonData;
+        }
+        throw new Error(jsonData.message)
+    }
+
     async deleteRecipe() {
         const urlId = this.state.recipeId;
         if (confirm(`Are you sure you want to delete this recipe? This action cannot be undone.`)) {
             try {
-                this.formError = '';
                 await this.deleteRecipeRequest(urlId);
-                this.goToListView();
                 this.setState({
                     formError: ''
                 });
+                this.goToListView();
             } catch (err) {
                 this.setState({
                     formError: err.message
@@ -87,6 +112,14 @@ export default class RecipeDetail extends Component {
         });
         if (!response.ok) {
             throw new Error('Delete failed - check network logs')
+        }
+    }
+
+    createEmptyRecipe() {
+        return {
+            name: '',
+            ingredients: [],
+            instructions:[]
         }
     }
 
@@ -179,8 +212,48 @@ export default class RecipeDetail extends Component {
         });
     }
 
+    isFormValid() {
+        return (this.recipeForm
+            && this.recipeForm.checkValidity()
+            && this.state.recipe
+            && this.state.recipe.instructions.length >= 1
+            && this.state.recipe.ingredients.length >= 1
+        );
+    }
+
+
     goToListView() {
         this.props.history.push('/recipes');
+    }
+
+    goToId(recipeId) {
+        this.props.history.push(`/detail/${recipeId}`);
+    }
+
+    async loadRecipeIdFromProps(props) {
+        const recipeId = props.match.params.id;
+        if (recipeId === 'new') {
+            this.setState({
+                recipe: this.createEmptyRecipe(),
+                newRecipeMode: true
+            });
+        } else {
+            const recipeIdNumber = +recipeId;
+            if (recipeId === undefined || Number.isNaN(recipeIdNumber)) {
+                this.setState({
+                    formError: `Could not load ${recipeId}`,
+                    recipe: this.createEmptyRecipe(),
+                    newRecipeMode: true
+                });
+            } else {
+                const recipe = await this.getRecipe(recipeIdNumber);
+                this.setState({
+                    recipe,
+                    recipeId: recipeIdNumber,
+                    newRecipeMode: false
+                });
+            }
+        }
     }
 
     handleSubmit(event) {
@@ -188,16 +261,23 @@ export default class RecipeDetail extends Component {
     }
 
     async componentDidMount() {
-        const recipeId = this.props.match.params.id;
-        const recipe = await this.getRecipe(recipeId);
+        await this.loadRecipeIdFromProps(this.props);
+    }
+
+    async componentWillReceiveProps(nextProps) {
         this.setState({
-            recipe,
-            recipeId
-        })
+            fieldInEditMode: {
+                fieldName: '',
+                fieldIndex: ''
+            },
+            formError: '',
+            formIsDirty: false
+        });
+        await this.loadRecipeIdFromProps(nextProps);
     }
 
     render() {
-        const newRecipeMode = false; //temp measure
+        const newRecipeMode = this.state.newRecipeMode;
         const recipe = this.state.recipe;
         const commonProps = {
             recipe,
@@ -216,7 +296,7 @@ export default class RecipeDetail extends Component {
         };
         const dateCreatedText = Moment(recipe.dateCreated).format("M/d/YYYY");
         const dateModifiedText = Moment(recipe.dateModified).format("M/d/YYYY");
-        const formIsValid = this.recipeForm ? this.recipeForm.checkValidity() : false;
+        const formIsValid = this.isFormValid();
         return (
             <div>
                 <div className="container-fluid">
@@ -307,6 +387,12 @@ export default class RecipeDetail extends Component {
                                 <button
                                     className="btn btn-warning"
                                     onClick={() => this.deleteRecipe()}>Delete recipe</button>
+                            </div>
+                        )}
+                        {newRecipeMode && (
+                            <div>
+                            <button className="btn btn-primary"
+                                disabled={!this.state.formIsDirty || !formIsValid} onClick={() => this.saveNewRecipe()}>Save new recipe</button>
                             </div>
                         )}
                     </form>

@@ -14,8 +14,8 @@ class App extends Component {
                     <Switch>
                         <Redirect exact from='/' to='/recipes'/>
                         <Route exact path='/recipes' component={RecipeList}/>
-                        <Route exact path='/detail/:id' component={RecipeDetail}/>
-                        <Route exact path='/detail/new' component={RecipeDetail}/>
+                        <Route exact path='/detail/:id' key="update" component={RecipeDetail}/>
+                        <Route exact path='/detail/new' key="add" component={RecipeDetail}/>
                     </Switch>
                 </div>
             </Router>
