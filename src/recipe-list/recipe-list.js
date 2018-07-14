@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {orderBy} from 'lodash';
 
 
-export default class RecipeList extends Component{
+export default class RecipeList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,11 +14,13 @@ export default class RecipeList extends Component{
         };
         this.recipeUrl = 'http://localhost:1337/recipes';
     }
+
     async getRecipes() {
         const response = await fetch('http://localhost:1337/recipes');
         const jsonData = await response.json();
         return jsonData;
     }
+
     sortByColumnHeader(field) {
         let recipes = this.state.recipes;
         let currentSortByOrder = this.state.currentSortByOrder;
@@ -39,10 +41,12 @@ export default class RecipeList extends Component{
             currentSortByOrder: currentSortByOrder,
         });
     }
+
     async searchRecipes(searchTerm) {
         if (!searchTerm.trim()) {
             this.setState({
-                recipes: this.state.fullRecipeList
+                recipes: this.state.fullRecipeList,
+                searchInProgress: false
             });
             return;
         }
@@ -51,12 +55,51 @@ export default class RecipeList extends Component{
         });
         const response = await fetch(`${this.recipeUrl}?searchTerm=${searchTerm}`);
         const jsonData = await response.json();
-        console.log(jsonData);
         this.setState({
-            recipes: jsonData,
-            searchInProgress: false
+            recipes: jsonData
         });
     }
+
+    onSelectFile() {
+        this.setState({
+            csvImportEnabled: true
+        })
+    }
+
+    async importRecipe(fileData) {
+        const formData = new FormData();
+        formData.append('importedRecipes', fileData[0]);
+        try {
+            await this.importRecipeRequest(formData);
+            await this.getRecipes();
+            this.cancelImport();
+        } catch (err) {
+            this.setState({
+                importError: err.message
+            });
+        }
+    }
+
+    async importRecipeRequest(newRecipeFormData) {
+        const response = await fetch(`http://localhost:1337/recipes/import`, {
+            method: 'POST',
+            body: newRecipeFormData
+        });
+        const jsonData = await response.json();
+        if (response.ok) {
+            return jsonData;
+        }
+        throw new Error(jsonData.message)
+    }
+
+    cancelImport() {
+        this.csvFileInput.value = null;
+        this.setState({
+            csvImportEnabled: false,
+            importError: ''
+        })
+    }
+
     async componentDidMount() {
         const recipes = await this.getRecipes();
         this.setState({
@@ -65,58 +108,69 @@ export default class RecipeList extends Component{
             searchInProgress: false
         });
     }
+
     render() {
         const noRecipesFound = this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
+        const noRecipesOnUser = !this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
         const searchInProgress = this.state.searchInProgress;
         const blankUrl = '#';
         return (
             <div className="container-fluid">
                 <div className="mb-4">
-                    <input id="search-recipes-field" size="40" onKeyUp={ (event) => {this.searchRecipes(event.target.value)}} placeholder="Search recipes"/>
+                    <input id="search-recipes-field" size="40" onKeyUp={(event) => {
+                        this.searchRecipes(event.target.value)
+                    }} placeholder="Search recipes"/>
                 </div>
-                { !searchInProgress && (
+                {!searchInProgress && (
                     <h2>My {recipes.length} Recipes</h2>
                 )}
-                { searchInProgress && (
-                    <h2>Search results:  {recipes.length} recipe(s)</h2>
+                {searchInProgress && (
+                    <h2>Search results: {recipes.length} recipe(s)</h2>
                 )}
                 <div>
                     <table className="recipes table">
                         <thead>
                         <tr className="row">
                             <th className="col-7 ml-2">
-                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('name')}}>Name</a>
+                                <a href={blankUrl} onClick={(event) => {
+                                    this.sortByColumnHeader('name')
+                                }}>Name</a>
                             </th>
                             <th className="col-2">
-                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('category')}}>Category</a>
+                                <a href={blankUrl} onClick={(event) => {
+                                    this.sortByColumnHeader('category')
+                                }}>Category</a>
                             </th>
                             <th className="col-2">
-                                <a href={blankUrl} onClick={ (event) => {this.sortByColumnHeader('numberOfServings')}}>Servings</a>
+                                <a href={blankUrl} onClick={(event) => {
+                                    this.sortByColumnHeader('numberOfServings')
+                                }}>Servings</a>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        { this.state.recipes.map(recipe => {
-                            return (
-                                <tr className="row" key={recipe.id}>
-                                    <td className="col-7 ml-2">
-                                        <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.name.toUpperCase()}</span>
-                                        </Link>
-                                    </td>
-                                    <td className="col-2">
-                                        <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.category}</span>
-                                        </Link>
-                                    </td>
-                                    <td className="col-2">
-                                        <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.numberOfServings}</span>
-                                        </Link>
-                                    </td>
-                                </tr>
-                            )}
+                        {this.state.recipes.map(recipe => {
+                                return (
+                                    <tr className="row" key={recipe.id}>
+                                        <td className="col-7 ml-2">
+                                            <Link to={`/detail/${recipe.id}`}>
+                                                <span>{recipe.name.toUpperCase()}</span>
+                                            </Link>
+                                        </td>
+                                        <td className="col-2">
+                                            <Link to={`/detail/${recipe.id}`}>
+                                                <span>{recipe.category}</span>
+                                            </Link>
+                                        </td>
+                                        <td className="col-2">
+                                            <Link to={`/detail/${recipe.id}`}>
+                                                <span>{recipe.numberOfServings}</span>
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                )
+                            }
                         )}
                         {noRecipesFound && (
                             <tr>
@@ -125,7 +179,7 @@ export default class RecipeList extends Component{
                                 </td>
                             </tr>
                         )}
-                        {noRecipesFound && (
+                        {noRecipesOnUser && (
                             <tr>
                                 <td>
                                     <span>Why not add/import some recipes?</span>
@@ -139,23 +193,29 @@ export default class RecipeList extends Component{
                     <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>
                 </div>
                 <div>
-                    {/*}
-                    <div>
-                        <label for="csv-file-upload">Import recipes by CSV:</label>
-                    </div>
-                    <div>
-                        {/*}   <input id="csv-file-upload" type="file" #csvFile (change)="onSelectFile(csvFile.files)"/>
-                    <button className="btn btn-secondary btn-sm" *ngIf="csvImportEnabled" (click)="importRecipe(csvFile.files)">Import CSV</button>
-                <button className="btn btn-secondary btn-sm" *ngIf="csvImportEnabled" (click)="cancelImport()">Cancel import</button>
 
+                    <div>
+                        <label htmlFor="csv-file-upload">Import recipes by CSV:</label>
                     </div>
                     <div>
-      <span className="error-message">
-        {importError}
-      </span>
+                        <input id="csv-file-upload" type="file" ref={csv => this.csvFileInput = csv}
+                               onChange={() => this.onSelectFile()}/>
                     </div>
-                    </div>
-                */}
+                    {this.state.csvImportEnabled && (
+                        <div>
+                            <button className="btn btn-secondary btn-sm"
+                                    onClick={() => this.importRecipe(this.csvFileInput.files)}>Import CSV
+                            </button>
+                            <button className="btn btn-secondary btn-sm" onClick={() => this.cancelImport()}>Cancel
+                                import
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <div>
+                <span className="error-message">
+
+                </span>
                 </div>
             </div>
         )
