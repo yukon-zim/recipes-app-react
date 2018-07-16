@@ -117,7 +117,7 @@ export default class RecipeDetail extends Component {
 
     createEmptyRecipe() {
         return {
-            name: '',
+            name: ' ',
             ingredients: [],
             instructions:[]
         }
@@ -155,6 +155,10 @@ export default class RecipeDetail extends Component {
         if (index !== null && index !== undefined && this.state.recipe[fieldName][index] === '') {
             return true;
         }
+        return this.isFieldInEditAndFocus(fieldName, index);
+    }
+
+    isFieldInEditAndFocus(fieldName, index) {
         return this.state.fieldInEditMode.fieldName === fieldName && this.state.fieldInEditMode.fieldIndex === index;
     }
 
@@ -281,6 +285,7 @@ export default class RecipeDetail extends Component {
         const recipe = this.state.recipe;
         const commonProps = {
             recipe,
+            isFieldInEditAndFocus: this.isFieldInEditAndFocus.bind(this),
             isFieldInEditMode: this.isFieldInEditMode.bind(this),
             editField: this.editField.bind(this),
             unfocusField: this.unfocusField.bind(this),
@@ -294,8 +299,8 @@ export default class RecipeDetail extends Component {
             addListItem: this.addListItem.bind(this),
             removeListItem: this.deleteListItem.bind(this),
         };
-        const dateCreatedText = Moment(recipe.dateCreated).format("M/d/YYYY");
-        const dateModifiedText = Moment(recipe.dateModified).format("M/d/YYYY");
+        const dateCreatedText = Moment(recipe.dateCreated).format("M/DD/YYYY");
+        const dateModifiedText = Moment(recipe.dateModified).format("M/DD/YYYY");
         const formIsValid = this.isFormValid();
         return (
             <div>

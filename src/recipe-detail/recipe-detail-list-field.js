@@ -26,6 +26,7 @@ export default class RecipeDetailListField extends Component {
                 <label>{this.props.label}&nbsp;</label>
                 <ListType>
                     {recipe[this.props.fieldName].map((listItem, index) => {
+                        const isAutoFocused = this.props.isFieldInEditAndFocus(this.props.fieldName, index);
                         return (
                             <li key={index}>
                                 <div>
@@ -38,6 +39,7 @@ export default class RecipeDetailListField extends Component {
                                     {this.props.isFieldInEditMode(this.props.fieldName, index) && (
                                         <InputType id={`${this.props.fieldName}-${index}`}
                                                    className="recipe-detail-list-field"
+                                                   autoFocus={isAutoFocused}
                                                    value={listItem || ''} // pass a string even if fieldName is null/undefined
                                                    onChange={event => {
                                                        this.props.setRecipeField(this.props.fieldName, event.target.value, index)
@@ -68,16 +70,16 @@ export default class RecipeDetailListField extends Component {
                                         </button>
                                     )}
                                     {(recipe[this.props.fieldName].length > 1 ) && (
-                                    <button
-                                        className="btn btn-light btn-sm"
-                                        title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
-                                        <i className="fas fa-trash-alt">delete</i>
-                                    </button>
+                                        <button
+                                            className="btn btn-light btn-sm"
+                                            title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
+                                            <i className="fas fa-trash-alt">delete</i>
+                                        </button>
                                     )}
                                     {this.props.isFieldInEditMode(this.props.fieldName, index) && this.props.required && (
-                                            <div className="alert alert-danger form-list-field-invalid">
-                                                {this.props.requiredErrorText}
-                                            </div>
+                                        <div className="alert alert-danger form-list-field-invalid">
+                                            {this.props.requiredErrorText}
+                                        </div>
                                     )}
                                 </div>
                             </li>

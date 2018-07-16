@@ -10,6 +10,7 @@ export default class RecipeList extends Component {
             currentSortByField: null,
             currentSortByOrder: null,
             searchInProgress: false,
+            urlInputValid: false,
             recipes: []
         };
         this.recipeUrl = 'http://localhost:1337/recipes';
@@ -71,8 +72,11 @@ export default class RecipeList extends Component {
         formData.append('importedRecipes', fileData[0]);
         try {
             await this.importRecipeRequest(formData);
-            await this.getRecipes();
-            this.cancelImport();
+            const recipes = await this.getRecipes();
+            this.cancelCsvImport();
+            this.setState({
+                recipes
+            });
         } catch (err) {
             this.setState({
                 importError: err.message
@@ -92,10 +96,54 @@ export default class RecipeList extends Component {
         throw new Error(jsonData.message)
     }
 
-    cancelImport() {
+    cancelCsvImport() {
         this.csvFileInput.value = null;
         this.setState({
             csvImportEnabled: false,
+            importError: ''
+        })
+    }
+
+    onAddUrl() {
+        console.log(this.urlToImportInput);
+        // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
+            this.setState({
+                urlInputValid: true
+            })
+        // }
+    }
+
+    async importRecipeByUrl(url) {
+        try {
+            await this.importUrlRecipeRequest(url);
+            const recipes = await this.getRecipes();
+            this.cancelUrlImport();
+            this.setState({
+                recipes
+            });
+        } catch (err) {
+            this.setState({
+                importError: err.message
+            });
+        }
+    }
+
+    async importUrlRecipeRequest(url) {
+        const response = await fetch(`http://localhost:1337/recipes/import-url`, {
+            method: 'POST',
+            body: JSON.stringify({url})
+        });
+        const jsonData = await response.json();
+        if (response.ok) {
+            return jsonData;
+        }
+        throw new Error(jsonData.message)
+    }
+
+    cancelUrlImport() {
+        this.urlToImportInput.value = null;
+        this.setState({
+            urlInputValid: false,
             importError: ''
         })
     }
@@ -114,13 +162,16 @@ export default class RecipeList extends Component {
         const noRecipesOnUser = !this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
         const searchInProgress = this.state.searchInProgress;
+        const isImportUrlInvalid = this.urlToImportInput === undefined || !this.urlToImportInput.validity.valid;
         const blankUrl = '#';
         return (
             <div className="container-fluid">
                 <div className="mb-4">
-                    <input id="search-recipes-field" size="40" onKeyUp={(event) => {
-                        this.searchRecipes(event.target.value)
-                    }} placeholder="Search recipes"/>
+                    <input id="search-recipes-field" size="40"
+                           onKeyUp={(event) => {
+                               this.searchRecipes(event.target.value)
+                           }}
+                           placeholder="Search recipes"/>
                 </div>
                 {!searchInProgress && (
                     <h2>My {recipes.length} Recipes</h2>
@@ -193,7 +244,6 @@ export default class RecipeList extends Component {
                     <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>
                 </div>
                 <div>
-
                     <div>
                         <label htmlFor="csv-file-upload">Import recipes by CSV:</label>
                     </div>
@@ -204,18 +254,37 @@ export default class RecipeList extends Component {
                     {this.state.csvImportEnabled && (
                         <div>
                             <button className="btn btn-secondary btn-sm"
-                                    onClick={() => this.importRecipe(this.csvFileInput.files)}>Import CSV
+                                    onClick={() => this.importRecipe(this.csvFileInput.files)}>Import recipe CSV
                             </button>
-                            <button className="btn btn-secondary btn-sm" onClick={() => this.cancelImport()}>Cancel
+                            <button className="btn btn-secondary btn-sm" onClick={() => this.cancelCsvImport()}>Cancel
                                 import
                             </button>
                         </div>
                     )}
-                </div>
-                <div>
+                    <div>
+                        <form>
+                            <div>
+                                <label htmlFor="url-file-upload">Import recipes by URL:</label>
+                            </div>
+                            <div>
+                                <input id="url-file-upload" type="url" required
+                                       ref={textInput => this.urlToImportInput = textInput}
+                                       onChange={() => this.onAddUrl()}/>
+                            </div>
+                            <div>
+                                <button className="btn btn-secondary btn-sm"
+                                        disabled={!this.state.urlInputValid}
+                                        onClick={() => this.importRecipeByUrl(this.urlToImportInput.value)}>Import web recipe
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div>
                 <span className="error-message">
 
                 </span>
+                    </div>
                 </div>
             </div>
         )
