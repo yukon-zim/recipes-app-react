@@ -71,15 +71,16 @@ export default class RecipeList extends Component {
         const formData = new FormData();
         formData.append('importedRecipes', fileData[0]);
         try {
-            await this.importRecipeRequest(formData);
+            const importResponse =  await this.importRecipeRequest(formData);
             const recipes = await this.getRecipes();
             this.cancelCsvImport();
             this.setState({
-                recipes
+                recipes,
+                csvImportError: importResponse.message
             });
         } catch (err) {
             this.setState({
-                importError: err.message
+                csvImportError: err.message
             });
         }
     }
@@ -100,30 +101,32 @@ export default class RecipeList extends Component {
         this.csvFileInput.value = null;
         this.setState({
             csvImportEnabled: false,
-            importError: ''
+            csvImportError: ''
         })
     }
 
     onAddUrl() {
         console.log(this.urlToImportInput);
         // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
-            this.setState({
-                urlInputValid: true
-            })
+        this.setState({
+            urlInputValid: true
+        })
         // }
     }
 
     async importRecipeByUrl(url) {
         try {
-            await this.importUrlRecipeRequest(url);
+            const importResponse =  await this.importUrlRecipeRequest(url);
             const recipes = await this.getRecipes();
             this.cancelUrlImport();
             this.setState({
-                recipes
+                recipes,
+                urlImportError: importResponse.message
             });
         } catch (err) {
+            console.log(err);
             this.setState({
-                importError: err.message
+                urlImportError: err.message
             });
         }
     }
@@ -137,15 +140,19 @@ export default class RecipeList extends Component {
         if (response.ok) {
             return jsonData;
         }
-        throw new Error(jsonData.message)
+        throw new Error(`${jsonData.name} ${jsonData.statusCode} - check api logs`)
     }
 
     cancelUrlImport() {
         this.urlToImportInput.value = null;
         this.setState({
             urlInputValid: false,
-            importError: ''
+            urlImportError: ''
         })
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
     }
 
     async componentDidMount() {
@@ -262,7 +269,12 @@ export default class RecipeList extends Component {
                         </div>
                     )}
                     <div>
-                        <form>
+                        <span className="error-message csv-import-error">
+                            {this.state.csvImportError}
+                        </span>
+                    </div>
+                    <div>
+                        <form onSubmit={this.handleSubmit}>
                             <div>
                                 <label htmlFor="url-file-upload">Import recipes by URL:</label>
                             </div>
@@ -278,12 +290,12 @@ export default class RecipeList extends Component {
                                 </button>
 
                             </div>
+                            <div>
+                                <span className="error-message url-import-error">
+                                    {this.state.urlImportError}
+                                </span>
+                            </div>
                         </form>
-                    </div>
-                    <div>
-                <span className="error-message">
-
-                </span>
                     </div>
                 </div>
             </div>

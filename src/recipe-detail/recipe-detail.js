@@ -14,7 +14,7 @@ export default class RecipeDetail extends Component {
             recipeId: undefined,
             fieldInEditMode: {
                 fieldName: '',
-                fieldIndex: ''
+                fieldIndex: undefined
             },
             newRecipeMode: false,
             formError: '',
@@ -67,9 +67,11 @@ export default class RecipeDetail extends Component {
         try {
             const savedNewRecipe = await this.newRecipeRequest(this.state.recipe);
             this.setState({
-                formIsDirty: false
+                formIsDirty: false,
+                recipe: savedNewRecipe,
+                recipeId: savedNewRecipe.id,
+                newRecipeMode: false
             });
-            this.goToId(savedNewRecipe.id)
         } catch (err) {
             this.setState({
                 formError: err.message
@@ -117,7 +119,7 @@ export default class RecipeDetail extends Component {
 
     createEmptyRecipe() {
         return {
-            name: ' ',
+            name: '',
             ingredients: [],
             instructions:[]
         }
@@ -166,7 +168,7 @@ export default class RecipeDetail extends Component {
         this.setState({
             fieldInEditMode: {
                 fieldName: '',
-                fieldIndex: ''
+                fieldIndex: undefined
             },
         });
     }
@@ -239,6 +241,10 @@ export default class RecipeDetail extends Component {
         if (recipeId === 'new') {
             this.setState({
                 recipe: this.createEmptyRecipe(),
+                fieldInEditMode: {
+                    fieldName: 'name',
+                    fieldIndex: undefined
+                },
                 newRecipeMode: true
             });
         } else {
@@ -247,6 +253,10 @@ export default class RecipeDetail extends Component {
                 this.setState({
                     formError: `Could not load ${recipeId}`,
                     recipe: this.createEmptyRecipe(),
+                    fieldInEditMode: {
+                        fieldName: 'name',
+                        fieldIndex: undefined
+                    },
                     newRecipeMode: true
                 });
             } else {
@@ -266,18 +276,7 @@ export default class RecipeDetail extends Component {
 
     async componentDidMount() {
         await this.loadRecipeIdFromProps(this.props);
-    }
-
-    async componentWillReceiveProps(nextProps) {
-        this.setState({
-            fieldInEditMode: {
-                fieldName: '',
-                fieldIndex: ''
-            },
-            formError: '',
-            formIsDirty: false
-        });
-        await this.loadRecipeIdFromProps(nextProps);
+        window.scrollTo(0, 0)
     }
 
     render() {
