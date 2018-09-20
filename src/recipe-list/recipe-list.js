@@ -169,7 +169,7 @@ export default class RecipeList extends Component {
         const noRecipesOnUser = !this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
         const searchInProgress = this.state.searchInProgress;
-        const isImportUrlInvalid = this.urlToImportInput === undefined || !this.urlToImportInput.validity.valid;
+        const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
         const blankUrl = '#';
         return (
             <div className="container-fluid">
