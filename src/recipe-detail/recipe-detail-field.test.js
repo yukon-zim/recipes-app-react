@@ -19,6 +19,7 @@ describe('component tests', () => {
         spyUnfocusFieldOnEnter = jest.fn();
         spySetRecipeField = jest.fn();
     });
+
     describe('renders label and span elements when field is not in edit mode', () => {
         let wrapper;
         beforeEach(() => {
@@ -32,7 +33,7 @@ describe('component tests', () => {
                 unfocusField={spyUnfocusField}
                 unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
                 setRecipeField={spySetRecipeField}
-                // type='textarea'
+                type='textarea'
                 fieldName="notes"
                 label="Notes: Test"
                 required={true}

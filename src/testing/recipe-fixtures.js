@@ -55,6 +55,26 @@ export default function recipeFixtures () {
         dateCreated: new Date('1/28/2001'),
         dateModified: new Date('1/28/2001'),
         notes: 'red beans and rice, that\'s nice'
+    }, {
+        id: 3,
+        name: null,
+        category: null,
+        ingredients: [],
+        numberOfServings: null,
+        instructions: [],
+        dateCreated: null,
+        dateModified: null,
+        notes: null
+    }, {
+        id: 4,
+        name: null,
+        category: null,
+        ingredients: ['test ingredient'],
+        numberOfServings: null,
+        instructions: ['test instruction'],
+        dateCreated: null,
+        dateModified: null,
+        notes: null
     }];
 }
 

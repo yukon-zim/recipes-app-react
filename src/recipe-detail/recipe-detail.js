@@ -346,7 +346,6 @@ export default class RecipeDetail extends Component {
                         <RecipeDetailListField
                             {...commonProps}
                             {...commonListProps}
-                            type='text'
                             listType='unordered'
                             addListItemLabel="Add ingredient"
                             fieldName="ingredients"
@@ -357,7 +356,6 @@ export default class RecipeDetail extends Component {
                         <RecipeDetailListField
                             {...commonProps}
                             {...commonListProps}
-                            type='text'
                             listType='ordered'
                             addListItemLabel="Add instruction"
                             fieldName="instructions"
