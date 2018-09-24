@@ -32,7 +32,8 @@ export default class RecipeDetail extends Component {
         if (this.recipeForm.checkValidity()) {
             const urlId = this.state.recipeId;
             try {
-                const updatedRecipe = await this.updateRecipeRequest(urlId, this.state.recipe);
+                this.updateRecipePromise = this.updateRecipeRequest(urlId, this.state.recipe);
+                const updatedRecipe = await this.updateRecipePromise;
                 this.recipeForm.reset();
                 this.setState({
                     recipe: updatedRecipe,
@@ -64,18 +65,25 @@ export default class RecipeDetail extends Component {
     }
 
     async saveNewRecipe(){
-        try {
-            const savedNewRecipe = await this.newRecipeRequest(this.state.recipe);
+        if (this.recipeForm.checkValidity()) {
+            try {
+                this.saveNewRecipePromise = this.newRecipeRequest(this.state.recipe);
+                const savedNewRecipe = await this.saveNewRecipePromise;
+                this.setState({
+                    formIsDirty: false,
+                    recipe: savedNewRecipe,
+                    recipeId: savedNewRecipe.id,
+                    newRecipeMode: false
+                });
+            } catch (err) {
+                this.setState({
+                    formError: err.message
+                });
+            }
+        }  else {
             this.setState({
-                formIsDirty: false,
-                recipe: savedNewRecipe,
-                recipeId: savedNewRecipe.id,
-                newRecipeMode: false
-            });
-        } catch (err) {
-            this.setState({
-                formError: err.message
-            });
+                formError: 'Recipe not saved - check errors on form'
+            })
         }
     }
 
@@ -95,7 +103,8 @@ export default class RecipeDetail extends Component {
         const urlId = this.state.recipeId;
         if (confirm(`Are you sure you want to delete this recipe? This action cannot be undone.`)) {
             try {
-                await this.deleteRecipeRequest(urlId);
+                this.deleteRecipePromise = this.deleteRecipeRequest(urlId);
+                await this.deleteRecipePromise;
                 this.setState({
                     formError: ''
                 });
@@ -249,7 +258,7 @@ export default class RecipeDetail extends Component {
             });
         } else {
             const recipeIdNumber = +recipeId;
-            if (recipeId === undefined || Number.isNaN(recipeIdNumber)) {
+            if (recipeId === undefined || recipeId === null || Number.isNaN(recipeIdNumber)) {
                 this.setState({
                     formError: `Could not load ${recipeId}`,
                     recipe: this.createEmptyRecipe(),
@@ -260,7 +269,8 @@ export default class RecipeDetail extends Component {
                     newRecipeMode: true
                 });
             } else {
-                const recipe = await this.getRecipe(recipeIdNumber);
+                this.getRecipePromise = this.getRecipe(recipeIdNumber);
+                const recipe = await this.getRecipePromise;
                 this.setState({
                     recipe,
                     recipeId: recipeIdNumber,
@@ -383,18 +393,18 @@ export default class RecipeDetail extends Component {
                         {!newRecipeMode && (
                             <div>
                                 <button
-                                    className="btn btn-primary"
+                                    className="btn btn-primary btn-update-recipe"
                                     onClick={() => this.updateRecipe()}
                                     disabled={!this.state.formIsDirty || !formIsValid}>Update recipe</button>
                                 <button
-                                    className="btn btn-warning"
+                                    className="btn btn-warning btn-delete-recipe"
                                     onClick={() => this.deleteRecipe()}>Delete recipe</button>
                             </div>
                         )}
                         {newRecipeMode && (
                             <div>
-                            <button className="btn btn-primary"
-                                disabled={!this.state.formIsDirty || !formIsValid} onClick={() => this.saveNewRecipe()}>Save new recipe</button>
+                                <button className="btn btn-primary btn-save-new-recipe"
+                                        disabled={!this.state.formIsDirty || !formIsValid} onClick={() => this.saveNewRecipe()}>Save new recipe</button>
                             </div>
                         )}
                     </form>
