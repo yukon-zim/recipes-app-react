@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {orderBy} from 'lodash';
 import RecipeSearch from '../recipe-search/recipe-search';
 import ImportCsv from '../import-recipe/import-csv';
+import ImportUrl from '../import-recipe/import-url';
 
 
 export default class RecipeList extends Component {
@@ -12,7 +13,6 @@ export default class RecipeList extends Component {
             currentSortByField: null,
             currentSortByOrder: null,
             searchInProgress: false,
-            urlInputValid: false,
             recipes: []
         };
         this.recipeUrl = 'http://localhost:1337/recipes';
@@ -57,56 +57,6 @@ export default class RecipeList extends Component {
         });
     }
 
-    onAddUrl() {
-        console.log(this.urlToImportInput);
-        // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
-        this.setState({
-            urlInputValid: true
-        })
-        // }
-    }
-
-    async importRecipeByUrl(url) {
-        try {
-            const importResponse =  await this.importUrlRecipeRequest(url);
-            const recipes = await this.getRecipes();
-            this.cancelUrlImport();
-            this.setState({
-                recipes,
-                urlImportError: importResponse.message
-            });
-        } catch (err) {
-            console.log(err);
-            this.setState({
-                urlImportError: err.message
-            });
-        }
-    }
-
-    async importUrlRecipeRequest(url) {
-        const response = await fetch(`http://localhost:1337/recipes/import-url`, {
-            method: 'POST',
-            body: JSON.stringify({url})
-        });
-        const jsonData = await response.json();
-        if (response.ok) {
-            return jsonData;
-        }
-        throw new Error(`${jsonData.name} ${jsonData.statusCode} - check api logs`)
-    }
-
-    cancelUrlImport() {
-        this.urlToImportInput.value = null;
-        this.setState({
-            urlInputValid: false,
-            urlImportError: ''
-        })
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-    }
-
     async componentDidMount() {
         const recipes = await this.getRecipes();
         this.setState({
@@ -121,7 +71,7 @@ export default class RecipeList extends Component {
         const noRecipesOnUser = !this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
         const searchInProgress = this.state.searchInProgress;
-        const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
+        // const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
         const blankUrl = '#';
         const commonRecipeListProps = {
             recipeUrl: this.recipeUrl,
@@ -204,30 +154,9 @@ export default class RecipeList extends Component {
                     <ImportCsv
                         {...commonRecipeListProps}
                         getRecipes={this.getRecipes.bind(this)}/>
-                    <div>
-                        <form onSubmit={this.handleSubmit}>
-                            <div>
-                                <label htmlFor="url-file-upload">Import recipes by URL:</label>
-                            </div>
-                            <div>
-                                <input id="url-file-upload" type="url" required
-                                       ref={textInput => this.urlToImportInput = textInput}
-                                       onChange={() => this.onAddUrl()}/>
-                            </div>
-                            <div>
-                                <button className="btn btn-secondary btn-sm"
-                                        disabled={!this.state.urlInputValid}
-                                        onClick={() => this.importRecipeByUrl(this.urlToImportInput.value)}>Import web recipe
-                                </button>
-
-                            </div>
-                            <div>
-                                <span className="error-message url-import-error">
-                                    {this.state.urlImportError}
-                                </span>
-                            </div>
-                        </form>
-                    </div>
+                    <ImportUrl
+                        {...commonRecipeListProps}
+                        getRecipes={this.getRecipes.bind(this)}/>
                 </div>
             </div>
         )
