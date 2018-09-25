@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, render } from 'enzyme';
 import recipeFixtures from '../testing/recipe-fixtures.js';
-import ImportCsv from './import-csv';
+import ImportUrl from './import-url';
 
 describe('component tests', () => {
     describe('render tests', () => {
