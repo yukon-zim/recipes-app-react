@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {orderBy} from 'lodash';
+import RecipeSearch from '../recipe-search/recipe-search';
 
 
 export default class RecipeList extends Component {
@@ -22,6 +23,18 @@ export default class RecipeList extends Component {
         return jsonData;
     }
 
+    setRecipes(recipes) {
+        this.setState({
+            recipes: recipes
+        })
+    }
+
+    setSearchInProgress(isSearching) {
+        this.setState({
+            searchInProgress: isSearching
+        })
+    }
+
     sortByColumnHeader(field) {
         let recipes = this.state.recipes;
         let currentSortByOrder = this.state.currentSortByOrder;
@@ -40,24 +53,6 @@ export default class RecipeList extends Component {
             recipes: recipes,
             currentSortByField: field,
             currentSortByOrder: currentSortByOrder,
-        });
-    }
-
-    async searchRecipes(searchTerm) {
-        if (!searchTerm.trim()) {
-            this.setState({
-                recipes: this.state.fullRecipeList,
-                searchInProgress: false
-            });
-            return;
-        }
-        this.setState({
-            searchInProgress: true
-        });
-        const response = await fetch(`${this.recipeUrl}?searchTerm=${searchTerm}`);
-        const jsonData = await response.json();
-        this.setState({
-            recipes: jsonData
         });
     }
 
@@ -171,21 +166,19 @@ export default class RecipeList extends Component {
         const searchInProgress = this.state.searchInProgress;
         const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
         const blankUrl = '#';
+        const commonRecipeListProps = {
+            recipeUrl: this.recipeUrl,
+            recipes,
+            setRecipes: this.setRecipes.bind(this)
+        };
         return (
             <div className="container-fluid">
-                <div className="mb-4">
-                    <input id="search-recipes-field" size="40"
-                           onKeyUp={(event) => {
-                               this.searchRecipes(event.target.value)
-                           }}
-                           placeholder="Search recipes"/>
-                </div>
-                {!searchInProgress && (
-                    <h2>My {recipes.length} Recipes</h2>
-                )}
-                {searchInProgress && (
-                    <h2>Search results: {recipes.length} recipe(s)</h2>
-                )}
+                <RecipeSearch
+                    {...commonRecipeListProps}
+                    fullRecipeList={this.state.fullRecipeList}
+                    searchInProgress={searchInProgress}
+                    setSearchInProgress={this.setSearchInProgress.bind(this)}
+                />
                 <div>
                     <table className="recipes table">
                         <thead>
