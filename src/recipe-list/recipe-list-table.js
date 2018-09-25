@@ -47,17 +47,17 @@ export default class RecipeListTable extends Component {
                 <table className="recipes table">
                     <thead>
                     <tr className="row">
-                        <th className="col-7 ml-2">
+                        <th className="col-7 ml-2 name-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
                         </th>
-                        <th className="col-2">
+                        <th className="col-2 category-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
                         </th>
-                        <th className="col-2">
+                        <th className="col-2 servings-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
@@ -67,20 +67,26 @@ export default class RecipeListTable extends Component {
                     <tbody>
                     {this.props.recipes.map(recipe => {
                             return (
-                                <tr className="row" key={recipe.id}>
+                                <tr className="row data-row" key={recipe.id}>
                                     <td className="col-7 ml-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.name.toUpperCase()}</span>
+                                            <span className="name-span">
+                                                {recipe.name.toUpperCase()}
+                                                </span>
                                         </Link>
                                     </td>
                                     <td className="col-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.category}</span>
+                                            <span className="category-span">
+                                                {recipe.category}
+                                                </span>
                                         </Link>
                                     </td>
                                     <td className="col-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span>{recipe.numberOfServings}</span>
+                                            <span className="servings-span">
+                                                {recipe.numberOfServings}
+                                                </span>
                                         </Link>
                                     </td>
                                 </tr>
@@ -90,14 +96,18 @@ export default class RecipeListTable extends Component {
                     {noRecipesFound && (
                         <tr>
                             <td>
-                                <span>No recipes found</span>
+                                <span className="span-no-recipes-found">
+                                    No recipes found
+                                </span>
                             </td>
                         </tr>
                     )}
                     {noRecipesOnUser && (
                         <tr>
                             <td>
-                                <span>Why not add/import some recipes?</span>
+                                <span className="span-no-user-recipes">
+                                    Why not add/import some recipes?
+                                </span>
                             </td>
                         </tr>
                     )}

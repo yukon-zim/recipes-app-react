@@ -35,11 +35,12 @@ export default class RecipeList extends Component {
     }
 
     async componentDidMount() {
-        const recipes = await this.getRecipes();
+        this.getRecipesPromise = this.getRecipes();
+        const recipes = await this.getRecipesPromise;
+        this.setSearchInProgress(false);
         this.setState({
             fullRecipeList: recipes,
-            recipes,
-            searchInProgress: false
+            recipes
         });
     }
 
