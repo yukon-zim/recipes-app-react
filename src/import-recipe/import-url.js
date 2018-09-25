@@ -3,7 +3,10 @@ import React, {Component} from 'react';
 export default class ImportUrl extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            urlInputValid: false,
+            urlImportError: ''
+        }
     }
     async importRecipeByUrl(url) {
         try {
@@ -43,7 +46,6 @@ export default class ImportUrl extends Component {
     }
 
     onAddUrl() {
-        console.log(this.urlToImportInput);
         // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
         this.setState({
             urlInputValid: true

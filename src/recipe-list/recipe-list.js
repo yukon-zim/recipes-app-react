@@ -1,17 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {orderBy} from 'lodash';
 import RecipeSearch from '../recipe-search/recipe-search';
 import ImportCsv from '../import-recipe/import-csv';
 import ImportUrl from '../import-recipe/import-url';
+import RecipeListTable from './recipe-list-table';
 
 
 export default class RecipeList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentSortByField: null,
-            currentSortByOrder: null,
             searchInProgress: false,
             recipes: []
         };
@@ -36,27 +34,6 @@ export default class RecipeList extends Component {
         })
     }
 
-    sortByColumnHeader(field) {
-        let recipes = this.state.recipes;
-        let currentSortByOrder = this.state.currentSortByOrder;
-        if (field === this.state.currentSortByField) {
-            if (this.state.currentSortByOrder === 'asc') {
-                currentSortByOrder = 'desc';
-            } else {
-                currentSortByOrder = 'asc';
-            }
-            recipes = orderBy(recipes, field, currentSortByOrder);
-        } else {
-            currentSortByOrder = 'asc';
-            recipes = orderBy(recipes, field, currentSortByOrder);
-        }
-        this.setState({
-            recipes: recipes,
-            currentSortByField: field,
-            currentSortByOrder: currentSortByOrder,
-        });
-    }
-
     async componentDidMount() {
         const recipes = await this.getRecipes();
         this.setState({
@@ -67,12 +44,8 @@ export default class RecipeList extends Component {
     }
 
     render() {
-        const noRecipesFound = this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
-        const noRecipesOnUser = !this.state.searchInProgress && this.state.recipes !== undefined && this.state.recipes.length === 0;
         const recipes = this.state.recipes;
-        const searchInProgress = this.state.searchInProgress;
         // const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
-        const blankUrl = '#';
         const commonRecipeListProps = {
             recipeUrl: this.recipeUrl,
             recipes,
@@ -83,69 +56,14 @@ export default class RecipeList extends Component {
                 <RecipeSearch
                     {...commonRecipeListProps}
                     fullRecipeList={this.state.fullRecipeList}
-                    searchInProgress={searchInProgress}
+                    searchInProgress={this.state.searchInProgress}
                     setSearchInProgress={this.setSearchInProgress.bind(this)}
                 />
                 <div>
-                    <table className="recipes table">
-                        <thead>
-                        <tr className="row">
-                            <th className="col-7 ml-2">
-                                <a href={blankUrl} onClick={(event) => {
-                                    this.sortByColumnHeader('name')
-                                }}>Name</a>
-                            </th>
-                            <th className="col-2">
-                                <a href={blankUrl} onClick={(event) => {
-                                    this.sortByColumnHeader('category')
-                                }}>Category</a>
-                            </th>
-                            <th className="col-2">
-                                <a href={blankUrl} onClick={(event) => {
-                                    this.sortByColumnHeader('numberOfServings')
-                                }}>Servings</a>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.recipes.map(recipe => {
-                                return (
-                                    <tr className="row" key={recipe.id}>
-                                        <td className="col-7 ml-2">
-                                            <Link to={`/detail/${recipe.id}`}>
-                                                <span>{recipe.name.toUpperCase()}</span>
-                                            </Link>
-                                        </td>
-                                        <td className="col-2">
-                                            <Link to={`/detail/${recipe.id}`}>
-                                                <span>{recipe.category}</span>
-                                            </Link>
-                                        </td>
-                                        <td className="col-2">
-                                            <Link to={`/detail/${recipe.id}`}>
-                                                <span>{recipe.numberOfServings}</span>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                )
-                            }
-                        )}
-                        {noRecipesFound && (
-                            <tr>
-                                <td>
-                                    <span>No recipes found</span>
-                                </td>
-                            </tr>
-                        )}
-                        {noRecipesOnUser && (
-                            <tr>
-                                <td>
-                                    <span>Why not add/import some recipes?</span>
-                                </td>
-                            </tr>
-                        )}
-                        </tbody>
-                    </table>
+                    <RecipeListTable
+                        {...commonRecipeListProps}
+                        searchInProgress={this.state.searchInProgress}
+                    />
                 </div>
                 <div className="mb-4">
                     <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>

@@ -4,7 +4,8 @@ export default class ImportCsv extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            csvImportEnabled: false,
+            csvImportError: ''
         }
     }
 
