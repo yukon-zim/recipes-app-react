@@ -13,8 +13,10 @@ export default class ImportCsv extends Component {
         const formData = new FormData();
         formData.append('importedRecipes', fileData[0]);
         try {
-            const importResponse =  await this.importRecipeRequest(formData);
-            const recipes = await this.props.getRecipes();
+            this.importRecipesPromise = this.importRecipeRequest(formData);
+            const importResponse = await this.importRecipesPromise;
+            this.getRecipesPromise = this.props.getRecipes();
+            const recipes = await this.getRecipesPromise;
             console.log(recipes);
             this.cancelCsvImport();
             this.props.setRecipes(recipes);
@@ -71,10 +73,10 @@ export default class ImportCsv extends Component {
                 </div>
                 {this.state.csvImportEnabled && (
                     <div>
-                        <button className="btn btn-secondary btn-sm"
+                        <button className="btn btn-secondary btn-sm btn-import-recipe"
                                 onClick={() => this.importRecipe(this.csvFileInput.files)}>Import recipe CSV
                         </button>
-                        <button className="btn btn-secondary btn-sm" onClick={() => this.cancelCsvImport()}>Cancel
+                        <button className="btn btn-secondary btn-sm btn-cancel-import" onClick={() => this.cancelCsvImport()}>Cancel
                             import
                         </button>
                     </div>
