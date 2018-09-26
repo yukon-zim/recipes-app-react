@@ -10,8 +10,10 @@ export default class ImportUrl extends Component {
     }
     async importRecipeByUrl(url) {
         try {
-            const importResponse =  await this.importUrlRecipeRequest(url);
-            const recipes = await this.props.getRecipes();
+            this.importUrlRequestPromise = this.importUrlRecipeRequest(url);
+            const importResponse = await this.importUrlRequestPromise;
+            this.getRecipesPromise = this.props.getRecipes();
+            const recipes = await this.getRecipesPromise;
             this.cancelUrlImport();
             this.props.setRecipes(recipes);
             this.setState({
@@ -45,11 +47,14 @@ export default class ImportUrl extends Component {
         })
     }
 
-    onAddUrl() {
+    onAddUrl(urlInput) {
         // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
-        this.setState({
-            urlInputValid: true
-        })
+        console.log(urlInput);
+        if (urlInput.value) {
+            this.setState({
+                urlInputValid: true
+            })
+        }
         // }
     }
 
@@ -72,10 +77,10 @@ export default class ImportUrl extends Component {
                         <div>
                             <input id="url-file-upload" type="url" required
                                    ref={textInput => this.urlToImportInput = textInput}
-                                   onChange={() => this.onAddUrl()}/>
+                                   onChange={(event) => this.onAddUrl(event.target)}/>
                         </div>
                         <div>
-                            <button className="btn btn-secondary btn-sm"
+                            <button className="btn btn-secondary btn-sm btn-import-url"
                                     disabled={!this.state.urlInputValid}
                                     onClick={() => this.importRecipeByUrl(this.urlToImportInput.value)}>Import web recipe
                             </button>
