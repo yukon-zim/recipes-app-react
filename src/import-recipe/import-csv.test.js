@@ -46,7 +46,7 @@ describe('component tests', () => {
             // must also simulate ref on input element
             wrapper.instance().csvFileInput = {files: ['']};
             // set up import fetch request
-            const importResponse = {message: 'successful test'};
+            const importResponse = JSON.stringify({message: 'successful test'});
             fetch.mockResponseOnce(importResponse, {status: 200});
             // simulate click on import button
             wrapper.find('button.btn-import-recipe').simulate('click');

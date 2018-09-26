@@ -49,7 +49,6 @@ export default class ImportUrl extends Component {
 
     onAddUrl(urlInput) {
         // if (!this.urlToImportInput === undefined && this.urlToImportInput.validity.valid) {
-        console.log(urlInput);
         if (urlInput.value) {
             this.setState({
                 urlInputValid: true

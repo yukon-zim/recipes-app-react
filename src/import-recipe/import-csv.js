@@ -17,7 +17,6 @@ export default class ImportCsv extends Component {
             const importResponse = await this.importRecipesPromise;
             this.getRecipesPromise = this.props.getRecipes();
             const recipes = await this.getRecipesPromise;
-            console.log(recipes);
             this.cancelCsvImport();
             this.props.setRecipes(recipes);
             this.setState({
