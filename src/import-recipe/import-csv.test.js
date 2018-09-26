@@ -5,22 +5,23 @@ import ImportCsv from './import-csv';
 
 describe('component tests', () => {
     let spyGetRecipes;
+    let wrapper;
     beforeEach(() => {
         spyGetRecipes = jest.fn()
+        wrapper = shallow(<ImportCsv
+            getRecipes={spyGetRecipes}
+        />)
     });
     describe('render tests', () => {
-        let wrapper;
-        beforeEach(() => {
-            wrapper = shallow(<ImportCsv
-                getRecipes={spyGetRecipes}
-            />)
-        });
+
         it('initial render prior to file selection', () => {
             expect(wrapper.state('csvImportEnabled')).toEqual(false);
             expect(wrapper.find('button.btn-import-recipe')).toHaveLength(0);
             expect(wrapper.find('button.btn-cancel-import')).toHaveLength(0);
             expect(wrapper.state('csvImportError')).toEqual('');
         });
+    });
+    describe('method tests', () => {
         it('rendering on selecting a file and cancelling import', () => {
             // simulate onChange event (selecting csv file)
             wrapper.find('input#csv-file-upload').simulate('change', {});
@@ -54,11 +55,6 @@ describe('component tests', () => {
             await wrapper.instance().importRecipesPromise;
             await wrapper.instance().getRecipesPromise;
             expect(spyGetRecipes).toHaveBeenCalledWith();
-        })
-    });
-    describe('method tests', () => {
-        it('further import tests', () => {
-
         })
     })
 });

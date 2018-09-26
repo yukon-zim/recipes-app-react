@@ -4,33 +4,34 @@ import recipeFixtures from '../testing/recipe-fixtures.js';
 import ImportUrl from './import-url';
 
 describe('component tests', () => {
+    let wrapper;
     let spyGetRecipes;
     let spySetRecipes;
     beforeEach(() => {
         spyGetRecipes = jest.fn();
         spySetRecipes = jest.fn();
+        wrapper = shallow(<ImportUrl
+            getRecipes={spyGetRecipes}
+            setRecipes={spySetRecipes}
+        />)
     });
     describe('render tests', () => {
-        let wrapper;
-        beforeEach(() => {
-            wrapper = shallow(<ImportUrl
-                getRecipes={spyGetRecipes}
-                setRecipes={spySetRecipes}
-            />)
-        });
+
         it('initial render prior to file selection', () => {
             expect(wrapper.state('urlInputValid')).toEqual(false);
             expect(wrapper.find('button.btn-import-url[disabled=true]')).toHaveLength(1);
             expect(wrapper.state('urlImportError')).toEqual('');
         });
-        it('rendering on selecting a URL', () => {
+    });
+    describe('method tests', () => {
+        it('event when selecting a URL', () => {
             // simulate onChange event (entering url)
             wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
             expect(wrapper.state('urlInputValid')).toEqual(true);
             expect(wrapper.find('button.btn-import-url[disabled=false]')).toHaveLength(1);
             expect(wrapper.state('urlImportError')).toEqual('');
         });
-        it('rendering on clicking import button', async () => {
+        it('event when clicking import button', async () => {
             // set up spy return values
             spyGetRecipes.mockImplementation(async () => {
                 return [recipeFixtures()[0], recipeFixtures()[1]]
@@ -52,11 +53,6 @@ describe('component tests', () => {
             expect(wrapper.state('urlInputValid')).toEqual(false);
             expect(wrapper.find('button.btn-import-url[disabled=true]')).toHaveLength(1);
             expect(wrapper.state('urlImportError')).toEqual('successful test');
-        })
-    });
-    describe('method tests', () => {
-        it('further import tests', () => {
-
         })
     })
 });
