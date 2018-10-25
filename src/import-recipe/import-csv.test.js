@@ -7,12 +7,13 @@ describe('component tests', () => {
     let spyGetRecipes;
     let wrapper;
     beforeEach(() => {
-        spyGetRecipes = jest.fn();
+        spyGetRecipes = jest.fn()
         wrapper = shallow(<ImportCsv
             getRecipes={spyGetRecipes}
         />)
     });
     describe('render tests', () => {
+
         it('initial render prior to file selection', () => {
             expect(wrapper.state('csvImportEnabled')).toEqual(false);
             expect(wrapper.find('button.btn-import-recipe')).toHaveLength(0);
@@ -21,7 +22,7 @@ describe('component tests', () => {
         });
     });
     describe('method tests', () => {
-        it('behavior on selecting a file and cancelling import', () => {
+        it('rendering on selecting a file and cancelling import', () => {
             // simulate onChange event (selecting csv file)
             wrapper.find('input#csv-file-upload').simulate('change', {});
             // must also simulate ref on input element
@@ -37,7 +38,7 @@ describe('component tests', () => {
             expect(wrapper.find('button.btn-cancel-import')).toHaveLength(0);
             expect(wrapper.state('csvImportError')).toEqual('');
         });
-        it('behavior on clicking import button', async () => {
+        it('rendering on clicking import button', async () => {
             spyGetRecipes.mockImplementation(async () => {
                 return [recipeFixtures()[0], recipeFixtures()[1]]
             });
