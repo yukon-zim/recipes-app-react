@@ -6,5 +6,15 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+// const RECIPE_QUERY = gql`
+//     query RECIPE_QUERY($id: ID!) {
+//         recipe(id: $id) {
+//             name
+//         }
+//     }
+// `;
+//
+// client.query({query: RECIPE_QUERY, variables: {id: 3}}).then(result => console.log(result));
+
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

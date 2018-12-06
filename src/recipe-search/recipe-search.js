@@ -9,17 +9,10 @@ export default class RecipeSearch extends Component {
     }
 
     async searchRecipes(searchTerm) {
-        if (!searchTerm.trim()) {
-           this.props.setRecipes(this.props.fullRecipeList);
-            this.props.setSearchInProgress(false);
-            return;
-        }
-        this.props.setSearchInProgress(true);
-        this.responsePromise = fetch(`${this.props.recipeUrl}?searchTerm=${searchTerm}`);
-        const response = await this.responsePromise;
-        this.jsonDataPromise = response.json();
-        const jsonData = await this.jsonDataPromise;
-        this.props.setRecipes(jsonData);
+        // if (!searchTerm.trim()) {
+        //     return;
+        // }
+        this.props.setSearchTerm(searchTerm);
     }
 
     async componentDidMount() {

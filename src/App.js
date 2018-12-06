@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { ApolloProvider } from 'react-apollo';
+import ApolloClient from 'apollo-boost';
 import RecipeList from './recipe-list/recipe-list';
 import RecipeDetail from './recipe-detail/recipe-detail';
 import './App.css';
 import Header from './header/header';
+
+const client = new ApolloClient({
+    uri: "http://localhost:4000"
+});
 
 class App extends Component {
     render() {
@@ -11,12 +17,14 @@ class App extends Component {
             <Router>
                 <div>
                     <Header/>
-                    <Switch>
-                        <Redirect exact from='/' to='/recipes'/>
-                        <Route exact path='/recipes' component={RecipeList}/>
-                        <Route exact path='/detail/:id' key="update" component={RecipeDetail}/>
-                        <Route exact path='/detail/new' key="add" component={RecipeDetail}/>
-                    </Switch>
+                    <ApolloProvider client={client}>
+                        <Switch>
+                            <Redirect exact from='/' to='/recipes'/>
+                            <Route exact path='/recipes' component={RecipeList}/>
+                            <Route exact path='/detail/:id' key="update" component={RecipeDetail}/>
+                            <Route exact path='/detail/new' key="add" component={RecipeDetail}/>
+                        </Switch>
+                    </ApolloProvider>
                 </div>
             </Router>
         );

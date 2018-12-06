@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 // "functional component" (only has render function); can use shorthand notation
-export default function Header(props) {
+const Header = props => {
     return (
         <nav className="nav">
             <ul className="navbar-nav">
@@ -18,4 +18,5 @@ export default function Header(props) {
             </ul>
         </nav>
     )
-}
+};
+export default Header;
