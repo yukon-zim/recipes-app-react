@@ -3,9 +3,10 @@ import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-d
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import RecipeList from './recipe-list/recipe-list';
-import RecipeDetail from './recipe-detail/recipe-detail';
 import './App.css';
 import Header from './header/header';
+import UpdateRecipe from './recipe-detail/UpdateRecipe';
+import CreateRecipe from './recipe-detail/CreateRecipe';
 
 const client = new ApolloClient({
     uri: "http://localhost:4000"
@@ -21,8 +22,8 @@ class App extends Component {
                         <Switch>
                             <Redirect exact from='/' to='/recipes'/>
                             <Route exact path='/recipes' component={RecipeList}/>
-                            <Route exact path='/detail/:id' key="update" component={RecipeDetail}/>
-                            <Route exact path='/detail/new' key="add" component={RecipeDetail}/>
+                            <Route exact path='/detail/:id' key="update" component={UpdateRecipe}/>
+                            <Route exact path='/detail/new' key="add" component={CreateRecipe}/>
                         </Switch>
                     </ApolloProvider>
                 </div>

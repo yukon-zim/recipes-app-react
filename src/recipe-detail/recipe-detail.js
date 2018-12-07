@@ -246,7 +246,7 @@ export default class RecipeDetail extends Component {
     }
 
     async loadRecipeIdFromProps(props) {
-        const recipeId = props.match.params.id;
+        const recipeId = props.id;
         if (recipeId === 'new') {
             this.setState({
                 recipe: this.createEmptyRecipe(),
