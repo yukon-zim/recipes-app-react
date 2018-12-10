@@ -1,11 +1,12 @@
 import React from 'react';
 import RecipeDetail from './recipe-detail';
+import UpdateRecipeButtons from './UpdateRecipeButtons';
 
 const UpdateRecipe = props => (
     <RecipeDetail
         id={props.match.params.id}
         newRecipeMode={false}>
-        <button>Update recipe</button>
+            <UpdateRecipeButtons/>
     </RecipeDetail>
 );
 

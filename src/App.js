@@ -22,8 +22,8 @@ class App extends Component {
                         <Switch>
                             <Redirect exact from='/' to='/recipes'/>
                             <Route exact path='/recipes' component={RecipeList}/>
-                            <Route exact path='/detail/:id' key="update" component={UpdateRecipe}/>
                             <Route exact path='/detail/new' key="add" component={CreateRecipe}/>
+                            <Route exact path='/detail/:id' key="update" component={UpdateRecipe}/>
                         </Switch>
                     </ApolloProvider>
                 </div>

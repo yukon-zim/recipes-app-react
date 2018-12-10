@@ -1,10 +1,11 @@
 /* eslint no-restricted-globals: 0 */
 import React, {Component} from 'react';
-import RecipeDetailField from './recipe-detail-field';
-import RecipeDetailListField from './recipe-detail-list-field';
 import Moment from 'moment';
 import {Prompt} from 'react-router-dom';
+import RecipeDetailField from './recipe-detail-field';
+import RecipeDetailListField from './recipe-detail-list-field';
 
+const RecipeDetailContext = React.createContext();
 
 export default class RecipeDetail extends Component {
     constructor(props) {
@@ -16,7 +17,6 @@ export default class RecipeDetail extends Component {
                 fieldName: '',
                 fieldIndex: undefined
             },
-            newRecipeMode: false,
             formError: '',
             formIsDirty: false
         };
@@ -28,7 +28,7 @@ export default class RecipeDetail extends Component {
         return jsonData;
     }
 
-    async updateRecipe() {
+    updateRecipe = async () => {
         if (this.recipeForm.checkValidity()) {
             const urlId = this.state.recipeId;
             try {
@@ -50,7 +50,7 @@ export default class RecipeDetail extends Component {
                 formError: 'Recipe not saved - check errors on form'
             })
         }
-    }
+    };
 
     async updateRecipeRequest(recipeId, updatedRecipe) {
         const response = await fetch(`http://localhost:1337/recipes/${recipeId}`, {
@@ -64,7 +64,7 @@ export default class RecipeDetail extends Component {
         throw new Error(jsonData.message)
     }
 
-    async saveNewRecipe(){
+    saveNewRecipe = async () => {
         if (this.recipeForm.checkValidity()) {
             try {
                 this.saveNewRecipePromise = this.newRecipeRequest(this.state.recipe);
@@ -85,7 +85,7 @@ export default class RecipeDetail extends Component {
                 formError: 'Recipe not saved - check errors on form'
             })
         }
-    }
+    };
 
     async newRecipeRequest(newRecipe) {
         const response = await fetch(`http://localhost:1337/recipes`, {
@@ -99,7 +99,7 @@ export default class RecipeDetail extends Component {
         throw new Error(jsonData.message)
     }
 
-    async deleteRecipe() {
+    deleteRecipe = async () => {
         const urlId = this.state.recipeId;
         if (confirm(`Are you sure you want to delete this recipe? This action cannot be undone.`)) {
             try {
@@ -115,7 +115,7 @@ export default class RecipeDetail extends Component {
                 })
             }
         }
-    }
+    };
 
     async deleteRecipeRequest(recipeId) {
         const response = await fetch(`http://localhost:1337/recipes/${recipeId}`, {
@@ -134,7 +134,7 @@ export default class RecipeDetail extends Component {
         }
     }
 
-    setRecipeField(fieldName, fieldValue, index) {
+    setRecipeField = (fieldName, fieldValue, index) => {
         const recipe = this.state.recipe;
         if (index === null || index === undefined) {
             recipe[fieldName] = fieldValue;
@@ -145,19 +145,19 @@ export default class RecipeDetail extends Component {
             recipe,
             formIsDirty: true
         });
-    }
+    };
 
-    editField(fieldName, index) {
+    editField = (fieldName, index) => {
         this.setState({
             fieldInEditMode: {
                 fieldName,
                 fieldIndex: index
             },
         });
-    }
+    };
 
-    isFieldInEditMode(fieldName, index) {
-        if (this.state.newRecipeMode) {
+    isFieldInEditMode = (fieldName, index) => {
+        if (this.props.newRecipeMode) {
             return true;
         }
         if (this.state.recipe[fieldName] === '') {
@@ -167,28 +167,28 @@ export default class RecipeDetail extends Component {
             return true;
         }
         return this.isFieldInEditAndFocus(fieldName, index);
-    }
+    };
 
-    isFieldInEditAndFocus(fieldName, index) {
+    isFieldInEditAndFocus = (fieldName, index) => {
         return this.state.fieldInEditMode.fieldName === fieldName && this.state.fieldInEditMode.fieldIndex === index;
-    }
+    };
 
-    unfocusField() {
+    unfocusField = () => {
         this.setState({
             fieldInEditMode: {
                 fieldName: '',
                 fieldIndex: undefined
             },
         });
-    }
+    };
 
-    unfocusFieldOnEnter(event) {
+    unfocusFieldOnEnter = (event) => {
         if (event.key === 'Enter') {
             this.unfocusField()
         }
-    }
+    };
 
-    addListItem(fieldName) {
+    addListItem = (fieldName) => {
         const recipe = this.state.recipe;
         recipe[fieldName].push('');
         this.editField(`${fieldName}`, recipe[fieldName].length - 1);
@@ -196,9 +196,9 @@ export default class RecipeDetail extends Component {
             recipe,
             formIsDirty: true
         });
-    }
+    };
 
-    moveListItemUp(itemIndex, fieldName) {
+    moveListItemUp = (itemIndex, fieldName) => {
         const recipe = this.state.recipe;
         const [itemToMove] = recipe[fieldName].splice(itemIndex, 1);
         recipe[fieldName].splice(itemIndex - 1, 0, itemToMove);
@@ -206,9 +206,9 @@ export default class RecipeDetail extends Component {
             recipe,
             formIsDirty: true
         });
-    }
+    };
 
-    moveListItemDown(itemIndex, fieldName) {
+    moveListItemDown = (itemIndex, fieldName) => {
         const recipe = this.state.recipe;
         const [itemToMove] = recipe[fieldName].splice(itemIndex, 1);
         recipe[fieldName].splice(itemIndex + 1, 0, itemToMove);
@@ -216,38 +216,38 @@ export default class RecipeDetail extends Component {
             recipe,
             formIsDirty: true
         });
-    }
+    };
 
-    deleteListItem(index, fieldName) {
+    deleteListItem = (index, fieldName) => {
         const recipe = this.state.recipe;
         recipe[fieldName].splice(index, 1);
         this.setState({
             recipe,
             formIsDirty: true
         });
-    }
+    };
 
-    isFormValid() {
+    isFormValid = () => {
         return (this.recipeForm
             && this.recipeForm.checkValidity()
             && this.state.recipe
             && this.state.recipe.instructions.length >= 1
             && this.state.recipe.ingredients.length >= 1
         );
-    }
+    };
 
 
-    goToListView() {
+    goToListView = () => {
         this.props.history.push('/recipes');
-    }
+    };
 
-    goToId(recipeId) {
+    goToId = (recipeId) => {
         this.props.history.push(`/detail/${recipeId}`);
-    }
+    };
 
     async loadRecipeIdFromProps(props) {
         const recipeId = props.id;
-        if (recipeId === 'new') {
+        if (props.newRecipeMode) {
             this.setState({
                 recipe: this.createEmptyRecipe(),
                 fieldInEditMode: {
@@ -290,23 +290,22 @@ export default class RecipeDetail extends Component {
     }
 
     render() {
-        const newRecipeMode = this.state.newRecipeMode;
         const recipe = this.state.recipe;
         const commonProps = {
             recipe,
-            isFieldInEditAndFocus: this.isFieldInEditAndFocus.bind(this),
-            isFieldInEditMode: this.isFieldInEditMode.bind(this),
-            editField: this.editField.bind(this),
-            unfocusField: this.unfocusField.bind(this),
-            unfocusFieldOnEnter: this.unfocusFieldOnEnter.bind(this),
-            setRecipeField: this.setRecipeField.bind(this)
+            isFieldInEditAndFocus: this.isFieldInEditAndFocus,
+            isFieldInEditMode: this.isFieldInEditMode,
+            editField: this.editField,
+            unfocusField: this.unfocusField,
+            unfocusFieldOnEnter: this.unfocusFieldOnEnter,
+            setRecipeField: this.setRecipeField
 
         };
         const commonListProps = {
-            moveListItemUp: this.moveListItemUp.bind(this),
-            moveListItemDown: this.moveListItemDown.bind(this),
-            addListItem: this.addListItem.bind(this),
-            removeListItem: this.deleteListItem.bind(this),
+            moveListItemUp: this.moveListItemUp,
+            moveListItemDown: this.moveListItemDown,
+            addListItem: this.addListItem,
+            removeListItem: this.deleteListItem
         };
         const dateCreatedText = Moment(recipe.dateCreated).format("M/DD/YYYY");
         const dateModifiedText = Moment(recipe.dateModified).format("M/DD/YYYY");
@@ -390,26 +389,21 @@ export default class RecipeDetail extends Component {
                             label="Notes: "
                             required={false}
                         />
-                        {!newRecipeMode && (
-                            <div>
-                                <button
-                                    className="btn btn-primary btn-update-recipe"
-                                    onClick={() => this.updateRecipe()}
-                                    disabled={!this.state.formIsDirty || !formIsValid}>Update recipe</button>
-                                <button
-                                    className="btn btn-warning btn-delete-recipe"
-                                    onClick={() => this.deleteRecipe()}>Delete recipe</button>
-                            </div>
-                        )}
-                        {newRecipeMode && (
-                            <div>
-                                <button className="btn btn-primary btn-save-new-recipe"
-                                        disabled={!this.state.formIsDirty || !formIsValid} onClick={() => this.saveNewRecipe()}>Save new recipe</button>
-                            </div>
-                        )}
+                        <RecipeDetailContext.Provider
+                        value={{
+                            formIsDirty: this.state.formIsDirty,
+                            formIsValid: formIsValid,
+                            updateRecipe: this.updateRecipe,
+                            saveNewRecipe: this.saveNewRecipe,
+                            deleteRecipe: this.deleteRecipe
+                        }}>
+                            {this.props.children}
+                        </RecipeDetailContext.Provider>
                     </form>
                 </div>
             </div>
         )
     }
 }
+
+export { RecipeDetailContext };
