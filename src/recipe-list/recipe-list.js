@@ -83,3 +83,5 @@ export default class RecipeList extends Component {
         )
     }
 }
+
+export { ALL_RECIPES_QUERY };
