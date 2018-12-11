@@ -144,8 +144,6 @@ export default class RecipeDetail extends Component {
             });
         } else {
             const recipe = this.props.recipe;
-            console.log("props recipe:");
-            console.log(recipe);
             this.setState({
                 recipe,
                 recipeId: recipe.id

@@ -56,7 +56,7 @@ class CreateRecipeButtons extends Component {
                     {(createRecipe, { error }) => (
                         <React.Fragment>
                             {error && (
-                                <p className="error-message">{error}</p>
+                                <p className="error-message">{error.message}</p>
                             )}
                             <button className="btn btn-primary btn-save-new-recipe"
                                     disabled={!this.context.formIsDirty || !this.context.formIsValid}

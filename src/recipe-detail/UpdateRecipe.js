@@ -26,7 +26,7 @@ const UpdateRecipe = props => {
         <Query
             query={GET_RECIPE_QUERY}
             variables={{id}}
-            // fetchPolicy="no-cache"
+            fetchPolicy="no-cache"
         >
             {({data, error, loading}) => {
                 if (error) {
@@ -36,8 +36,6 @@ const UpdateRecipe = props => {
                 if (loading) {
                     return <p>loading recipe</p>;
                 } else {
-                    console.log("data.recipe");
-                    console.log(data);
                     return (
                         <RecipeDetail
                             recipe={data.recipe}
