@@ -23,12 +23,6 @@ export default class RecipeDetail extends Component {
         };
     }
 
-    async getRecipe(recipeId) {
-        const response = await fetch(`http://localhost:1337/recipes/${recipeId}`);
-        const jsonData = await response.json();
-        return jsonData;
-    }
-
     createEmptyRecipe() {
         return {
             name: '',
@@ -139,8 +133,7 @@ export default class RecipeDetail extends Component {
         );
     };
 
-    async loadRecipeIdFromProps(props) {
-        const recipeId = props.id;
+     loadRecipeIdFromProps(props) {
         if (props.newRecipeMode) {
             this.setState({
                 recipe: this.createEmptyRecipe(),
@@ -150,25 +143,13 @@ export default class RecipeDetail extends Component {
                 }
             });
         } else {
-            const recipeIdNumber = +recipeId;
-            if (recipeId === undefined || recipeId === null || Number.isNaN(recipeIdNumber)) {
-                this.setState({
-                    formError: `Could not load recipe with ID ${recipeId}`,
-                    recipe: this.createEmptyRecipe(),
-                    fieldInEditMode: {
-                        fieldName: 'name',
-                        fieldIndex: undefined
-                    },
-                    errorRecipeMode: true
-                });
-            } else {
-                this.getRecipePromise = this.getRecipe(recipeIdNumber);
-                const recipe = await this.getRecipePromise;
-                this.setState({
-                    recipe,
-                    recipeId: recipeIdNumber
-                });
-            }
+            const recipe = this.props.recipe;
+            console.log("props recipe:");
+            console.log(recipe);
+            this.setState({
+                recipe,
+                recipeId: recipe.id
+            });
         }
     }
 
@@ -184,12 +165,14 @@ export default class RecipeDetail extends Component {
     };
 
     async componentDidMount() {
-        await this.loadRecipeIdFromProps(this.props);
+         this.loadRecipeIdFromProps(this.props);
         window.scrollTo(0, 0)
     }
 
     render() {
         const recipe = this.state.recipe;
+        console.log("state recipe:");
+        console.log(recipe);
         const commonProps = {
             recipe,
             isFieldInEditAndFocus: this.isFieldInEditAndFocus,
