@@ -30,7 +30,6 @@ const UPDATE_RECIPE_MUTATION = gql`
 `;
 
 class UpdateRecipeButtons extends Component {
-    static contextType = RecipeDetailContext;
 
     updateRecipe = async (updateRecipeMutation) => {
         try {
@@ -93,7 +92,7 @@ class UpdateRecipeButtons extends Component {
                     {(deleteRecipe, { error }) => (
                         <React.Fragment>
                             {error && (
-                                <p className="error-message">{error}</p>
+                                <p className="error-message">{error.message}</p>
                             )}
                             <button
                                 className="btn btn-warning btn-delete-recipe"
@@ -107,3 +106,5 @@ class UpdateRecipeButtons extends Component {
 };
 
 export default withRouter(UpdateRecipeButtons)
+
+UpdateRecipeButtons.contextType = RecipeDetailContext;

@@ -26,6 +26,11 @@ const UpdateRecipe = props => {
         <Query
             query={GET_RECIPE_QUERY}
             variables={{id}}
+            // TODO: individual recipes must be fetched each time they are loaded
+            // if they are loaded from cache, unsaved updates will persist after navigating around the app
+            // this creates a mismatch between local recipe data and db recipe data
+            // best guess is that apollo cache is not being read correctly when navigating back to unsaved recipe
+            // not caching is acceptable for now since individual recipes aren't resource intensive
             fetchPolicy="no-cache"
         >
             {({data, error, loading}) => {

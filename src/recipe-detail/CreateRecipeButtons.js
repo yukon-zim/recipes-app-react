@@ -22,7 +22,6 @@ const CREATE_RECIPE_MUTATION = gql`
 `;
 
 class CreateRecipeButtons extends Component {
-    static contextType = RecipeDetailContext;
 
     saveNewRecipe = async (createRecipeMutation) => {
         try {
@@ -71,3 +70,4 @@ class CreateRecipeButtons extends Component {
 };
 
 export default withRouter(CreateRecipeButtons);
+CreateRecipeButtons.contextType = RecipeDetailContext;
