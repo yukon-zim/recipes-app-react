@@ -7,7 +7,7 @@ import './App.css';
 import Header from './header/header';
 import UpdateRecipe from './recipe-detail/UpdateRecipe';
 import CreateRecipe from './recipe-detail/CreateRecipe';
-import SignIn from './login/signin';
+import Signin from './login/signinPage';
 
 const client = new ApolloClient({
     uri: "http://localhost:4000",
@@ -33,7 +33,7 @@ class App extends Component {
                             <Route exact path='/recipes' component={RecipeList}/>
                             <Route exact path='/detail/new' key="add" component={CreateRecipe}/>
                             <Route exact path='/detail/:id' key="update" component={UpdateRecipe}/>
-                            <Route exact path='/signin' component={SignIn}/>
+                            <Route exact path='/signin' component={Signin}/>
                         </Switch>
                     </ApolloProvider>
                 </div>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -12,7 +14,7 @@ const SIGNUP_MUTATION = gql`
     }
 `;
 
-class SignUp extends Component {
+class Signup extends Component {
     state = {
         name: '',
         email: '',
@@ -22,17 +24,22 @@ class SignUp extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
-    signUp = async (signUpMutation) => {
+    signup = async (signupMutation) => {
         try {
-            const res = await signUpMutation({
+            const res = await signupMutation({
                 variables: {
                     ...this.state
                 }
             });
+            this.goToListView();
             return res;
         } catch (err) {
             console.error(err);
         }
+    };
+
+    goToListView = () => {
+        this.props.history.push('/recipes');
     };
 
     handleSubmit(event) {
@@ -42,12 +49,14 @@ class SignUp extends Component {
 
     render() {
         return (
-            <Mutation mutation={SIGNUP_MUTATION}>
-                {(signUp, {error, loading}) => (
-                    <form ref={form => this.signUpForm = form}
+            <Mutation
+                mutation={SIGNUP_MUTATION}
+                refetchQueries={[{query: CURRENT_USER_QUERY}]}>
+                {(signup, {error, loading}) => (
+                    <form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <h2> sign up for an account </h2>
+                            <h2> Sign up for an account! </h2>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
@@ -83,7 +92,7 @@ class SignUp extends Component {
                             </label>
                             <button className="btn btn-primary btn-update-recipe"
                                     type="submit"
-                                    onClick={async () => this.signUp(signUp)}>Sign Up</button>
+                                    onClick={async () => this.signup(signup)}>Sign Up</button>
                         </fieldset>
                     </form>
                 )}
@@ -91,4 +100,4 @@ class SignUp extends Component {
         )
     }
 }
-export default SignUp;
+export default withRouter(Signup);
