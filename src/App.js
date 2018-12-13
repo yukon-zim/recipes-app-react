@@ -10,7 +10,15 @@ import CreateRecipe from './recipe-detail/CreateRecipe';
 import SignIn from './login/signin';
 
 const client = new ApolloClient({
-    uri: "http://localhost:4000"
+    uri: "http://localhost:4000",
+    request: operation => {
+        operation.setContext({
+            fetchOptions: {
+                credentials: 'include',
+            },
+            // headers,
+        });
+    },
 });
 
 class App extends Component {
@@ -18,8 +26,8 @@ class App extends Component {
         return (
             <Router>
                 <div>
-                    <Header/>
                     <ApolloProvider client={client}>
+                    <Header/>
                         <Switch>
                             <Redirect exact from='/' to='/recipes'/>
                             <Route exact path='/recipes' component={RecipeList}/>
