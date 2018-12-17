@@ -81,7 +81,7 @@ class Signin extends Component {
                                     onChange={this.saveToState}
                                 />
                             </label>
-                            <button className="btn btn-primary btn-update-recipe"
+                            <button className="btn btn-primary btn-signin"
                                     type="submit"
                                     onClick={async () => this.signin(signin)}>Sign In</button>
                         </fieldset>

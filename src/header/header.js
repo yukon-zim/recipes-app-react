@@ -18,7 +18,7 @@ const Header = () => (
             return (<nav className="nav">
                     <ul className="navbar-nav">
                         <li>
-                            <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>;
+                            <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>
                         </li>
                     </ul>
 
