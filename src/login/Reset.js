@@ -26,7 +26,7 @@ class Reset extends Component {
     };
     saveToState= (e) => {
         this.setState({ [e.target.name]: e.target.value });
-    }
+    };
 
     goToListView = () => {
         this.props.history.push('/recipes');

@@ -48,8 +48,6 @@ export default class RecipeList extends Component {
         return (
             <Query query={ALL_RECIPES_QUERY} variables={{searchTerm: this.state.searchTerm}}>
                 {({data, error, loading}) => {
-                    console.log('all recipes query:');
-                    console.log(data);
                     const recipes = data.recipes || [];
                     const commonRecipeListProps = {
                         searchInProgress: loading,
@@ -70,9 +68,11 @@ export default class RecipeList extends Component {
                                 <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>
                             </div>
                             <div>
+                                {false &&
                                 <ImportCsv
                                     {...commonRecipeListProps}
                                     getRecipes={this.dummyFunction}/>
+                                }
                                 <ImportUrl
                                     {...commonRecipeListProps}
                                     getRecipes={this.dummyFunction}/>
