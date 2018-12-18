@@ -56,7 +56,7 @@ class UpdateRecipeButtons extends Component {
                 this.goToListView();
                 return res;
             } catch (err) {
-                console.error(err);
+                console.error(err.message);
             }
         }
     };

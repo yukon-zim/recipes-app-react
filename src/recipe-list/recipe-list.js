@@ -39,10 +39,6 @@ export default class RecipeList extends Component {
         })
     };
 
-    dummyFunction = () => {
-        return true;
-    };
-
     render() {
         // const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
         return (
@@ -71,11 +67,11 @@ export default class RecipeList extends Component {
                                 {false &&
                                 <ImportCsv
                                     {...commonRecipeListProps}
-                                    getRecipes={this.dummyFunction}/>
+                                    />
                                 }
                                 <ImportUrl
                                     {...commonRecipeListProps}
-                                    getRecipes={this.dummyFunction}/>
+                                    />
                             </div>
                         </div>
                     )}}

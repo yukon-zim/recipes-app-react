@@ -15,12 +15,9 @@ export default class ImportCsv extends Component {
         try {
             this.importRecipesPromise = this.importRecipeRequest(formData);
             const importResponse = await this.importRecipesPromise;
-            this.getRecipesPromise = this.props.getRecipes();
-            const recipes = await this.getRecipesPromise;
             this.cancelCsvImport();
-            this.props.setRecipes(recipes);
             this.setState({
-                csvImportError: importResponse.message
+                csvImportError: importResponse.message + '. Refresh the page to see all recipes.'
             });
         } catch (err) {
             this.setState({
