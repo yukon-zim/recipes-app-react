@@ -1,8 +1,17 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import styled, { css } from 'styled-components'
 import User from '../login/User';
 import Signout from '../login/Signout'
 import Button from '../style/Button';
+
+const Nav = styled.nav`
+  ${props => props.theme.oldSchool && css`
+  padding-top: 0.5rem;
+  background: rgb(17, 17, 17);
+  color: rgb(255, 255, 255);
+`}
+`;
 
 // "functional component" (only has render function); can use shorthand notation
 const Header = () => (
@@ -15,7 +24,7 @@ const Header = () => (
                 userName = data.whoAmI.name;
             }
             return (
-                <nav className="nav">
+                <Nav className="nav">
                     <ul className="navbar-nav flex-container">
                         <li className="welcome-header">
                             <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>
@@ -37,7 +46,7 @@ const Header = () => (
                             </li>
                         )}
                     </ul>
-                </nav>
+                </Nav>
             )
         }}
     </User>

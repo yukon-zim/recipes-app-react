@@ -29,14 +29,16 @@ export default class RecipeList extends Component {
         super(props);
         this.state = {
             recipeUrl: 'http://localhost:1337/recipes',
-            searchTerm: ''
+            searchTerm: '',
+            searchInProgress: false
         };
 
     };
 
     setSearchTerm = searchTerm => {
         this.setState({
-            searchTerm
+            searchTerm,
+            searchInProgress: !!searchTerm
         })
     };
 
@@ -47,10 +49,12 @@ export default class RecipeList extends Component {
                 {({data, error, loading}) => {
                     const recipes = data.recipes || [];
                     const commonRecipeListProps = {
-                        searchInProgress: loading,
+                        loading,
+                        searchInProgress: this.state.searchInProgress,
                         recipeUrl: this.recipeUrl,
                         recipes
                     };
+                    console.log(this.props.currentTheme);
                     return (<div className="container-fluid">
                             <RecipeSearch
                                 {...commonRecipeListProps}
@@ -64,15 +68,22 @@ export default class RecipeList extends Component {
                             <div className="mb-4">
                                 <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
                             </div>
-                            <div>
+                            <div className="mb-4">
                                 {false &&
                                 <ImportCsv
                                     {...commonRecipeListProps}
-                                    />
+                                />
                                 }
                                 <ImportUrl
                                     {...commonRecipeListProps}
-                                    />
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    className="btn btn-primary"
+                                    id="change-theme"
+                                    onClick={() => this.props.changeTheme()}
+                                >{Object.keys(this.props.currentTheme)[0]} theme</Button>
                             </div>
                         </div>
                     )}}

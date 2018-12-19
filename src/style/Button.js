@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components'
 
 const Button = styled.button`
-   padding: 0.75rem 0.75rem;
+padding: 0.75rem 0.75rem;
+ /*styling for oldSchool theme buttons*/
+ ${props => props.theme.oldSchool && css`
    /*fileMaker*/
    && {
    background: rgb(85, 85, 85);
@@ -32,23 +34,7 @@ const Button = styled.button`
       background: rgb(34, 34, 74);
          }
   `};
-
-`;
-
-const UpdateButton = styled.button`
-&& {
-background: rgb(97, 97, 211);
-:hover {
-      background: rgb(97, 97, 211);
-   }
-   :active {
-   background: rgb(97, 97, 211);
-   }
-`;
-
-const DeleteButton = styled(Button)`
-background: rgb(34, 34, 74);
-`;
+`};
+ `;
 
 export default Button;
-export { UpdateButton, DeleteButton };

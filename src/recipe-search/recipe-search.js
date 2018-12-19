@@ -21,6 +21,7 @@ export default class RecipeSearch extends Component {
 
     render() {
         const recipes = this.props.recipes;
+        const loading = this.props.loading;
         return (
             <div>
                 <div className="mb-4">
@@ -30,10 +31,13 @@ export default class RecipeSearch extends Component {
                            }}
                            placeholder="Search recipes"/>
                 </div>
-                {!this.props.searchInProgress && (
+                {loading && (
+                 <h2>Loading recipes...</h2>
+                )}
+                {!this.props.searchInProgress && !loading && (
                     <h2>My {recipes.length} Recipes</h2>
                 )}
-                {this.props.searchInProgress && (
+                {this.props.searchInProgress && !loading && (
                     <h2>Search results: {recipes.length} recipe(s)</h2>
                 )}
             </div>

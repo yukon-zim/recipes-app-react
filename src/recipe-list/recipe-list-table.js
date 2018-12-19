@@ -10,10 +10,22 @@ const Row = styled.tr`
     margin-left: -15px;
 `;
 const HeaderCell = styled.th`
-flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+  flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+  ${props => props.theme.oldSchool && css`
+      && { border-bottom-color: rgb(103, 103, 151);
+      border-top-color: rgb(103, 103, 151);
+      background: rgb(103, 103, 151);
+      font-size: 1rem;
+      }
+  `}
 `;
 const Cell = styled.td`
-flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+  flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+  ${props => props.theme.oldSchool && css`
+      && { border: 10px solid rgb(154, 154, 202);
+      background: rgb(238, 238, 238)
+      }
+   `}
 `;
 
 
@@ -73,6 +85,7 @@ export default class RecipeListTable extends Component {
     }
 
     render() {
+        const loading = this.props.loading;
         const noRecipesFound = this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
         const noRecipesOnUser = !this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
         const blankUrl = '#';
@@ -81,36 +94,36 @@ export default class RecipeListTable extends Component {
             <div>
                 <table className="recipes table">
                     <thead className="table-header">
-                    <tr className="row">
+                    <Row className="row">
                         <HeaderCell
                             col={7}
-                            className="table-header name-header">
+                            className="table-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
                         </HeaderCell>
                         <HeaderCell
                             col={3}
-                            className="table-header category-header">
+                            className="table-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
                         </HeaderCell>
                         <HeaderCell
                             col={2}
-                            className="table-header servings-header">
+                            className="table-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
                         </HeaderCell>
-                    </tr>
+                    </Row>
                     </thead>
                     <tbody>
                     {this.state.recipes.map(recipe => {
                             return (
                                 <Row className="data-row" key={recipe.id}>
                                     <Cell col={7}
-                                        className="table-cell">
+                                          className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span name-span">
                                                 {recipe.name.toUpperCase()}
@@ -118,7 +131,7 @@ export default class RecipeListTable extends Component {
                                         </Link>
                                     </Cell>
                                     <Cell col={3}
-                                        className="table-cell">
+                                          className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span category-span">
                                                 {recipe.category}
@@ -126,7 +139,7 @@ export default class RecipeListTable extends Component {
                                         </Link>
                                     </Cell>
                                     <Cell col={2}
-                                        className="table-cell">
+                                          className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span servings-span">
                                                 {recipe.numberOfServings}
@@ -137,7 +150,16 @@ export default class RecipeListTable extends Component {
                             )
                         }
                     )}
-                    {noRecipesFound && (
+                    {loading && (
+                        <tr>
+                            <td>
+                                <span className="span-loading">
+                                    Loading recipes...
+                                </span>
+                            </td>
+                        </tr>
+                    )}
+                    {noRecipesFound && !loading && (
                         <tr>
                             <td>
                                 <span className="span-no-recipes-found">
@@ -146,7 +168,7 @@ export default class RecipeListTable extends Component {
                             </td>
                         </tr>
                     )}
-                    {noRecipesOnUser && (
+                    {noRecipesOnUser && !loading && (
                         <tr>
                             <td>
                                 <span className="span-no-user-recipes">
