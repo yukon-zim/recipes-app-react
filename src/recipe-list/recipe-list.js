@@ -6,6 +6,7 @@ import RecipeSearch from '../recipe-search/recipe-search';
 import ImportCsv from '../import-recipe/import-csv';
 import ImportUrl from '../import-recipe/import-url';
 import RecipeListTable from './recipe-list-table';
+import Button from '../style/Button';
 
 const ALL_RECIPES_QUERY = gql`
     query ALL_RECIPES_QUERY($searchTerm: String) {
@@ -61,7 +62,7 @@ export default class RecipeList extends Component {
                                 />
                             </div>
                             <div className="mb-4">
-                                <Link className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Link>
+                                <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
                             </div>
                             <div>
                                 {false &&

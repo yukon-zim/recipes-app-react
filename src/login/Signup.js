@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { CURRENT_USER_QUERY } from './User'
+import { CURRENT_USER_QUERY } from './User';
+import Form from '../style/UserFormStyle';
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -53,7 +54,7 @@ class Signup extends Component {
                 mutation={SIGNUP_MUTATION}
                 refetchQueries={[{query: CURRENT_USER_QUERY}]}>
                 {(signup, {error, loading}) => (
-                    <form ref={form => this.signupForm = form}
+                    <Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2> Sign up for an account! </h2>
@@ -61,7 +62,7 @@ class Signup extends Component {
                                 <p className="error-message">{error.message}</p>
                             )}
                             <label htmlFor="email">
-                                Email
+                                Email:
                                 <input
                                     required
                                     type="email"
@@ -72,7 +73,7 @@ class Signup extends Component {
                                 />
                             </label>
                             <label htmlFor="name">
-                                Name
+                                Name:
                                 <input
                                     type="text"
                                     name="name"
@@ -82,7 +83,7 @@ class Signup extends Component {
                                 />
                             </label>
                             <label htmlFor="password">
-                                Password
+                                Password:
                                 <input
                                     required
                                     type="password"
@@ -96,7 +97,7 @@ class Signup extends Component {
                                     type="submit"
                                     onClick={async () => this.signup(signup)}>Sign Up</button>
                         </fieldset>
-                    </form>
+                    </Form>
                 )}
             </Mutation>
         )

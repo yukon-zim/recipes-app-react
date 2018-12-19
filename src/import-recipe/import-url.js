@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list'
+import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
+import Button from '../style/Button';
 
 const URL_IMPORT_MUTATION = gql`
     mutation URL_IMPORT_MUTATION($url: String!) {
@@ -78,10 +79,10 @@ export default class ImportUrl extends Component {
                                            onChange={(event) => this.onAddUrl(event.target)}/>
                                 </div>
                                 <div>
-                                    <button className="btn btn-secondary btn-sm btn-import-url"
+                                    <Button className="btn btn-primary btn-sm btn-import-url"
                                             disabled={!this.state.urlInputValid}
                                             onClick={() => this.importRecipeByUrl(importUrl)}>Import web recipe
-                                    </button>
+                                    </Button>
                                 </div>
                                 <div>
                                     {error && (

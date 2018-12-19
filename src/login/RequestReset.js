@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Form from '../style/UserFormStyle';
 
 const REQUEST_RESET_MUTATION = gql`
     mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -42,7 +43,7 @@ class Signin extends Component {
                 mutation={REQUEST_RESET_MUTATION}
                 variables={this.state}>
                 {(reset, {error, loading, called}) => (
-                    <form ref={form => this.requestResetForm = form}
+                    <Form ref={form => this.requestResetForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2> Request a PW reset </h2>
@@ -51,7 +52,7 @@ class Signin extends Component {
                             )}
                             {!error && !loading && called && <p>Success! check email for reset link</p>}
                             <label htmlFor="email">
-                                Email
+                                Email:
                                 <input
                                     type="email"
                                     name="email"
@@ -64,7 +65,7 @@ class Signin extends Component {
                                 type="submit"
                             onClick={async () => this.requestReset(reset)}>Request Reset</button>
                         </fieldset>
-                    </form>
+                    </Form>
                 )}
             </Mutation>
         )

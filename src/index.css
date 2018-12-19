@@ -1,7 +1,8 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  margin: 0.5rem;
+  /*fileMaker*/
+  font-family: "Arial";
+  background: rgb(154, 154, 202);
 }
 .error-message {
   color: red;
@@ -11,4 +12,39 @@ body {
 }
 .recipe-detail-field:valid ~ .form-field-invalid {
   display: none;
+}
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  margin-bottom: 1rem;
+}
+.welcome-header {
+  margin-top: 0.75rem;
+}
+/*filemaker*/
+.nav {
+  padding-top: 0.5rem;
+  background: rgb(17, 17, 17);
+  color: rgb(255, 255, 255);
+}
+/*filemaker*/
+a {
+  color: rgb(17, 17, 17);
+}
+/*filemaker*/
+table.recipes .table-header {
+  border-bottom-color: rgb(103, 103, 151);
+  border-top-color: rgb(103, 103, 151);
+  background: rgb(103, 103, 151);
+  font-size: 1rem;
+}
+/*filemaker*/
+table tr.data-row td {
+  border: 10px solid rgb(154, 154, 202);
+
+}
+/*filemaker*/
+.table-cell {
+  background: rgb(238, 238, 238);
 }

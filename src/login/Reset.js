@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { CURRENT_USER_QUERY } from './User'
+import Form from '../style/UserFormStyle';
 
 
 const RESET_MUTATION = gql`
@@ -62,7 +63,7 @@ class Reset extends Component {
                 refetchQueries={[{query: CURRENT_USER_QUERY}]}
             >
                 {(reset, {error, loading, called}) => (
-                    <form ref={form => this.resetForm = form}
+                    <Form ref={form => this.resetForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2> Reset your PW </h2>
@@ -93,7 +94,7 @@ class Reset extends Component {
                                     type="submit"
                                     onClick={async () => this.resetPassword(reset)}>Reset your PW</button>
                         </fieldset>
-                    </form>
+                    </Form>
                 )}
             </Mutation>
         )

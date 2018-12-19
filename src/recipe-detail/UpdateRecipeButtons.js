@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { RecipeDetailContext } from './recipe-detail';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
+import Button from '../style/Button';
 
 const DELETE_RECIPE_MUTATION = gql`
     mutation DELETE_RECIPE_MUTATION($id: ID!) {
@@ -78,10 +79,11 @@ class UpdateRecipeButtons extends Component {
                             {error && (
                                 <p className="error-message">{error}</p>
                             )}
-                            <button
+                            <Button
+                                update
                                 className="btn btn-primary btn-update-recipe"
                                 onClick={async () => this.updateRecipe(updateRecipe)}
-                                disabled={!this.context.formIsDirty || !this.context.formIsValid}>Update recipe</button>
+                                disabled={!this.context.formIsDirty || !this.context.formIsValid}>Update recipe</Button>
                         </React.Fragment>
                     )}
                 </Mutation>
@@ -94,9 +96,10 @@ class UpdateRecipeButtons extends Component {
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
-                            <button
-                                className="btn btn-warning btn-delete-recipe"
-                                onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</button>
+                            <Button
+                                delete
+                                className="btn btn-primary btn-delete-recipe"
+                                onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</Button>
                         </React.Fragment>
                     )}
                 </Mutation>

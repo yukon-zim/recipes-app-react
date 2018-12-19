@@ -25,7 +25,6 @@ export default class RecipeListTable extends Component {
             currentSortByOrder = 'asc';
             recipes = orderBy(recipes, field, currentSortByOrder);
         }
-        this.props.setRecipes(recipes);
         this.setState({
             currentSortByField: field,
             currentSortByOrder: currentSortByOrder,
@@ -45,19 +44,19 @@ export default class RecipeListTable extends Component {
         return(
             <div>
                 <table className="recipes table">
-                    <thead>
+                    <thead className="table-header">
                     <tr className="row">
-                        <th className="col-7 ml-2 name-header">
+                        <th className="col-7 ml-2 table-header name-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
                         </th>
-                        <th className="col-2 category-header">
+                        <th className="col-2 table-header category-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
                         </th>
-                        <th className="col-2 servings-header">
+                        <th className="col-2 table-header servings-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
@@ -68,23 +67,23 @@ export default class RecipeListTable extends Component {
                     {this.props.recipes.map(recipe => {
                             return (
                                 <tr className="row data-row" key={recipe.id}>
-                                    <td className="col-7 ml-2">
+                                    <td className="table-cell col-7 ml-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span className="name-span">
+                                            <span className="table-span name-span">
                                                 {recipe.name.toUpperCase()}
                                                 </span>
                                         </Link>
                                     </td>
-                                    <td className="col-2">
+                                    <td className="table-cell col-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span className="category-span">
+                                            <span className="table-span category-span">
                                                 {recipe.category}
                                                 </span>
                                         </Link>
                                     </td>
-                                    <td className="col-2">
+                                    <td className="table-cell col-2">
                                         <Link to={`/detail/${recipe.id}`}>
-                                            <span className="servings-span">
+                                            <span className="table-span servings-span">
                                                 {recipe.numberOfServings}
                                                 </span>
                                         </Link>

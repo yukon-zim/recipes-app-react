@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { CURRENT_USER_QUERY } from './User'
+import Form from '../style/UserFormStyle';
 
 const SIGNIN_MUTATION = gql`
     mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -54,7 +55,8 @@ class Signin extends Component {
                 variables={this.state}
                 refetchQueries={[{query: CURRENT_USER_QUERY}]}>
                 {(signin, {error, loading}) => (
-                    <form ref={form => this.signinForm = form}
+
+                    <Form ref={form => this.signinForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
                             <h2> Sign into your account! </h2>
@@ -62,7 +64,7 @@ class Signin extends Component {
                                 <p className="error-message">{error.message}</p>
                             )}
                             <label htmlFor="email">
-                                Email
+                                Email:
                                 <input
                                     type="email"
                                     name="email"
@@ -72,7 +74,7 @@ class Signin extends Component {
                                 />
                             </label>
                             <label htmlFor="password">
-                                Password
+                                Password:
                                 <input
                                     type="password"
                                     name="password"
@@ -85,7 +87,7 @@ class Signin extends Component {
                                     type="submit"
                                     onClick={async () => this.signin(signin)}>Sign In</button>
                         </fieldset>
-                    </form>
+                    </Form>
                 )}
             </Mutation>
         )
