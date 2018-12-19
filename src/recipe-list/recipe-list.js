@@ -32,7 +32,7 @@ export default class RecipeList extends Component {
             searchTerm: ''
         };
 
-    }
+    };
 
     setSearchTerm = searchTerm => {
         this.setState({

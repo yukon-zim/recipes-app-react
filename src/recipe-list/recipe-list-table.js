@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import { orderBy } from 'lodash';
+import { orderBy, differenceBy } from 'lodash';
 
 export default class RecipeListTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            recipes: props.recipes,
             currentSortByOrder: null,
             currentSortByField: null,
         }
     }
 
     sortByColumnHeader(field) {
-        let recipes = this.props.recipes;
+        let recipes = this.state.recipes;
         let currentSortByOrder = this.state.currentSortByOrder;
         if (field === this.state.currentSortByField) {
             if (this.state.currentSortByOrder === 'asc') {
@@ -26,14 +27,34 @@ export default class RecipeListTable extends Component {
             recipes = orderBy(recipes, field, currentSortByOrder);
         }
         this.setState({
+            recipes: recipes,
             currentSortByField: field,
             currentSortByOrder: currentSortByOrder,
         });
+    };
+
+    // compare state and props recipe arrays. helps determine whether state should be updated when recipe props change
+    static recipeListMatch(prevList, newList) {
+        if (prevList.length !== newList.length) {
+            return false;
+        }
+        // check for both incrementing and decrementing recipe array
+        return (differenceBy(newList, prevList, "id").length === 0 || differenceBy(prevList, newList, "id").length === 0);
     }
 
-
-    async componentDidMount() {
-
+    // check whether state should update when props change.
+    // maintains table sorting when recipe list changes (as a result of search, for example)
+    static getDerivedStateFromProps( nextProps, prevState) {
+        if (RecipeListTable.recipeListMatch(prevState.recipes, nextProps.recipes)) {
+            return prevState;
+        }
+        const newList = nextProps.recipes;
+        const sortedList = orderBy(newList, prevState.currentSortByField, prevState.currentSortByOrder);
+        const newState = {
+            ...prevState,
+            recipes: sortedList
+        };
+        return newState;
     }
 
     render() {
@@ -64,7 +85,7 @@ export default class RecipeListTable extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.recipes.map(recipe => {
+                    {this.state.recipes.map(recipe => {
                             return (
                                 <tr className="row data-row" key={recipe.id}>
                                     <td className="table-cell col-7 ml-2">

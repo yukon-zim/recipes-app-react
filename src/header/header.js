@@ -7,14 +7,12 @@ import Button from '../style/Button';
 // "functional component" (only has render function); can use shorthand notation
 const Header = () => (
     <User>
-        {({data: {whoAmI}}) => {
+        {({data}) => {
             let userName;
-            if (!whoAmI) {
-                //todo: more elegant way to do this?  sometimes whoAmI is undefined
-                // while page is loading, so view cannot render
+            if (!data || !data.whoAmI) {
                 userName = '';
             } else {
-                userName = whoAmI.name;
+                userName = data.whoAmI.name;
             }
             return (
                 <nav className="nav">
@@ -26,22 +24,16 @@ const Header = () => (
 
                     <ul className="ml-auto navbar-nav flex-container">
                         <li>
-                            <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List
-                                {/*<Link className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Link>*/}
-                            </Button>
+                            <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Button>
                         </li>
-                        {whoAmI && (
+                        {data.whoAmI && (
                             <li>
-                                <Button as={Signout} className="btn btn-primary mr-2 mt-2">
-                                    {/*<Signout className="btn btn-primary mr-2 mt-2"/>*/}
-                                </Button>
+                                <Signout className="btn btn-primary mr-2 mt-2"/>
                             </li>
                         )}
-                        {!whoAmI && (
+                        {!data.whoAmI && (
                             <li>
-                                <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up
-                                    {/*<Link className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Link>*/}
-                                </Button>
+                                <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Button>
                             </li>
                         )}
                     </ul>
