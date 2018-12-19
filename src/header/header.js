@@ -22,7 +22,7 @@ const Header = () => (
                         </li>
                     </ul>
 
-                    <ul className="ml-auto navbar-nav flex-container">
+                    <ul className="ml-lg-auto mt-0 navbar-nav flex-container">
                         <li>
                             <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Button>
                         </li>
@@ -33,7 +33,7 @@ const Header = () => (
                         )}
                         {!data.whoAmI && (
                             <li>
-                                <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Button>
+                                <Button as={Link} className="btn btn-primary mr-2" to="/signin">Sign In/Up</Button>
                             </li>
                         )}
                     </ul>
