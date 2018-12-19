@@ -1,6 +1,21 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { orderBy, differenceBy } from 'lodash';
+import styled, { css } from 'styled-components'
+
+const Row = styled.tr`
+ display: flex;
+  flex-direction: row;
+  margin-right: -15px;
+    margin-left: -15px;
+`;
+const HeaderCell = styled.th`
+flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+`;
+const Cell = styled.td`
+flex-basis: ${props => `${(props.col * 100 / 12)}%`};
+`;
+
 
 export default class RecipeListTable extends Component {
     constructor(props) {
@@ -67,49 +82,58 @@ export default class RecipeListTable extends Component {
                 <table className="recipes table">
                     <thead className="table-header">
                     <tr className="row">
-                        <th className="col-7 ml-2 table-header name-header">
+                        <HeaderCell
+                            col={7}
+                            className="table-header name-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
-                        </th>
-                        <th className="col-2 table-header category-header">
+                        </HeaderCell>
+                        <HeaderCell
+                            col={3}
+                            className="table-header category-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
-                        </th>
-                        <th className="col-2 table-header servings-header">
+                        </HeaderCell>
+                        <HeaderCell
+                            col={2}
+                            className="table-header servings-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
-                        </th>
+                        </HeaderCell>
                     </tr>
                     </thead>
                     <tbody>
                     {this.state.recipes.map(recipe => {
                             return (
-                                <tr className="row data-row" key={recipe.id}>
-                                    <td className="table-cell col-7 ml-2">
+                                <Row className="data-row" key={recipe.id}>
+                                    <Cell col={7}
+                                        className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span name-span">
                                                 {recipe.name.toUpperCase()}
                                                 </span>
                                         </Link>
-                                    </td>
-                                    <td className="table-cell col-2">
+                                    </Cell>
+                                    <Cell col={3}
+                                        className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span category-span">
                                                 {recipe.category}
                                                 </span>
                                         </Link>
-                                    </td>
-                                    <td className="table-cell col-2">
+                                    </Cell>
+                                    <Cell col={2}
+                                        className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span servings-span">
                                                 {recipe.numberOfServings}
                                                 </span>
                                         </Link>
-                                    </td>
-                                </tr>
+                                    </Cell>
+                                </Row>
                             )
                         }
                     )}
