@@ -46,7 +46,9 @@ class Signin extends Component {
                     <Form ref={form => this.requestResetForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
+                        <label className="header-label user-form">
                             <h2> Request a PW reset </h2>
+                        </label>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}

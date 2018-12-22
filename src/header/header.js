@@ -42,7 +42,7 @@ const Header = () => (
                         )}
                         {!data.whoAmI && (
                             <li>
-                                <Button as={Link} className="btn btn-primary mr-2" to="/signin">Sign In/Up</Button>
+                                <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Button>
                             </li>
                         )}
                     </ul>

@@ -59,11 +59,13 @@ class Signin extends Component {
                     <Form ref={form => this.signinForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
+                            <label className="header-label user-form">
                             <h2> Sign into your account! </h2>
+                            </label>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
-                            <label htmlFor="email">
+                            <label className="user-form" htmlFor="email">
                                 Email:
                                 <input
                                     type="email"
@@ -73,7 +75,7 @@ class Signin extends Component {
                                     onChange={this.saveToState}
                                 />
                             </label>
-                            <label htmlFor="password">
+                            <label className="user-form" htmlFor="password">
                                 Password:
                                 <input
                                     type="password"

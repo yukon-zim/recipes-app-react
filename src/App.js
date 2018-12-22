@@ -42,14 +42,24 @@ class App extends Component {
         super(props);
         this.state = {
             theme: {
-                oldSchool: true
+                oldSchool: true,
+                oldSchoolOptions: {
+                    darkPurple: 'rgb(103, 103, 151)',
+                    lightPurple: 'rgb(154, 154, 202)',
+                    white: 'rgb(238, 238, 238)',
+                    black: 'rgb(17, 17, 17)',
+                    darkGrey: 'rgb(85, 85, 85)',
+                    updatePurple: 'rgb(114, 102, 255)',
+                    deletePurple: 'rgb(34, 34, 74)'
+                }
             },
         };
 
     };
     changeTheme = () => {
         this.setState({
-            theme: {oldSchool: !this.state.theme.oldSchool}
+            theme: {...this.state.theme,
+                oldSchool: !this.state.theme.oldSchool}
         });
     };
     render() {

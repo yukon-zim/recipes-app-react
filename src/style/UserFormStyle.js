@@ -1,29 +1,51 @@
 import styled from 'styled-components'
 
 const Form = styled.form`
+&&{
  label {
- box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
- border: 5px solid white;
+ width: auto;
+  background: ${props => props.theme.oldSchoolOptions.white};
+ border: 5px solid ${props => props.theme.oldSchoolOptions.white};
  padding: 10px;
     display: block;
     margin-bottom: 1rem;
-  },
-  select {
-    width: 100%;
-    padding: 0.5rem;
     font-size: 1rem;
-    border: 1px solid black;
-    &:focus {
-      outline: 0;
-      border-color: ${props => props.theme.red};
-    }
+    color: ${props => props.theme.oldSchoolOptions.black};
   }
-  input[type='submit'] {
+  label.header-label {
+    background: ${props => props.theme.oldSchoolOptions.darkPurple};
+    border: 5px ${props => props.theme.oldSchoolOptions.darkPurple};
+     margin-right: -15px;
+    margin-left: -15px;
+    padding-top: 1rem;
+          font-size: 1rem;
+  div.recipe-id {
+font-size: 0.75rem;
+margin-left: 2px;
+color: ${props => props.theme.oldSchoolOptions.lightPurple};
+}
+}
+label.user-form {
+margin: 0px;
+          margin-bottom: 1rem;
+       
+          }
+  div.spacer {
+  padding: 10px;
+  }
+  select {
+    // width: 100%;
+     padding: 0.5rem;
+     font-size: 1rem;
+  }
+  input {
    width: auto;
+   height: 2rem;
   }
   fieldset {
     border: 0;
     padding: 0;
+}
 }
 `;
 

@@ -57,7 +57,9 @@ class Signup extends Component {
                     <Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
+                            <label className="header-label user-form">
                             <h2> Sign up for an account! </h2>
+                            </label>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}

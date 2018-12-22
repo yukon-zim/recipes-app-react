@@ -12,9 +12,9 @@ const Row = styled.tr`
 const HeaderCell = styled.th`
   flex-basis: ${props => `${(props.col * 100 / 12)}%`};
   ${props => props.theme.oldSchool && css`
-      && { border-bottom-color: rgb(103, 103, 151);
-      border-top-color: rgb(103, 103, 151);
-      background: rgb(103, 103, 151);
+      && { border-bottom-color: ${props => props.theme.oldSchoolOptions.darkPurple};
+      border-top-color: ${props => props.theme.oldSchoolOptions.darkPurple};
+      background: ${props => props.theme.oldSchoolOptions.darkPurple};
       font-size: 1rem;
       }
   `}
@@ -22,8 +22,9 @@ const HeaderCell = styled.th`
 const Cell = styled.td`
   flex-basis: ${props => `${(props.col * 100 / 12)}%`};
   ${props => props.theme.oldSchool && css`
-      && { border: 10px solid rgb(154, 154, 202);
-      background: rgb(238, 238, 238)
+      && { border: 10px solid ${props => props.theme.oldSchoolOptions.lightPurple};
+      background: ${props => props.theme.oldSchoolOptions.white};
+      font-size: 1rem;
       }
    `}
 `;
@@ -126,7 +127,7 @@ export default class RecipeListTable extends Component {
                                           className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span name-span">
-                                                {recipe.name.toUpperCase()}
+                                                {recipe.name}
                                                 </span>
                                         </Link>
                                     </Cell>

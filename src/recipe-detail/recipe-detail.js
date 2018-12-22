@@ -4,6 +4,7 @@ import Moment from 'moment';
 import {Prompt} from 'react-router-dom';
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
+import Form from '../style/UserFormStyle';
 
 const RecipeDetailContext = React.createContext();
 
@@ -133,7 +134,7 @@ export default class RecipeDetail extends Component {
         );
     };
 
-     loadRecipeIdFromProps(props) {
+    loadRecipeIdFromProps(props) {
         if (props.newRecipeMode) {
             this.setState({
                 recipe: this.createEmptyRecipe(),
@@ -163,7 +164,7 @@ export default class RecipeDetail extends Component {
     };
 
     async componentDidMount() {
-         this.loadRecipeIdFromProps(this.props);
+        this.loadRecipeIdFromProps(this.props);
         window.scrollTo(0, 0)
     }
 
@@ -192,96 +193,99 @@ export default class RecipeDetail extends Component {
         return (
             <div>
                 <div className="container-fluid">
-
-                    <h2>{recipe.name.toUpperCase()}</h2>
-
-                    <h4> The Deets</h4>
-                    <form ref={form => this.recipeForm = form}
+                    <Form ref={form => this.recipeForm = form}
                           onSubmit={this.handleSubmit}>
                         <Prompt
                             when={this.state.formIsDirty}
                             message="Unsaved changes - are you sure you want to leave this page?"
                         />
-                        <div>
-                            <span>ID: </span>
-                            {recipe.id}
-                        </div>
-                        <div>
-                            <span className="error-message">{this.state.formError}</span>
-                        </div>
-                        {!this.state.errorRecipeMode && (
-                            <div>
-                                <RecipeDetailField
-                                    {...commonProps}
-                                    type='text'
-                                    fieldName="name"
-                                    label="Name:"
-                                    required={true}
-                                    requiredErrorText="Name is required."
-                                />
-                                <RecipeDetailField
-                                    {...commonProps}
-                                    type='text'
-                                    fieldName="category"
-                                    label="Category:"
-                                    required={false}
-                                />
-                                <RecipeDetailField
-                                    {...commonProps}
-                                    type='text'
-                                    fieldName="numberOfServings"
-                                    label="Number of Servings:"
-                                    required={false}
-                                />
-                                <RecipeDetailListField
-                                    {...commonProps}
-                                    {...commonListProps}
-                                    listType='unordered'
-                                    addListItemLabel="Add ingredient"
-                                    fieldName="ingredients"
-                                    label="Ingredients:"
-                                    required={true}
-                                    requiredErrorText="Ingredient name is required."
-                                />
-                                <RecipeDetailListField
-                                    {...commonProps}
-                                    {...commonListProps}
-                                    listType='ordered'
-                                    addListItemLabel="Add instruction"
-                                    fieldName="instructions"
-                                    label="Instructions:"
-                                    required={true}
-                                    requiredErrorText="Instruction text is required."
-                                />
-                                <div>
-                                    <label>Date Created:&nbsp;
-                                        <span>{dateCreatedText}</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <label>Date Modified:&nbsp;
-                                        <span>{dateModifiedText}</span>
-                                    </label>
-                                </div>
-                                <RecipeDetailField
-                                    {...commonProps}
-                                    type='textarea'
-                                    fieldName="notes"
-                                    label="Notes: "
-                                    required={false}
-                                />
-                                <RecipeDetailContext.Provider
-                                    value={{
-                                        recipe: this.state.recipe,
-                                        formIsDirty: this.state.formIsDirty,
-                                        formIsValid: formIsValid,
-                                        resetForm: this.resetForm
-                                    }}>
-                                    {this.props.children}
-                                </RecipeDetailContext.Provider>
+                        <div className="spacer"></div>
+                        <label className="header-label">
+                            <h3>{recipe.name}</h3>
+
+                            <div className="recipe-id">
+                                <span>ID: </span>
+                                {recipe.id}
                             </div>
-                        )}
-                    </form>
+                        </label>
+                        <fieldset>
+                            <div>
+                                <span className="error-message">{this.state.formError}</span>
+                            </div>
+                            {!this.state.errorRecipeMode && (
+                                <div>
+                                    <RecipeDetailField
+                                        {...commonProps}
+                                        type='text'
+                                        fieldName="name"
+                                        label="Name:"
+                                        required={true}
+                                        requiredErrorText="Name is required."
+                                    />
+                                    <RecipeDetailField
+                                        {...commonProps}
+                                        type='text'
+                                        fieldName="category"
+                                        label="Category:"
+                                        required={false}
+                                    />
+                                    <RecipeDetailField
+                                        {...commonProps}
+                                        type='text'
+                                        fieldName="numberOfServings"
+                                        label="Number of Servings:"
+                                        required={false}
+                                    />
+                                    <RecipeDetailListField
+                                        {...commonProps}
+                                        {...commonListProps}
+                                        listType='unordered'
+                                        addListItemLabel="Add ingredient"
+                                        fieldName="ingredients"
+                                        label="Ingredients:"
+                                        required={true}
+                                        requiredErrorText="Ingredient name is required."
+                                    />
+                                    <RecipeDetailListField
+                                        {...commonProps}
+                                        {...commonListProps}
+                                        listType='ordered'
+                                        addListItemLabel="Add instruction"
+                                        fieldName="instructions"
+                                        label="Instructions:"
+                                        required={true}
+                                        requiredErrorText="Instruction text is required."
+                                    />
+                                    <div>
+                                        <label>Date Created:&nbsp;
+                                            <span>{dateCreatedText}</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label>Date Modified:&nbsp;
+                                            <span>{dateModifiedText}</span>
+                                        </label>
+                                    </div>
+                                    <RecipeDetailField
+                                        {...commonProps}
+                                        type='textarea'
+                                        fieldName="notes"
+                                        label="Notes: "
+                                        required={false}
+                                    />
+                                    <RecipeDetailContext.Provider
+                                        value={{
+                                            recipe: this.state.recipe,
+                                            formIsDirty: this.state.formIsDirty,
+                                            formIsValid: formIsValid,
+                                            resetForm: this.resetForm
+                                        }}>
+                                        {this.props.children}
+                                    </RecipeDetailContext.Provider>
+                                </div>
+                            )}
+                        </fieldset>
+                    </Form>
                 </div>
             </div>
         )

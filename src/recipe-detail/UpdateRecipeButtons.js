@@ -98,7 +98,7 @@ class UpdateRecipeButtons extends Component {
                             )}
                             <Button
                                 delete
-                                className="btn btn-primary btn-delete-recipe"
+                                className="btn btn-warning btn-delete-recipe"
                                 onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</Button>
                         </React.Fragment>
                     )}

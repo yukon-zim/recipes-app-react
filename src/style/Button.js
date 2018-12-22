@@ -6,35 +6,41 @@ padding: 0.75rem 0.75rem;
  ${props => props.theme.oldSchool && css`
    /*fileMaker*/
    && {
-   background: rgb(85, 85, 85);
+   background: ${props => props.theme.oldSchoolOptions.darkGrey};
+   color: rgb(255, 255, 255);
    :hover {
-      background: rgb(85, 85, 85);
+      background: ${props => props.theme.oldSchoolOptions.darkGrey};
    }
    :active {
-   background: rgb(85, 85, 85);
+   background: ${props => props.theme.oldSchoolOptions.darkGrey};
    }
    };
    ${props => props.update && css`
     && {
-    background: rgb(114, 102, 255);
+    background: ${props => props.theme.oldSchoolOptions.updatePurple};
       :hover {
-      background: rgb(114, 102, 255);
+      background: ${props => props.theme.oldSchoolOptions.updatePurple};
          }
       :active {
-      background: rgb(114, 102, 255);
+      background: ${props => props.theme.oldSchoolOptions.updatePurple};
          }
   `};
    ${props => props.delete && css`
     && {
-    background: rgb(34, 34, 74);
+    background: ${props => props.theme.oldSchoolOptions.deletePurple};
       :hover {
-      background: rgb(34, 34, 74);
+      background: ${props => props.theme.oldSchoolOptions.deletePurple};
          }
       :active {
-      background: rgb(34, 34, 74);
+      background: ${props => props.theme.oldSchoolOptions.deletePurple};
          }
   `};
-`};
+`}
+ &&.btn-light {
+ padding-top: 0.25rem;
+ padding-bottom: 0.25rem;
+ margin: 0.125rem;
+ };
  `;
 
 export default Button;
