@@ -11,6 +11,7 @@ import UpdateRecipe from './recipe-detail/UpdateRecipe';
 import CreateRecipe from './recipe-detail/CreateRecipe';
 import Signin from './login/signinPage';
 import Reset from './login/resetPage';
+import Footer from './footer/footer';
 
 const client = new ApolloClient({
     uri: "http://localhost:4000",
@@ -85,6 +86,10 @@ class App extends Component {
                                 <Route exact path='/signin' component={Signin}/>
                                 <Route exact path='/reset' component={Reset}/>
                             </Switch>
+                            <Footer
+                                changeTheme={this.changeTheme}
+                                currentTheme={this.state.theme}
+                            />
                         </ApolloProvider>
                         <GlobalStyle/>
                     </div>

@@ -55,7 +55,6 @@ export default class RecipeList extends Component {
                         recipeUrl: this.recipeUrl,
                         recipes
                     };
-                    console.log(this.props.currentTheme);
                     return (<div className="container-fluid">
                             <RecipeSearch
                                 {...commonRecipeListProps}
@@ -94,13 +93,6 @@ export default class RecipeList extends Component {
                                     </div>
                                 )}
                             </User>
-                            <div>
-                                <Button
-                                    className="btn btn-primary"
-                                    id="change-theme"
-                                    onClick={() => this.props.changeTheme()}
-                                >{Object.keys(this.props.currentTheme)[0]} theme</Button>
-                            </div>
                         </div>
                     )}}
             </Query>

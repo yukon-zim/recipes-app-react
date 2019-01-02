@@ -6,6 +6,8 @@ import { CURRENT_USER_QUERY } from './User'
 import Form from '../style/UserFormStyle';
 import UserFormButton from '../style/UserFormButton';
 import UserFormLabel from '../style/UserFormLabel';
+import HeaderLabel from '../style/UserFormHeaderLabel';
+import FormValidHelper from './FormValidHelper';
 
 const SIGNIN_MUTATION = gql`
     mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -51,6 +53,7 @@ class Signin extends Component {
     }
 
     render() {
+        const formIsValid = FormValidHelper.isFormValid(this.signinForm);
         return (
             <Mutation
                 mutation={SIGNIN_MUTATION}
@@ -61,34 +64,37 @@ class Signin extends Component {
                     <Form ref={form => this.signinForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <UserFormLabel className="header-label user-form">
+                            <HeaderLabel className="header-label user-form">
                             <h2> Sign into your account! </h2>
-                            </UserFormLabel>
+                            </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
-                            <label className="user-form" htmlFor="email">
+                            <UserFormLabel className="user-form" htmlFor="email">
                                 Email:
                                 <input
+                                    required
                                     type="email"
                                     name="email"
                                     placeholder="email"
                                     value={this.state.email}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <label className="user-form" htmlFor="password">
+                            </UserFormLabel>
+                            <UserFormLabel className="user-form" htmlFor="password">
                                 Password:
                                 <input
+                                    required
                                     type="password"
                                     name="password"
                                     placeholder="password"
                                     value={this.state.password}
                                     onChange={this.saveToState}
                                 />
-                            </label>
+                            </UserFormLabel>
                             <UserFormButton className="btn btn-primary btn-signin"
                                     type="submit"
+                                            disabled={!formIsValid}
                                     onClick={async () => this.signin(signin)}>Sign In</UserFormButton>
                         </fieldset>
                     </Form>

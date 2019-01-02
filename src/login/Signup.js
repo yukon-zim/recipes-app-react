@@ -6,6 +6,8 @@ import { CURRENT_USER_QUERY } from './User';
 import Form from '../style/UserFormStyle';
 import UserFormLabel from '../style/UserFormLabel';
 import UserFormButton from '../style/UserFormButton';
+import HeaderLabel from '../style/UserFormHeaderLabel';
+import FormValidHelper from './FormValidHelper';
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $signupCode: String!) {
@@ -52,6 +54,7 @@ class Signup extends Component {
     }
 
     render() {
+        const formIsValid = FormValidHelper.isFormValid(this.signupForm);
         return (
             <Mutation
                 mutation={SIGNUP_MUTATION}
@@ -60,13 +63,13 @@ class Signup extends Component {
                     <Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <UserFormLabel className="header-label user-form">
+                            <HeaderLabel className="header-label user-form">
                                 <h2> Sign up for an account! </h2>
-                            </UserFormLabel>
+                            </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
-                            <label htmlFor="email">
+                            <UserFormLabel htmlFor="email">
                                 Email:
                                 <input
                                     required
@@ -76,8 +79,8 @@ class Signup extends Component {
                                     value={this.state.email}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <label htmlFor="name">
+                            </UserFormLabel>
+                            <UserFormLabel htmlFor="name">
                                 Name:
                                 <input
                                     type="text"
@@ -86,8 +89,8 @@ class Signup extends Component {
                                     value={this.state.name}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <label htmlFor="password">
+                            </UserFormLabel>
+                            <UserFormLabel htmlFor="password">
                                 Password:
                                 <input
                                     required
@@ -97,8 +100,8 @@ class Signup extends Component {
                                     value={this.state.password}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <label htmlFor="signupCode">
+                            </UserFormLabel>
+                            <UserFormLabel htmlFor="signupCode">
                                 Signup code:
                                 <input
                                     required
@@ -108,10 +111,11 @@ class Signup extends Component {
                                     value={this.state.signupCode}
                                     onChange={this.saveToState}
                                 />
-                            </label>
+                            </UserFormLabel>
                             <UserFormButton className="btn btn-primary btn-update-recipe"
                                     type="submit"
-                                    onClick={async () => this.signup(signup)}>Sign Up</UserFormButton>
+                                            disabled={!formIsValid}
+                                            onClick={async () => this.signup(signup)}>Sign Up</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

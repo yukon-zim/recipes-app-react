@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import Form from '../style/UserFormStyle';
 import UserFormButton from '../style/UserFormButton';
 import UserFormLabel from '../style/UserFormLabel';
+import HeaderLabel from '../style/UserFormHeaderLabel';
+import FormValidHelper from './FormValidHelper';
 
 const REQUEST_RESET_MUTATION = gql`
     mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -40,6 +42,7 @@ class Signin extends Component {
     }
 
     render() {
+        const formIsValid = FormValidHelper.isFormValid(this.requestResetForm);
         return (
             <Mutation
                 mutation={REQUEST_RESET_MUTATION}
@@ -48,14 +51,14 @@ class Signin extends Component {
                     <Form ref={form => this.requestResetForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                        <UserFormLabel className="header-label user-form">
+                        <HeaderLabel className="header-label user-form">
                             <h2> Request a PW reset </h2>
-                        </UserFormLabel>
+                        </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
                             {!error && !loading && called && <p>Success! check email for reset link</p>}
-                            <label htmlFor="email">
+                            <UserFormLabel htmlFor="email">
                                 Email:
                                 <input
                                     type="email"
@@ -64,9 +67,10 @@ class Signin extends Component {
                                     value={this.state.email}
                                     onChange={this.saveToState}
                                 />
-                            </label>
+                            </UserFormLabel>
                             <UserFormButton className="btn btn-primary btn-request-reset"
-                                type="submit"
+                                            disabled={!formIsValid}
+                                            type="submit"
                             onClick={async () => this.requestReset(reset)}>Request Reset</UserFormButton>
                         </fieldset>
                     </Form>

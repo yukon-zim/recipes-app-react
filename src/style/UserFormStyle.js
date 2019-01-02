@@ -24,6 +24,7 @@ ${props => props.theme.oldSchool && css`
     font-size: 1rem;
   }
   input {
+  margin-bottom: 0.5rem;
     width: auto;
     height: 2rem;
   }
@@ -34,31 +35,14 @@ ${props => props.theme.oldSchool && css`
 }
 `}
 ${props => !props.theme.oldSchool && css`
+  // default to bootstrap theme
+  &&{
   label {
-    width: auto;
-    /* background: ${props => props.theme.oldSchoolOptions.white}; */
-    //border: 5px solid ${props => props.theme.oldSchoolOptions.white} ; 
-    padding: 10px;
     display: block;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    //color: ${props => props.theme.oldSchoolOptions.black};
+  }
   }
   div.spacer {
     padding: 10px;
-  }
-  select {
-    // width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-  }
-  input {
-    width: auto;
-    height: 2rem;
-  }
-  fieldset {
-    border: 0;
-    padding: 0;
   }
 `}
     `;

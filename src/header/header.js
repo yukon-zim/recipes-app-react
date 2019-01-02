@@ -6,11 +6,11 @@ import Signout from '../login/Signout'
 import Button from '../style/Button';
 
 const Nav = styled.nav`
-  ${props => props.theme.oldSchool && css`
-  padding-top: 0.5rem;
-  background: rgb(17, 17, 17);
-  color: rgb(255, 255, 255);
-`}
+    padding-top: 0.5rem;
+    ${props => props.theme.oldSchool && css`
+      background: ${props => props.theme.oldSchoolOptions.black};
+      color: ${props => props.theme.oldSchoolOptions.white};
+    `}
 `;
 
 // "functional component" (only has render function); can use shorthand notation
