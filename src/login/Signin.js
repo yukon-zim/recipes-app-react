@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { CURRENT_USER_QUERY } from './User'
 import Form from '../style/UserFormStyle';
 import UserFormButton from '../style/UserFormButton';
+import UserFormLabel from '../style/UserFormLabel';
 
 const SIGNIN_MUTATION = gql`
     mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -60,9 +61,9 @@ class Signin extends Component {
                     <Form ref={form => this.signinForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <label className="header-label user-form">
+                            <UserFormLabel className="header-label user-form">
                             <h2> Sign into your account! </h2>
-                            </label>
+                            </UserFormLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
