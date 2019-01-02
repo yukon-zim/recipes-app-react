@@ -2,11 +2,19 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
 import {Prompt} from 'react-router-dom';
+import styled from 'styled-components'
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
 import Form from '../style/UserFormStyle';
+import HeaderLabel from '../style/UserFormHeaderLabel';
 
 const RecipeDetailContext = React.createContext();
+
+const RecipeId = styled.div`
+  font-size: 0.75rem;
+  margin-left: 2px;
+  color: ${props => props.theme.oldSchoolOptions.lightPurple};
+`;
 
 export default class RecipeDetail extends Component {
     constructor(props) {
@@ -200,14 +208,14 @@ export default class RecipeDetail extends Component {
                             message="Unsaved changes - are you sure you want to leave this page?"
                         />
                         <div className="spacer"></div>
-                        <label className="header-label">
+                        <HeaderLabel className="header-label">
                             <h3>{recipe.name}</h3>
 
-                            <div className="recipe-id">
+                            <RecipeId className="recipe-id">
                                 <span>ID: </span>
                                 {recipe.id}
-                            </div>
-                        </label>
+                            </RecipeId>
+                        </HeaderLabel>
                         <fieldset>
                             <div>
                                 <span className="error-message">{this.state.formError}</span>

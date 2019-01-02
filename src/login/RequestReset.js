@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Form from '../style/UserFormStyle';
+import UserFormButton from '../style/UserFormButton';
 
 const REQUEST_RESET_MUTATION = gql`
     mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -63,9 +64,9 @@ class Signin extends Component {
                                     onChange={this.saveToState}
                                 />
                             </label>
-                            <button className="btn btn-primary btn-request-reset"
+                            <UserFormButton className="btn btn-primary btn-request-reset"
                                 type="submit"
-                            onClick={async () => this.requestReset(reset)}>Request Reset</button>
+                            onClick={async () => this.requestReset(reset)}>Request Reset</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

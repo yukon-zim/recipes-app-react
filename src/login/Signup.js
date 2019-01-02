@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { CURRENT_USER_QUERY } from './User';
 import Form from '../style/UserFormStyle';
+import UserFormLabel from '../style/UserFormLabel';
+import UserFormButton from '../style/UserFormButton';
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $signupCode: String!) {
@@ -58,9 +60,9 @@ class Signup extends Component {
                     <Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <label className="header-label user-form">
-                            <h2> Sign up for an account! </h2>
-                            </label>
+                            <UserFormLabel className="header-label user-form">
+                                <h2> Sign up for an account! </h2>
+                            </UserFormLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
@@ -107,9 +109,9 @@ class Signup extends Component {
                                     onChange={this.saveToState}
                                 />
                             </label>
-                            <button className="btn btn-primary btn-update-recipe"
+                            <UserFormButton className="btn btn-primary btn-update-recipe"
                                     type="submit"
-                                    onClick={async () => this.signup(signup)}>Sign Up</button>
+                                    onClick={async () => this.signup(signup)}>Sign Up</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

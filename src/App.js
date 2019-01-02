@@ -28,10 +28,10 @@ const GlobalStyle = createGlobalStyle`
   ${props => props.theme.oldSchool && css`
      && {
       body {
-        background: rgb(154, 154, 202);
+        background: ${props => props.theme.oldSchoolOptions.lightPurple};
       }
       a {
-        color: rgb(17, 17, 17);
+        color: ${props => props.theme.oldSchoolOptions.black};
       }
      }
   `}
