@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { RecipeDetailContext } from './recipe-detail';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
+import User from '../login/User';
 import Button from '../style/Button';
 
 const DELETE_RECIPE_MUTATION = gql`
@@ -69,41 +70,54 @@ class UpdateRecipeButtons extends Component {
 
     render() {
         return (
-
-            <div>
-                <Mutation
-                    mutation={UPDATE_RECIPE_MUTATION}
-                >
-                    {(updateRecipe, { error }) => (
-                        <React.Fragment>
-                            {error && (
-                                <p className="error-message">{error}</p>
-                            )}
-                            <Button
-                                update
-                                className="btn btn-primary btn-update-recipe"
-                                onClick={async () => this.updateRecipe(updateRecipe)}
-                                disabled={!this.context.formIsDirty || !this.context.formIsValid}>Update recipe</Button>
-                        </React.Fragment>
-                    )}
-                </Mutation>
-                <Mutation
-                    mutation={DELETE_RECIPE_MUTATION}
-                    refetchQueries={[{query: ALL_RECIPES_QUERY, variables:{searchTerm: ''}}]}
-                >
-                    {(deleteRecipe, { error }) => (
-                        <React.Fragment>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
-                            )}
-                            <Button
-                                delete
-                                className="btn btn-warning btn-delete-recipe"
-                                onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</Button>
-                        </React.Fragment>
-                    )}
-                </Mutation>
-            </div>
+            <User>
+                {({data}) => (
+                    <div>
+                        {!data.whoAmI && (
+                            <div>
+                                <h5>Sign in to edit recipes!</h5>
+                            </div>
+                        )}
+                        {data.whoAmI && (
+                            <div>
+                                <Mutation
+                                    mutation={UPDATE_RECIPE_MUTATION}
+                                >
+                                    {(updateRecipe, {error}) => (
+                                        <React.Fragment>
+                                            {error && (
+                                                <p className="error-message">{error}</p>
+                                            )}
+                                            <Button
+                                                update
+                                                className="btn btn-primary btn-update-recipe"
+                                                onClick={async () => this.updateRecipe(updateRecipe)}
+                                                disabled={!this.context.formIsDirty || !this.context.formIsValid}>Update
+                                                recipe</Button>
+                                        </React.Fragment>
+                                    )}
+                                </Mutation>
+                                <Mutation
+                                    mutation={DELETE_RECIPE_MUTATION}
+                                    refetchQueries={[{query: ALL_RECIPES_QUERY, variables: {searchTerm: ''}}]}
+                                >
+                                    {(deleteRecipe, {error}) => (
+                                        <React.Fragment>
+                                            {error && (
+                                                <p className="error-message">{error.message}</p>
+                                            )}
+                                            <Button
+                                                delete
+                                                className="btn btn-warning btn-delete-recipe"
+                                                onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</Button>
+                                        </React.Fragment>
+                                    )}
+                                </Mutation>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </User>
         )
     }
 };

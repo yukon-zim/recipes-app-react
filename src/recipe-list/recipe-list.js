@@ -7,6 +7,7 @@ import ImportCsv from '../import-recipe/import-csv';
 import ImportUrl from '../import-recipe/import-url';
 import RecipeListTable from './recipe-list-table';
 import Button from '../style/Button';
+import User from '../login/User';
 
 const ALL_RECIPES_QUERY = gql`
     query ALL_RECIPES_QUERY($searchTerm: String) {
@@ -65,19 +66,34 @@ export default class RecipeList extends Component {
                                     {...commonRecipeListProps}
                                 />
                             </div>
-                            <div className="mb-4">
-                                <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
-                            </div>
-                            <div className="mb-4">
-                                {false &&
-                                <ImportCsv
-                                    {...commonRecipeListProps}
-                                />
-                                }
-                                <ImportUrl
-                                    {...commonRecipeListProps}
-                                />
-                            </div>
+                            <User>
+                                {({data}) => (
+                                    <div>
+                                        {!data.whoAmI && (
+                                            <div>
+                                                <h5>Sign in to add new recipes!</h5>
+                                            </div>
+                                        )}
+                                        {data.whoAmI && (
+                                            <React.Fragment>
+                                                <div className="mb-4">
+                                                    <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
+                                                </div>
+                                                <div className="mb-4">
+                                                    {false &&
+                                                    <ImportCsv
+                                                        {...commonRecipeListProps}
+                                                    />
+                                                    }
+                                                    <ImportUrl
+                                                        {...commonRecipeListProps}
+                                                    />
+                                                </div>
+                                            </React.Fragment>
+                                        )}
+                                    </div>
+                                )}
+                            </User>
                             <div>
                                 <Button
                                     className="btn btn-primary"
