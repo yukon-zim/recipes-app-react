@@ -6,8 +6,8 @@ import { CURRENT_USER_QUERY } from './User';
 import Form from '../style/UserFormStyle';
 
 const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-        createUser(email: $email, name: $name, password: $password) {
+    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $signupCode: String!) {
+        createUser(email: $email, name: $name, password: $password, signupCode: $signupCode) {
             id
             email
             name
@@ -19,7 +19,8 @@ class Signup extends Component {
     state = {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        signupCode: ''
     };
     saveToState = (e) => {
         this.setState({[e.target.name]: e.target.value});
@@ -92,6 +93,17 @@ class Signup extends Component {
                                     name="password"
                                     placeholder="password"
                                     value={this.state.password}
+                                    onChange={this.saveToState}
+                                />
+                            </label>
+                            <label htmlFor="signupCode">
+                                Signup code:
+                                <input
+                                    required
+                                    type="password"
+                                    name="signupCode"
+                                    placeholder="seeeecret code!"
+                                    value={this.state.signupCode}
                                     onChange={this.saveToState}
                                 />
                             </label>
