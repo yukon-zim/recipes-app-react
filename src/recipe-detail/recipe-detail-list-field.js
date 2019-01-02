@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import Button from '../style/Button';
+import FormFieldRow from '../style/FormFieldRow';
+import FormFieldLabel from '../style/FormFieldLabel';
+import FormField from '../style/FormField';
 
 export default class RecipeDetailListField extends Component {
     constructor(props) {
@@ -24,21 +27,23 @@ export default class RecipeDetailListField extends Component {
         return (
             <div>
                 <label onClick={(event) => event.preventDefault()}>
-                    {this.props.label}&nbsp;
+                    <FormFieldLabel>{this.props.label}&nbsp;</FormFieldLabel>
                     <ListType>
                         {recipe[this.props.fieldName].map((listItem, index) => {
                             const isAutoFocused = this.props.isFieldInEditAndFocus(this.props.fieldName, index);
                             return (
                                 <li key={index}>
-                                    <div>
+                                    <FormFieldRow as="div">
                                         {!this.props.isFieldInEditMode(this.props.fieldName, index) && (
-                                            <span onClick={() => {
+                                            <FormField onClick={() => {
                                                 this.props.editField(this.props.fieldName, index)
                                             }}>{listItem}
-                                        </span>
+                                        </FormField>
                                         )}
                                         {this.props.isFieldInEditMode(this.props.fieldName, index) && (
-                                                <input id={`${this.props.fieldName}-${index}`}
+                                                <FormField
+                                                    as="input"
+                                                    id={`${this.props.fieldName}-${index}`}
                                                        className="recipe-detail-list-field"
                                                        autoFocus={isAutoFocused}
                                                        value={listItem || ''} // pass a string even if fieldName is null/undefined
@@ -82,7 +87,7 @@ export default class RecipeDetailListField extends Component {
                                                 {this.props.requiredErrorText}
                                             </div>
                                         )}
-                                    </div>
+                                    </FormFieldRow>
                                 </li>
                             )
                         })}
