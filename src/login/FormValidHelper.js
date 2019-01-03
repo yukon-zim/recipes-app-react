@@ -3,5 +3,3 @@ export default class FormValidHelper {
         return form && form.checkValidity();
     };
 }
-
-// export { isFormValid };

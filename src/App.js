@@ -92,7 +92,6 @@ class App extends Component {
                                                        <RecipeList
                                                            {...props}
                                                            user={data.whoAmI}
-
                                                        />)}
                                             />
                                             <Route exact path='/detail/new' key="add"
