@@ -49,11 +49,12 @@ class Signin extends Component {
                 variables={this.state}>
                 {(reset, {error, loading, called}) => (
                     <Form ref={form => this.requestResetForm = form}
-                          onSubmit={this.handleSubmit}>
+                          onSubmit={this.handleSubmit}
+                          className="user-form">
                         <fieldset disabled={loading} aria-busy={loading}>
-                        <HeaderLabel className="header-label user-form">
-                            <h2> Request a PW reset </h2>
-                        </HeaderLabel>
+                            <HeaderLabel className="header-label user-form">
+                                <h2> Request a PW reset </h2>
+                            </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
@@ -71,7 +72,7 @@ class Signin extends Component {
                             <UserFormButton className="btn btn-primary btn-request-reset"
                                             disabled={!formIsValid}
                                             type="submit"
-                            onClick={async () => this.requestReset(reset)}>Request Reset</UserFormButton>
+                                            onClick={async () => this.requestReset(reset)}>Request Reset</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

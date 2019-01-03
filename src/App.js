@@ -27,7 +27,7 @@ const client = new ApolloClient({
 });
 
 const GlobalStyle = createGlobalStyle`
-  ${props => props.theme.oldSchool && css`
+${props => props.theme.oldSchool && css`
      && {
       body {
         background: ${props => props.theme.oldSchoolOptions.lightPurple};
@@ -37,6 +37,9 @@ const GlobalStyle = createGlobalStyle`
       }
      }
   `}
+${props => !props.theme.oldSchool && css`
+    && h2,h3,h5 {color: ${props => props.theme.newSchoolOptions.gray};}
+`}
 `;
 
 class App extends Component {
@@ -53,6 +56,10 @@ class App extends Component {
                     darkGrey: 'rgb(85, 85, 85)',
                     updatePurple: 'rgb(114, 102, 255)',
                     deletePurple: 'rgb(34, 34, 74)'
+                },
+                newSchoolOptions: {
+                    gray: 'rgba(3,12,25,0.65)',
+                    listBreakGray:'#dee2e6'
                 }
             },
         };

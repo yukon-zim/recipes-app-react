@@ -9,6 +9,13 @@ const HeaderLabel = styled.label`
     background: ${props => props.theme.oldSchoolOptions.darkPurple};
     border: 5px ${props => props.theme.oldSchoolOptions.darkPurple};
   `}
+  ${props => !props.theme.oldSchool && css`
+    color: ${props => props.theme.newSchoolOptions.gray};
+   `}
+  }
+  &&&.user-form,&&&.reset-form {
+  margin-right: 0px;
+  margin-left: 0px;
   }
 `;
 

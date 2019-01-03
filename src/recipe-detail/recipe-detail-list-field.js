@@ -33,7 +33,7 @@ export default class RecipeDetailListField extends Component {
                             const isAutoFocused = this.props.isFieldInEditAndFocus(this.props.fieldName, index);
                             return (
                                 <li key={index}>
-                                    <FormFieldRow as="div">
+                                    <FormFieldRow className="list-item" as="div">
                                         {!this.props.isFieldInEditMode(this.props.fieldName, index) && (
                                             <FormField onClick={() => {
                                                 this.props.editField(this.props.fieldName, index)

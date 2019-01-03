@@ -62,10 +62,11 @@ class Signin extends Component {
                 {(signin, {error, loading}) => (
 
                     <Form ref={form => this.signinForm = form}
-                          onSubmit={this.handleSubmit}>
+                          onSubmit={this.handleSubmit}
+                          className="user-form">
                         <fieldset disabled={loading} aria-busy={loading}>
                             <HeaderLabel className="header-label user-form">
-                            <h2> Sign into your account! </h2>
+                                <h2> Sign into your account! </h2>
                             </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
@@ -93,9 +94,9 @@ class Signin extends Component {
                                 />
                             </UserFormLabel>
                             <UserFormButton className="btn btn-primary btn-signin"
-                                    type="submit"
+                                            type="submit"
                                             disabled={!formIsValid}
-                                    onClick={async () => this.signin(signin)}>Sign In</UserFormButton>
+                                            onClick={async () => this.signin(signin)}>Sign In</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

@@ -7,7 +7,7 @@ ${props => props.theme.oldSchool && css`
    /*fileMaker*/
    && {
     background: ${props => props.theme.oldSchoolOptions.darkGrey};
-    color: rgb(255, 255, 255);
+    color: ${props => props.theme.oldSchoolOptions.white};
     :hover {
       background: ${props => props.theme.oldSchoolOptions.darkGrey};
     }

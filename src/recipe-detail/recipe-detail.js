@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
 import {Prompt} from 'react-router-dom';
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
 import Form from '../style/UserFormStyle';
@@ -14,6 +14,9 @@ const RecipeId = styled.div`
   font-size: 0.75rem;
   margin-left: 2px;
   color: ${props => props.theme.oldSchoolOptions.lightPurple};
+  ${props => !props.theme.oldSchool && css`
+      {color: ${props => props.theme.newSchoolOptions.gray}}
+  `}
 `;
 
 export default class RecipeDetail extends Component {

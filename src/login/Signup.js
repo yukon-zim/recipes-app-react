@@ -61,7 +61,8 @@ class Signup extends Component {
                 refetchQueries={[{query: CURRENT_USER_QUERY}]}>
                 {(signup, {error, loading}) => (
                     <Form ref={form => this.signupForm = form}
-                          onSubmit={this.handleSubmit}>
+                          onSubmit={this.handleSubmit}
+                          className="user-form">
                         <fieldset disabled={loading} aria-busy={loading}>
                             <HeaderLabel className="header-label user-form">
                                 <h2> Sign up for an account! </h2>

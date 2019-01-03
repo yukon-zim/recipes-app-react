@@ -6,10 +6,14 @@ import Button from '../style/Button';
 
 const Nav = styled.nav`
     padding-top: 0.5rem;
+    margin-bottom: 0.5rem;
     ${props => props.theme.oldSchool && css`
       background: ${props => props.theme.oldSchoolOptions.black};
       color: ${props => props.theme.oldSchoolOptions.white};
     `}
+    ${props => !props.theme.oldSchool && css`
+      border: 2px solid ${props => props.theme.newSchoolOptions.gray};
+      color: ${props => props.theme.newSchoolOptions.gray};`}
 `;
 
 // "functional component" (only has render function); can use shorthand notation

@@ -5,7 +5,10 @@ import { withRouter } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { CURRENT_USER_QUERY } from './User'
 import Form from '../style/UserFormStyle';
-
+import HeaderLabel from '../style/UserFormHeaderLabel';
+import UserFormLabel from '../style/UserFormLabel';
+import UserFormButton from '../style/UserFormButton';
+import FormValidHelper from './FormValidHelper';
 
 const RESET_MUTATION = gql`
     mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
@@ -52,6 +55,7 @@ class Reset extends Component {
         this.setState({ password: '', confirmPassword: '' })
     }
     render() {
+        const formIsValid = FormValidHelper.isFormValid(this.signinForm);
         return (
             <Mutation
                 mutation={RESET_MUTATION}
@@ -64,35 +68,41 @@ class Reset extends Component {
             >
                 {(reset, {error, loading, called}) => (
                     <Form ref={form => this.resetForm = form}
-                          onSubmit={this.handleSubmit}>
+                          onSubmit={this.handleSubmit}
+                          className="reset-form">
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <h2> Reset your PW </h2>
+                            <HeaderLabel className="header-label reset-form">
+                                <h2> Reset your PW: </h2>
+                            </HeaderLabel>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
-                            <label htmlFor="password">
-                                New PW
+                            <UserFormLabel className="reset-form" htmlFor="password">
+                                New PW:
                                 <input
+                                    required
                                     type="password"
                                     name="password"
                                     placeholder="password"
                                     value={this.state.password}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <label htmlFor="confirmPassword">
-                                Confirm your new PW
+                            </UserFormLabel>
+                            <UserFormLabel className="reset-form" htmlFor="confirmPassword">
+                                Confirm your new PW:
                                 <input
+                                    required
                                     type="password"
                                     name="confirmPassword"
                                     placeholder="confirmPassword"
                                     value={this.state.confirmPassword}
                                     onChange={this.saveToState}
                                 />
-                            </label>
-                            <button className="btn btn-primary btn-reset-password"
-                                    type="submit"
-                                    onClick={async () => this.resetPassword(reset)}>Reset your PW</button>
+                            </UserFormLabel>
+                            <UserFormButton className="btn btn-primary btn-reset-password"
+                                            type="submit"
+                                            disabled={!formIsValid}
+                                            onClick={async () => this.resetPassword(reset)}>Reset your PW</UserFormButton>
                         </fieldset>
                     </Form>
                 )}

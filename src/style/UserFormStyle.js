@@ -37,12 +37,22 @@ ${props => props.theme.oldSchool && css`
 ${props => !props.theme.oldSchool && css`
   // default to bootstrap theme
   &&{
+    color: ${props => props.theme.newSchoolOptions.gray};
+  &&.user-form,&&.reset-form {
+    border: 2px solid ${props => props.theme.newSchoolOptions.gray};
+    padding: 0.5rem;
+  }
   label {
     display: block;
-  }
+    margin-bottom: 0rem;
+    color: ${props => props.theme.newSchoolOptions.gray};
   }
   div.spacer {
     padding: 10px;
+  }
+  li:not(:first-child){
+    border-top: 1px solid ${props => props.theme.newSchoolOptions.listBreakGray};
+  }
   }
 `}
     `;
