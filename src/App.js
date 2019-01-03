@@ -12,6 +12,7 @@ import CreateRecipe from './recipe-detail/CreateRecipe';
 import Signin from './login/signinPage';
 import Reset from './login/resetPage';
 import Footer from './footer/footer';
+import User from './login/User';
 
 const client = new ApolloClient({
     uri: "http://localhost:4000",
@@ -64,31 +65,52 @@ class App extends Component {
         });
     };
     render() {
+        const themeProps = {
+            changeTheme: this.changeTheme,
+            currentTheme: this.state.theme
+        };
         return (
             <Router>
                 <ThemeProvider theme={this.state.theme}>
                     <div>
                         <ApolloProvider client={client}>
-                            <Header/>
-                            <Switch>
-                                <Redirect exact from='/' to='/recipes'/>
-                                <Route
-                                    exact path='/recipes'
-                                    render={(props) => (
-                                        <RecipeList
-                                        {...props}
-                                        changeTheme={this.changeTheme}
-                                        currentTheme={this.state.theme}
-                                        />)}
-                                    />
-                                <Route exact path='/detail/new' key="add" component={CreateRecipe}/>
-                                <Route exact path='/detail/:id' key="update" component={UpdateRecipe}/>
-                                <Route exact path='/signin' component={Signin}/>
-                                <Route exact path='/reset' component={Reset}/>
-                            </Switch>
+                            <User>
+                                {({data}) => (
+                                    <React.Fragment>
+                                        <Header user={data.whoAmI}/>
+                                        <Switch>
+                                            <Redirect exact from='/' to='/recipes'/>
+                                            <Route exact path='/recipes'
+                                                   render={(props) => (
+                                                       <RecipeList
+                                                           {...props}
+                                                           user={data.whoAmI}
+
+                                                       />)}
+                                            />
+                                            <Route exact path='/detail/new' key="add"
+                                                   render={(props) => (
+                                                       <CreateRecipe
+                                                           {...props}
+                                                           user={data.whoAmI}
+                                                       />)}
+                                            />
+                                            <Route exact path='/detail/:id' key="update"
+                                                   render={(props) => (
+                                                       <UpdateRecipe
+                                                           {...props}
+                                                           user={data.whoAmI}
+                                                       />
+                                                   )}
+                                            />
+                                            <Route exact path='/signin' component={Signin}/>
+                                            <Route exact path='/reset' component={Reset}/>
+                                        </Switch>
+                                    </React.Fragment>
+                                )}
+                            </User>
                             <Footer
-                                changeTheme={this.changeTheme}
-                                currentTheme={this.state.theme}
+                                {...themeProps}
                             />
                         </ApolloProvider>
                         <GlobalStyle/>

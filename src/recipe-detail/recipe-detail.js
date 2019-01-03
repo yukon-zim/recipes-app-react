@@ -54,15 +54,20 @@ export default class RecipeDetail extends Component {
     };
 
     editField = (fieldName, index) => {
-        this.setState({
-            fieldInEditMode: {
-                fieldName,
-                fieldIndex: index
-            },
-        });
+        if (this.props.user) {
+            this.setState({
+                fieldInEditMode: {
+                    fieldName,
+                    fieldIndex: index
+                },
+            });
+        }
     };
 
     isFieldInEditMode = (fieldName, index) => {
+        if (!this.props.user) {
+            return false;
+        }
         if (this.props.newRecipeMode) {
             return true;
         }

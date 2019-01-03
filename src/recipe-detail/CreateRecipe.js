@@ -4,6 +4,7 @@ import CreateRecipeButtons from './CreateRecipeButtons';
 
 const CreateRecipe = props => (
     <RecipeDetail
+        {...props}
         id={'new'}
         newRecipeMode={true}>
         <CreateRecipeButtons/>

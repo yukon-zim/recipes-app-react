@@ -45,6 +45,7 @@ const UpdateRecipe = props => {
                     const recipeCopy = deepCopy(data.recipe);
                     return (
                         <RecipeDetail
+                            {...props}
                             recipe={recipeCopy}
                             newRecipeMode={false}>
                             <UpdateRecipeButtons/>

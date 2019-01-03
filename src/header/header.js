@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styled, { css } from 'styled-components'
-import User from '../login/User';
 import Signout from '../login/Signout'
 import Button from '../style/Button';
 
@@ -14,41 +13,38 @@ const Nav = styled.nav`
 `;
 
 // "functional component" (only has render function); can use shorthand notation
-const Header = () => (
-    <User>
-        {({data}) => {
-            let userName;
-            if (!data || !data.whoAmI) {
-                userName = '';
-            } else {
-                userName = data.whoAmI.name;
-            }
-            return (
-                <Nav className="nav">
-                    <ul className="navbar-nav flex-container">
-                        <li className="welcome-header">
-                            <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>
-                        </li>
-                    </ul>
+const Header = (props) => {
+    const user = props.user;
+    let userName;
+    if (!user || !user.name) {
+        userName = '';
+    } else {
+        userName = user.name;
+    }
+    return (
+        <Nav className="nav">
+            <ul className="navbar-nav flex-container">
+                <li className="welcome-header">
+                    <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>
+                </li>
+            </ul>
 
-                    <ul className="ml-lg-auto mt-0 navbar-nav flex-container">
-                        <li>
-                            <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Button>
-                        </li>
-                        {data.whoAmI && (
-                            <li>
-                                <Signout className="btn btn-primary mr-2 mt-2"/>
-                            </li>
-                        )}
-                        {!data.whoAmI && (
-                            <li>
-                                <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Button>
-                            </li>
-                        )}
-                    </ul>
-                </Nav>
-            )
-        }}
-    </User>
-);
+            <ul className="ml-lg-auto mt-0 navbar-nav flex-container">
+                <li>
+                    <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Button>
+                </li>
+                {user && (
+                    <li>
+                        <Signout className="btn btn-primary mr-2 mt-2"/>
+                    </li>
+                )}
+                {!user && (
+                    <li>
+                        <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/signin">Sign In/Up</Button>
+                    </li>
+                )}
+            </ul>
+        </Nav>
+    )
+};
 export default Header;
