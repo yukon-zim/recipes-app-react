@@ -51,7 +51,7 @@ ${props => !props.theme.oldSchool && css`
     padding: 10px;
   }
   li:not(:first-child){
-    border-top: 1px solid ${props => props.theme.newSchoolOptions.listBreakGray};
+    border-top: 2px solid ${props => props.theme.newSchoolOptions.listBreakGray};
   }
   }
 `}

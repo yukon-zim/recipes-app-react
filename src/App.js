@@ -3,9 +3,9 @@ import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-d
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import RecipeList from './recipe-list/recipe-list';
-import { css } from 'styled-components'
+import { css } from 'styled-components';
 import './App.css';
+import RecipeList from './recipe-list/recipe-list';
 import Header from './header/header';
 import UpdateRecipe from './recipe-detail/UpdateRecipe';
 import CreateRecipe from './recipe-detail/CreateRecipe';
@@ -13,6 +13,7 @@ import Signin from './login/signinPage';
 import Reset from './login/resetPage';
 import Footer from './footer/footer';
 import User from './login/User';
+import background from './background.svg';
 
 const client = new ApolloClient({
     uri: "http://localhost:4000",
@@ -39,6 +40,10 @@ ${props => props.theme.oldSchool && css`
   `}
 ${props => !props.theme.oldSchool && css`
     && h2,h3,h5 {color: ${props => props.theme.newSchoolOptions.gray};}
+    body {
+      background-color: ${props => props.theme.oldSchoolOptions.white};
+      background-image: url(${background});
+      }
 `}
 `;
 
