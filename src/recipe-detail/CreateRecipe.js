@@ -1,14 +1,15 @@
 import React from 'react';
-import RecipeDetail from './recipe-detail';
+import recipeDetail from './recipe-detail';
 import CreateRecipeButtons from './CreateRecipeButtons';
 
+const CreateRecipeDetail = recipeDetail(CreateRecipeButtons);
+
 const CreateRecipe = props => (
-    <RecipeDetail
+    <CreateRecipeDetail
         {...props}
         id={'new'}
         newRecipeMode={true}>
-        <CreateRecipeButtons/>
-    </RecipeDetail>
+    </CreateRecipeDetail>
 );
 
 export default CreateRecipe;

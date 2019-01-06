@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { RecipeDetailContext } from './recipe-detail';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
 import User from '../login/User';
 import Button from '../style/Button';
@@ -37,10 +36,10 @@ class UpdateRecipeButtons extends Component {
         try {
             const res = await updateRecipeMutation({
                 variables: {
-                    ...this.context.recipe
+                    ...this.props.recipe
                 }
             });
-            this.context.resetForm();
+            this.props.resetForm();
             return res;
         } catch (err) {
             console.error(err);
@@ -92,7 +91,7 @@ class UpdateRecipeButtons extends Component {
                                                 update
                                                 className="btn btn-primary btn-update-recipe"
                                                 onClick={async () => this.updateRecipe(updateRecipe)}
-                                                disabled={!this.context.formIsDirty || !this.context.formIsValid}>Update
+                                                disabled={!this.props.formIsDirty || !this.props.formIsValid}>Update
                                                 recipe</Button>
                                         </React.Fragment>
                                     )}
@@ -120,8 +119,6 @@ class UpdateRecipeButtons extends Component {
             </User>
         )
     }
-};
+}
 
 export default withRouter(UpdateRecipeButtons)
-
-UpdateRecipeButtons.contextType = RecipeDetailContext;

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { RecipeDetailContext } from './recipe-detail';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
 
 const CREATE_RECIPE_MUTATION = gql`
@@ -27,11 +26,10 @@ class CreateRecipeButtons extends Component {
         try {
             const res = await createRecipeMutation({
                 variables: {
-                    ...this.context.recipe
+                    ...this.props.recipe
                 }
             });
-            this.context.resetForm();
-            console.log(res);
+            this.props.resetForm();
             this.goToId(res.data.addRecipe.id);
             return res;
         } catch (err) {
@@ -58,7 +56,7 @@ class CreateRecipeButtons extends Component {
                                 <p className="error-message">{error.message}</p>
                             )}
                             <button className="btn btn-primary btn-save-new-recipe"
-                                    disabled={!this.context.formIsDirty || !this.context.formIsValid}
+                                    disabled={!this.props.formIsDirty || !this.props.formIsValid}
                                     onClick={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</button>
                         </React.Fragment>
                     )}
@@ -66,8 +64,6 @@ class CreateRecipeButtons extends Component {
             </div>
         )
     }
-
-};
+}
 
 export default withRouter(CreateRecipeButtons);
-CreateRecipeButtons.contextType = RecipeDetailContext;

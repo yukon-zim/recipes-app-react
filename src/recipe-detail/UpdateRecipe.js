@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeDetail from './recipe-detail';
+import recipeDetail from './recipe-detail';
 import UpdateRecipeButtons from './UpdateRecipeButtons';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo'
@@ -27,6 +27,8 @@ function deepCopy(data) {
     return JSON.parse(JSON.stringify(data));
 }
 
+const UpdateRecipeDetail = recipeDetail(UpdateRecipeButtons);
+
 const UpdateRecipe = props => {
     const id = props.match.params.id;
     return(
@@ -44,12 +46,11 @@ const UpdateRecipe = props => {
                 } else {
                     const recipeCopy = deepCopy(data.recipe);
                     return (
-                        <RecipeDetail
+                        <UpdateRecipeDetail
                             {...props}
                             recipe={recipeCopy}
                             newRecipeMode={false}>
-                            <UpdateRecipeButtons/>
-                        </RecipeDetail>
+                        </UpdateRecipeDetail>
                     )
                 }
             }}
