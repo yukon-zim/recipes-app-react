@@ -9,7 +9,7 @@ const ResetLayout = styled.div`
   justify-content: left;
   padding-top: 1rem;
   padding-left: 1rem;
-  form {flex-basis: 50%}
+  form {flex-basis: 33%}
 `;
 
 const ResetPage = props => {

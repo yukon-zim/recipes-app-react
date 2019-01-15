@@ -55,7 +55,8 @@ class Reset extends Component {
         this.setState({ password: '', confirmPassword: '' })
     }
     render() {
-        const formIsValid = FormValidHelper.isFormValid(this.signinForm);
+        const formIsValid = FormValidHelper.isFormValid(this.resetForm);
+        console.log(formIsValid);
         return (
             <Mutation
                 mutation={RESET_MUTATION}
@@ -74,13 +75,10 @@ class Reset extends Component {
                             <HeaderLabel className="header-label reset-form">
                                 <h2> Reset your PW: </h2>
                             </HeaderLabel>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
-                            )}
                             <UserFormLabel className="reset-form" htmlFor="password">
                                 New PW:
                                 <input
-                                    required
+                                    // required
                                     type="password"
                                     name="password"
                                     placeholder="password"
@@ -91,7 +89,7 @@ class Reset extends Component {
                             <UserFormLabel className="reset-form" htmlFor="confirmPassword">
                                 Confirm your new PW:
                                 <input
-                                    required
+                                    // required
                                     type="password"
                                     name="confirmPassword"
                                     placeholder="confirmPassword"
@@ -103,6 +101,9 @@ class Reset extends Component {
                                             type="submit"
                                             disabled={!formIsValid}
                                             onClick={async () => this.resetPassword(reset)}>Reset your PW</UserFormButton>
+                            {error && (
+                                <p className="error-message">{error.message}</p>
+                            )}
                         </fieldset>
                     </Form>
                 )}

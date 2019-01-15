@@ -43,6 +43,7 @@ class Signin extends Component {
 
     render() {
         const formIsValid = FormValidHelper.isFormValid(this.requestResetForm);
+        console.log(formIsValid);
         return (
             <Mutation
                 mutation={REQUEST_RESET_MUTATION}
@@ -55,10 +56,6 @@ class Signin extends Component {
                             <HeaderLabel className="header-label user-form">
                                 <h2> Request a PW reset </h2>
                             </HeaderLabel>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
-                            )}
-                            {!error && !loading && called && <p>Success! check email for reset link</p>}
                             <UserFormLabel htmlFor="email">
                                 Email:
                                 <input
@@ -73,6 +70,10 @@ class Signin extends Component {
                                             disabled={!formIsValid}
                                             type="submit"
                                             onClick={async () => this.requestReset(reset)}>Request Reset</UserFormButton>
+                            {error && (
+                                <p className="error-message">{error.message}</p>
+                            )}
+                            {!error && !loading && called && <p className="success-message">Success! check email for reset link</p>}
                         </fieldset>
                     </Form>
                 )}

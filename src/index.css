@@ -4,6 +4,10 @@ body {
 }
 .error-message {
   color: red;
+  margin: 0.5rem 0.5rem
+}
+.success-message {
+  margin: 0.5rem 0.5rem
 }
 .recipe-detail-list-field:valid ~ .form-list-field-invalid {
   display: none;

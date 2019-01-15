@@ -67,9 +67,6 @@ class Signup extends Component {
                             <HeaderLabel className="header-label user-form">
                                 <h2> Sign up for an account! </h2>
                             </HeaderLabel>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
-                            )}
                             <UserFormLabel htmlFor="email">
                                 Email:
                                 <input
@@ -117,6 +114,9 @@ class Signup extends Component {
                                     type="submit"
                                             disabled={!formIsValid}
                                             onClick={async () => this.signup(signup)}>Sign Up</UserFormButton>
+                            {error && (
+                                <p className="error-message">{error.message}</p>
+                            )}
                         </fieldset>
                     </Form>
                 )}

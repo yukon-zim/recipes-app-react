@@ -68,9 +68,6 @@ class Signin extends Component {
                             <HeaderLabel className="header-label user-form">
                                 <h2> Sign into your account! </h2>
                             </HeaderLabel>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
-                            )}
                             <UserFormLabel className="user-form" htmlFor="email">
                                 Email:
                                 <input
@@ -97,6 +94,9 @@ class Signin extends Component {
                                             type="submit"
                                             disabled={!formIsValid}
                                             onClick={async () => this.signin(signin)}>Sign In</UserFormButton>
+                            {error && (
+                                <p className="error-message">{error.message}</p>
+                            )}
                         </fieldset>
                     </Form>
                 )}

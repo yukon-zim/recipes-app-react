@@ -51,7 +51,7 @@ class UpdateRecipeButtons extends Component {
             try {
                 const res = await deleteRecipeMutation({
                     variables: {
-                        id: this.context.recipe.id
+                        id: this.props.recipe.id
                     }
                 });
                 this.goToListView();

@@ -27,6 +27,7 @@ ${props => props.theme.oldSchool && css`
   margin-bottom: 0.5rem;
     width: auto;
     height: 2rem;
+    margin-left: 0.5rem
   }
   fieldset {
     border: 0;
