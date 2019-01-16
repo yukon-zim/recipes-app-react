@@ -18,6 +18,7 @@ export default class RecipeDetailListField extends Component {
     render() {
         const recipe = this.props.recipe;
         const ListType = this.props.listType === 'unordered' ? 'ul' : 'ol';
+        let InputType = this.props.type === 'textarea' ? 'textarea' : 'input';
         if (!recipe) {
             return '';
         }
@@ -35,14 +36,16 @@ export default class RecipeDetailListField extends Component {
                                 <li key={index}>
                                     <FormFieldRow className="list-item" as="div">
                                         {!this.props.isFieldInEditMode(this.props.fieldName, index) && (
-                                            <FormField onClick={() => {
+                                            <FormField
+                                                className="recipe-detail-list-field"
+                                                onClick={() => {
                                                 this.props.editField(this.props.fieldName, index)
                                             }}>{listItem}
                                         </FormField>
                                         )}
                                         {this.props.isFieldInEditMode(this.props.fieldName, index) && (
                                                 <FormField
-                                                    as="input"
+                                                    as={InputType}
                                                     id={`${this.props.fieldName}-${index}`}
                                                        className="recipe-detail-list-field"
                                                        autoFocus={isAutoFocused}
@@ -53,7 +56,8 @@ export default class RecipeDetailListField extends Component {
                                                        onBlur={() => this.props.unfocusField()}
                                                        onKeyUp={(event) => this.props.unfocusFieldOnEnter(event)}
                                                        onFocus={() => this.props.editField(this.props.fieldName, index)}
-                                                       type='text'
+                                                       type={this.props.type}
+                                                        rows='3'
                                                        placeholder={this.props.fieldName}
                                                        name={this.props.fieldName}
                                                        required={this.props.required}
@@ -63,6 +67,7 @@ export default class RecipeDetailListField extends Component {
                                             <Button
                                                 className="btn btn-light btn-sm btn-move-item-up"
                                                 title="move up"
+                                                type="button"
                                                 onClick={() => this.props.moveListItemUp(index, this.props.fieldName)}>
                                                 <i className="fas fa-arrow-up"><i className="fas fa-arrow-up"></i></i>
                                             </Button>
@@ -71,6 +76,7 @@ export default class RecipeDetailListField extends Component {
                                             <Button
                                                 className="btn btn-light btn-sm btn-move-item-down"
                                                 title="move down"
+                                                type="button"
                                                 onClick={() => this.props.moveListItemDown(index, this.props.fieldName)}>
                                                 <i className="fas fa-arrow-down"><i className="fas fa-arrow-down"></i></i>
                                             </Button>
@@ -78,6 +84,7 @@ export default class RecipeDetailListField extends Component {
                                         {(recipe[this.props.fieldName].length > 1 ) && (
                                             <Button
                                                 className="btn btn-light btn-sm btn-remove-item"
+                                                type="button"
                                                 title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
                                                 <i className="fas fa-trash-alt"><i className="fas fa-trash-alt"></i></i>
                                             </Button>
@@ -93,6 +100,7 @@ export default class RecipeDetailListField extends Component {
                         })}
                         <Button
                             className="btn btn-primary btn-add-list-item"
+                            type="button"
                             onClick={() => this.props.addListItem(this.props.fieldName)}>
                             {this.props.addListItemLabel}
                         </Button>

@@ -46,7 +46,8 @@ export default class ImportUrl extends Component {
     onAddUrl(urlInput) {
         if (urlInput.value) {
             this.setState({
-                urlInputValid: true
+                urlInputValid: true,
+                urlImportMessage: ''
             })
         }
     }
@@ -68,7 +69,14 @@ export default class ImportUrl extends Component {
                         {(importUrl, {error, loading}) => (
                             <form onSubmit={this.handleSubmit}>
                                 <div>
-                                    <label htmlFor="url-file-upload">Import recipes by URL:</label>
+                                    <label htmlFor="url-file-upload">
+                                        Import recipes by URL if you dare! This MAY support URLs from: <br/>
+                                        <ul>
+                                            <li>TheKitchn</li>
+                                            <li>Food52</li>
+                                            <li>AllRecipes</li>
+                                        </ul>
+                                    </label>
                                 </div>
                                 <span className="badge-success">
                                     {this.state.urlImportMessage}
@@ -81,6 +89,7 @@ export default class ImportUrl extends Component {
                                 <div>
                                     <Button className="btn btn-primary btn-sm btn-import-url"
                                             disabled={!this.state.urlInputValid}
+                                            type="submit"
                                             onClick={() => this.importRecipeByUrl(importUrl)}>Import web recipe
                                     </Button>
                                 </div>

@@ -40,6 +40,7 @@ export default class RecipeDetailField extends Component {
                                    onKeyUp={(event) => this.props.unfocusFieldOnEnter(event)}
                                    onFocus={() => this.props.editField(this.props.fieldName)}
                                    type={this.props.type}
+                                   rows='3'
                                    placeholder={this.props.fieldName}
                                    name={this.props.fieldName}
                                    required={this.props.required}

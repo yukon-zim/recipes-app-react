@@ -38,7 +38,6 @@ class Reset extends Component {
 
     resetPassword = async (resetPasswordMutation) => {
         try {
-            console.log(this.state);
             const res = await resetPasswordMutation({
                 variables: {
                     ...this.state
@@ -56,7 +55,6 @@ class Reset extends Component {
     }
     render() {
         const formIsValid = FormValidHelper.isFormValid(this.resetForm);
-        console.log(formIsValid);
         return (
             <Mutation
                 mutation={RESET_MUTATION}

@@ -43,7 +43,6 @@ class Signin extends Component {
 
     render() {
         const formIsValid = FormValidHelper.isFormValid(this.requestResetForm);
-        console.log(formIsValid);
         return (
             <Mutation
                 mutation={REQUEST_RESET_MUTATION}

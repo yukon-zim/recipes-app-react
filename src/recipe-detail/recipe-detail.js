@@ -31,6 +31,7 @@ export default function recipeDetail (FormButtons) {
                 },
                 formError: '',
                 formIsDirty: false,
+                formIsValid: false,
                 errorRecipeMode: false
             };
         }
@@ -52,7 +53,8 @@ export default function recipeDetail (FormButtons) {
             }
             this.setState({
                 recipe,
-                formIsDirty: true
+                formIsDirty: true,
+                formIsValid: this.isFormValid()
             });
         };
 
@@ -68,15 +70,18 @@ export default function recipeDetail (FormButtons) {
         };
 
         isFieldInEditMode = (fieldName, index) => {
+            // can't edit recipe if not logged in
             if (!this.props.user) {
                 return false;
             }
-            if (this.props.newRecipeMode) {
+            // this forces input fields to show even if blank,
+            // so users have a visual cue that they can add a value
+            if (this.state.recipe[fieldName] === '' ||
+                this.state.recipe[fieldName] === null ||
+                this.state.recipe[fieldName] === undefined) {
                 return true;
             }
-            if (this.state.recipe[fieldName] === '') {
-                return true;
-            }
+            // blank list item fields should also show as blank
             if (index !== null && index !== undefined && this.state.recipe[fieldName][index] === '') {
                 return true;
             }
@@ -108,7 +113,8 @@ export default function recipeDetail (FormButtons) {
             this.editField(`${fieldName}`, recipe[fieldName].length - 1);
             this.setState({
                 recipe,
-                formIsDirty: true
+                formIsDirty: true,
+                formIsValid: this.isFormValid()
             });
         };
 
@@ -137,7 +143,8 @@ export default function recipeDetail (FormButtons) {
             recipe[fieldName].splice(index, 1);
             this.setState({
                 recipe,
-                formIsDirty: true
+                formIsDirty: true,
+                formIsValid: this.isFormValid()
             });
         };
 
@@ -163,7 +170,8 @@ export default function recipeDetail (FormButtons) {
                 const recipe = this.props.recipe;
                 this.setState({
                     recipe,
-                    recipeId: recipe.id
+                    recipeId: recipe.id,
+                    formIsValid: this.isFormValid()
                 });
             }
         }
@@ -175,7 +183,8 @@ export default function recipeDetail (FormButtons) {
         resetForm = () => {
             this.recipeForm.reset();
             this.setState({
-                formIsDirty: false
+                formIsDirty: false,
+                formIsValid: this.isFormValid()
             })
         };
 
@@ -186,8 +195,6 @@ export default function recipeDetail (FormButtons) {
 
         render() {
             const recipe = this.state.recipe;
-            console.log("state recipe:");
-            console.log(recipe);
             const commonProps = {
                 recipe,
                 isFieldInEditAndFocus: this.isFieldInEditAndFocus,
@@ -205,7 +212,6 @@ export default function recipeDetail (FormButtons) {
             };
             const dateCreatedText = Moment(recipe.dateCreated).format("M/DD/YYYY");
             const dateModifiedText = Moment(recipe.dateModified).format("M/DD/YYYY");
-            const formIsValid = this.isFormValid();
             return (
                 <div>
                     <div className="container-fluid">
@@ -255,6 +261,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
+                                            type='text'
                                             listType='unordered'
                                             addListItemLabel="Add ingredient"
                                             fieldName="ingredients"
@@ -265,6 +272,8 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
+                                            type='textarea'
+                                            rows='3'
                                             listType='ordered'
                                             addListItemLabel="Add instruction"
                                             fieldName="instructions"
@@ -285,6 +294,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailField
                                             {...commonProps}
                                             type='textarea'
+                                            rows='3'
                                             fieldName="notes"
                                             label="Notes: "
                                             required={false}
@@ -292,7 +302,7 @@ export default function recipeDetail (FormButtons) {
                                         <FormButtons
                                             recipe={this.state.recipe}
                                             formIsDirty={this.state.formIsDirty}
-                                            formIsValid={formIsValid}
+                                            formIsValid={this.state.formIsValid}
                                             resetForm={this.resetForm}
                                         >
                                         </FormButtons>

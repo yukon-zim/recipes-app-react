@@ -11,6 +11,7 @@ const Footer = (props) => (
         <Button
             className="btn btn-primary"
             id="change-theme"
+            type="button"
             onClick={() => props.changeTheme()}
         > Change theme</Button>
     </FooterDiv>

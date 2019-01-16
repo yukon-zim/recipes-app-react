@@ -78,7 +78,7 @@ class UpdateRecipeButtons extends Component {
                             </div>
                         )}
                         {data.whoAmI && (
-                            <div>
+                            <div className="recipe-form-buttons">
                                 <Mutation
                                     mutation={UPDATE_RECIPE_MUTATION}
                                 >
@@ -89,6 +89,7 @@ class UpdateRecipeButtons extends Component {
                                             )}
                                             <Button
                                                 update
+                                                type="button"
                                                 className="btn btn-primary btn-update-recipe"
                                                 onClick={async () => this.updateRecipe(updateRecipe)}
                                                 disabled={!this.props.formIsDirty || !this.props.formIsValid}>Update
@@ -107,6 +108,7 @@ class UpdateRecipeButtons extends Component {
                                             )}
                                             <Button
                                                 delete
+                                                type="button"
                                                 className="btn btn-warning btn-delete-recipe"
                                                 onClick={async () => this.deleteRecipe(deleteRecipe)}>Delete recipe</Button>
                                         </React.Fragment>

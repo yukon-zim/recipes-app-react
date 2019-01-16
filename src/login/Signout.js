@@ -19,6 +19,7 @@ const Signout = props => (
         refetchQueries={[{query: CURRENT_USER_QUERY}]}>
         {signout => (<Button
             className="btn btn-primary mr-2 mt-2"
+            type="button"
             onClick={signout} >Sign Out</Button>)}
     </Mutation>
 );

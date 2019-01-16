@@ -45,7 +45,7 @@ class CreateRecipeButtons extends Component {
 
     render() {
         return (
-            <div>
+            <div className="recipe-form-buttons">
                 <Mutation
                     mutation={CREATE_RECIPE_MUTATION}
                     refetchQueries={[{query: ALL_RECIPES_QUERY, variables:{searchTerm: ''}}]}
@@ -56,6 +56,7 @@ class CreateRecipeButtons extends Component {
                                 <p className="error-message">{error.message}</p>
                             )}
                             <button className="btn btn-primary btn-save-new-recipe"
+                                    type="button"
                                     disabled={!this.props.formIsDirty || !this.props.formIsValid}
                                     onClick={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</button>
                         </React.Fragment>
