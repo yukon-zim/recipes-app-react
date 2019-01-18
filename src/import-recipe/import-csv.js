@@ -70,9 +70,10 @@ export default class ImportCsv extends Component {
                 {this.state.csvImportEnabled && (
                     <div>
                         <button className="btn btn-secondary btn-sm btn-import-recipe"
-                                onClick={() => this.importRecipe(this.csvFileInput.files)}>Import recipe CSV
+                                onMouseDown={() => this.importRecipe(this.csvFileInput.files)}>Import recipe CSV
                         </button>
-                        <button className="btn btn-secondary btn-sm btn-cancel-import" onClick={() => this.cancelCsvImport()}>Cancel
+                        <button className="btn btn-secondary btn-sm btn-cancel-import"
+                                onMouseDown={() => this.cancelCsvImport()}>Cancel
                             import
                         </button>
                     </div>

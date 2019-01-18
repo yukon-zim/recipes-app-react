@@ -261,6 +261,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
+                                            user={this.props.user}
                                             type='text'
                                             listType='unordered'
                                             addListItemLabel="Add ingredient"
@@ -272,6 +273,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
+                                            user={this.props.user}
                                             type='textarea'
                                             rows='3'
                                             listType='ordered'
@@ -301,6 +303,7 @@ export default function recipeDetail (FormButtons) {
                                         />
                                         <FormButtons
                                             recipe={this.state.recipe}
+                                            user={this.props.user}
                                             formIsDirty={this.state.formIsDirty}
                                             formIsValid={this.state.formIsValid}
                                             resetForm={this.resetForm}

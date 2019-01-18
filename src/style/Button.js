@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 const Button = styled.button`
 padding: 0.75rem 0.75rem;
 margin-right: 0.5rem;
- /*styling for oldSchool theme buttons*/
 ${props => props.theme.oldSchool && css`
    /*fileMaker*/
    && {
@@ -16,7 +15,7 @@ ${props => props.theme.oldSchool && css`
       background: ${props => props.theme.oldSchoolOptions.darkGrey};
     }
    };
-  ${props => props.update && css`
+  ${props => (props.update || props.create) && css`
     && {
       background: ${props => props.theme.oldSchoolOptions.updatePurple};
     :hover {

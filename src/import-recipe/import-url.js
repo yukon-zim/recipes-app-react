@@ -90,7 +90,7 @@ export default class ImportUrl extends Component {
                                     <Button className="btn btn-primary btn-sm btn-import-url"
                                             disabled={!this.state.urlInputValid}
                                             type="submit"
-                                            onClick={() => this.importRecipeByUrl(importUrl)}>Import web recipe
+                                            onMouseDown={() => this.importRecipeByUrl(importUrl)}>Import web recipe
                                     </Button>
                                 </div>
                                 <div>

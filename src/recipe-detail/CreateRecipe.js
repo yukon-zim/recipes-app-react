@@ -8,7 +8,8 @@ const CreateRecipe = props => (
     <CreateRecipeDetail
         {...props}
         id={'new'}
-        newRecipeMode={true}>
+        newRecipeMode={true}
+        user={props.user}>
     </CreateRecipeDetail>
 );
 

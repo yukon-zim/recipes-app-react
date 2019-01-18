@@ -65,27 +65,31 @@ export default class RecipeDetailListField extends Component {
                                         )}
                                         {!(index === 0) && (
                                             <Button
+                                                disabled={!this.props.user}
                                                 className="btn btn-light btn-sm btn-move-item-up"
                                                 title="move up"
                                                 type="button"
-                                                onClick={() => this.props.moveListItemUp(index, this.props.fieldName)}>
+                                                onMouseDown={() => this.props.moveListItemUp(index, this.props.fieldName)}>
                                                 <i className="fas fa-arrow-up"><i className="fas fa-arrow-up"></i></i>
                                             </Button>
                                         )}
                                         {!(index === recipe[this.props.fieldName].length - 1) && (
                                             <Button
+                                                disabled={!this.props.user}
                                                 className="btn btn-light btn-sm btn-move-item-down"
                                                 title="move down"
                                                 type="button"
-                                                onClick={() => this.props.moveListItemDown(index, this.props.fieldName)}>
+                                                onMouseDown={() => this.props.moveListItemDown(index, this.props.fieldName)}>
                                                 <i className="fas fa-arrow-down"><i className="fas fa-arrow-down"></i></i>
                                             </Button>
                                         )}
                                         {(recipe[this.props.fieldName].length > 1 ) && (
                                             <Button
+                                                disabled={!this.props.user}
                                                 className="btn btn-light btn-sm btn-remove-item"
                                                 type="button"
-                                                title="remove" onClick={() => this.props.removeListItem(index, this.props.fieldName)}>
+                                                title="remove"
+                                                onMouseDown={() => this.props.removeListItem(index, this.props.fieldName)}>
                                                 <i className="fas fa-trash-alt"><i className="fas fa-trash-alt"></i></i>
                                             </Button>
                                         )}
@@ -101,7 +105,8 @@ export default class RecipeDetailListField extends Component {
                         <Button
                             className="btn btn-primary btn-add-list-item"
                             type="button"
-                            onClick={() => this.props.addListItem(this.props.fieldName)}>
+                            disabled={!this.props.user}
+                            onMouseDown={() => this.props.addListItem(this.props.fieldName)}>
                             {this.props.addListItemLabel}
                         </Button>
                     </ListType>

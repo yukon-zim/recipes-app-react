@@ -49,7 +49,8 @@ const UpdateRecipe = props => {
                         <UpdateRecipeDetail
                             {...props}
                             recipe={recipeCopy}
-                            newRecipeMode={false}>
+                            newRecipeMode={false}
+                            user={props.user}>
                         </UpdateRecipeDetail>
                     )
                 }

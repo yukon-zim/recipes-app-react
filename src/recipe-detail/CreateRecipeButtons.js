@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
+import Button from '../style/Button';
 
 const CREATE_RECIPE_MUTATION = gql`
     mutation CREATE_RECIPE_MUTATION($name: String!, $category: String, $numberOfServings: String, $ingredients: [String!]!, $instructions: [String!]!, $notes: String) {
@@ -45,23 +46,34 @@ class CreateRecipeButtons extends Component {
 
     render() {
         return (
-            <div className="recipe-form-buttons">
-                <Mutation
-                    mutation={CREATE_RECIPE_MUTATION}
-                    refetchQueries={[{query: ALL_RECIPES_QUERY, variables:{searchTerm: ''}}]}
-                >
-                    {(createRecipe, { error }) => (
-                        <React.Fragment>
-                            {error && (
-                                <p className="error-message">{error.message}</p>
+            <div>
+                {!this.props.user && (
+                    <div>
+                        <h5>Sign in to create recipes!</h5>
+                    </div>
+                )}
+                {this.props.user && (
+                    <div className="recipe-form-buttons">
+                        <Mutation
+                            mutation={CREATE_RECIPE_MUTATION}
+                            refetchQueries={[{query: ALL_RECIPES_QUERY, variables:{searchTerm: ''}}]}
+                        >
+                            {(createRecipe, { error }) => (
+                                <React.Fragment>
+                                    {error && (
+                                        <p className="error-message">{error.message}</p>
+                                    )}
+                                    <Button
+                                        create
+                                        className="btn btn-primary btn-save-new-recipe"
+                                            type="button"
+                                            disabled={!this.props.formIsDirty || !this.props.formIsValid}
+                                            onMouseDown={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</Button>
+                                </React.Fragment>
                             )}
-                            <button className="btn btn-primary btn-save-new-recipe"
-                                    type="button"
-                                    disabled={!this.props.formIsDirty || !this.props.formIsValid}
-                                    onClick={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</button>
-                        </React.Fragment>
-                    )}
-                </Mutation>
+                        </Mutation>
+                    </div>
+                )}
             </div>
         )
     }
