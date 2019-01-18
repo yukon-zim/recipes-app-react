@@ -39,29 +39,29 @@ export default class RecipeDetailListField extends Component {
                                             <FormField
                                                 className="recipe-detail-list-field"
                                                 onClick={() => {
-                                                this.props.editField(this.props.fieldName, index)
-                                            }}>{listItem}
-                                        </FormField>
+                                                    this.props.editField(this.props.fieldName, index)
+                                                }}>{listItem}
+                                            </FormField>
                                         )}
                                         {this.props.isFieldInEditMode(this.props.fieldName, index) && (
-                                                <FormField
-                                                    as={InputType}
-                                                    id={`${this.props.fieldName}-${index}`}
-                                                       className="recipe-detail-list-field"
-                                                       autoFocus={isAutoFocused}
-                                                       value={listItem || ''} // pass a string even if fieldName is null/undefined
-                                                       onChange={event => {
-                                                           this.props.setRecipeField(this.props.fieldName, event.target.value, index)
-                                                       }}
-                                                       onBlur={() => this.props.unfocusField()}
-                                                       onKeyUp={(event) => this.props.unfocusFieldOnEnter(event)}
-                                                       onFocus={() => this.props.editField(this.props.fieldName, index)}
-                                                       type={this.props.type}
-                                                        rows='3'
-                                                       placeholder={this.props.fieldName}
-                                                       name={this.props.fieldName}
-                                                       required={this.props.required}
-                                                />
+                                            <FormField
+                                                as={InputType}
+                                                id={`${this.props.fieldName}-${index}`}
+                                                className="recipe-detail-list-field"
+                                                autoFocus={isAutoFocused}
+                                                value={listItem || ''} // pass a string even if fieldName is null/undefined
+                                                onChange={event => {
+                                                    this.props.setRecipeField(this.props.fieldName, event.target.value, index)
+                                                }}
+                                                onBlur={() => this.props.unfocusField()}
+                                                onKeyUp={(event) => this.props.unfocusFieldOnEnter(event)}
+                                                onFocus={() => this.props.editField(this.props.fieldName, index)}
+                                                type={this.props.type}
+                                                rows='3'
+                                                placeholder={this.props.fieldName}
+                                                name={this.props.fieldName}
+                                                required={this.props.required}
+                                            />
                                         )}
                                         {!(index === 0) && (
                                             <Button
