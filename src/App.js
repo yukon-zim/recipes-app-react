@@ -64,7 +64,9 @@ class App extends Component {
                 },
                 newSchoolOptions: {
                     gray: 'rgba(3,12,25,0.65)',
-                    listBreakGray:'#dee2e6'
+                    listBreakGray:'#dee2e6',
+                    recipeButtonBlue:'#2196F3',
+                    recipeButtonHover: 'rgb(30, 135, 226)'
                 }
             },
         };

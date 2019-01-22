@@ -28,3 +28,11 @@ body {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+div.alert {
+  margin-bottom: 0;
+  padding: 0.25rem 0.25rem;
+}
+div.form-field-invalid {
+  font-size: 0.875rem;
+  margin-left: 0.125rem;
+}
