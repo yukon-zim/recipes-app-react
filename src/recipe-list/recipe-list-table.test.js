@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom'
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeListTable from './recipe-list-table';
 
@@ -8,46 +9,50 @@ describe('component tests', () => {
         let wrapper;
         // noRecipesOnUser = true
         it('should not render any recipes if none exist', () => {
-            wrapper = shallow(<RecipeListTable
+            wrapper = mount(<RecipeListTable
                 recipes={[]}
                 searchInProgress={false}
             />);
+            expect(wrapper.find('span.span-loading')).toHaveLength(0);
             expect(wrapper.find('span.span-no-user-recipes')).toHaveLength(1);
             expect(wrapper.find('span.span-no-recipes-found')).toHaveLength(0);
             expect(wrapper.find('tr.data-row')).toHaveLength(0)
         });
         // noRecipesFound = true
         it('should not render any recipes if none are returned by search', () => {
-            wrapper = shallow(<RecipeListTable
+            wrapper = mount(<RecipeListTable
                 recipes={[]}
                 searchInProgress={true}
             />);
+            expect(wrapper.find('span.span-loading')).toHaveLength(0);
             expect(wrapper.find('span.span-no-user-recipes')).toHaveLength(0);
             expect(wrapper.find('span.span-no-recipes-found')).toHaveLength(1);
             expect(wrapper.find('tr.data-row')).toHaveLength(0)
         });
         // searchInProgress = true, single-recipe list
         it('should render a list if a recipe is returned by search', () => {
-            wrapper = shallow(<RecipeListTable
+            wrapper = mount(<MemoryRouter><RecipeListTable
                 recipes={[recipeFixtures()[0]]}
                 searchInProgress={true}
-            />);
+            /></MemoryRouter>);
             const pageSpans = wrapper.find('span');
             const nameSpan = pageSpans.filterWhere((span) => {
-                return span.text() === recipeFixtures()[0].name.toUpperCase()
+                return span.text() === recipeFixtures()[0].name
             });
             expect(nameSpan).toHaveLength(1);
             expect(wrapper.find('tr.data-row')).toHaveLength(1);
+            expect(wrapper.find('span.span-loading')).toHaveLength(0);
             expect(wrapper.find('span.span-no-user-recipes')).toHaveLength(0);
             expect(wrapper.find('span.span-no-recipes-found')).toHaveLength(0);
         });
         // searchInProgress = false, multi-recipe list
         it('should render data if not in search mode and recipes exist', () => {
-            wrapper = shallow(<RecipeListTable
+            wrapper = mount(<MemoryRouter><RecipeListTable
                 recipes={[recipeFixtures()[0], recipeFixtures()[1]]}
                 searchInProgress={false}
-            />);
+            /></MemoryRouter>);
             expect(wrapper.find('tr.data-row')).toHaveLength(2);
+            expect(wrapper.find('span.span-loading')).toHaveLength(0);
             expect(wrapper.find('span.span-no-user-recipes')).toHaveLength(0);
             expect(wrapper.find('span.span-no-recipes-found')).toHaveLength(0);
         });
@@ -58,32 +63,38 @@ describe('component tests', () => {
             return nodeId.text();
         }
         it('should correctly sort recipes by column header', () => {
-            let spySetRecipe = jest.fn();
+           // no spy needed for non-props method?
+            // let spySortRecipes = jest.fn();
             const validRecipes = [recipeFixtures()[0], recipeFixtures()[1]];
-            wrapper = shallow(<RecipeListTable
+            const mockedTable = mount(<MemoryRouter><RecipeListTable
                 recipes={validRecipes}
                 searchInProgress={false}
-                setRecipes={spySetRecipe}
-            />);
+            /></MemoryRouter>);
+            // setup wrapper instance so state can be accessed
+            wrapper = mockedTable.find('RecipeListTable').instance();
             // compare text of name cells to fixture data to test order
-            expect(wrapper.find('span.name-span').map(nodeText)).toEqual([
-                recipeFixtures()[0].name.toUpperCase(),
-                recipeFixtures()[1].name.toUpperCase()
+            expect(mockedTable.find('span.name-span').map(nodeText)).toEqual([
+                recipeFixtures()[0].name,
+                recipeFixtures()[1].name
             ]);
-            expect(wrapper.state('currentSortByField')).toEqual(null);
-            expect(wrapper.state('currentSortByOrder')).toEqual(null);
+            expect(wrapper.state.currentSortByField).toEqual(null);
+            expect(wrapper.state.currentSortByOrder).toEqual(null);
             // click name header to sort by name asc
-            wrapper.find('th.name-header a').simulate('click');
-            // check spy was called w correctly ordered data
-            expect(spySetRecipe).toHaveBeenCalledWith([recipeFixtures()[0], recipeFixtures()[1]]);
-            expect(wrapper.state('currentSortByField')).toEqual('name');
-            expect(wrapper.state('currentSortByOrder')).toEqual('asc');
+            mockedTable.find('th.name-header a').simulate('click');
+            expect(wrapper.state.recipes).toEqual([
+                recipeFixtures()[0],
+                recipeFixtures()[1]
+            ]);
+            expect(wrapper.state.currentSortByField).toEqual('name');
+            expect(wrapper.state.currentSortByOrder).toEqual('asc');
             // click name header to sort by name desc
-            wrapper.find('th.name-header a').simulate('click');
-            // check spy was called w correctly ordered data
-            expect(spySetRecipe).toHaveBeenCalledWith([recipeFixtures()[1], recipeFixtures()[0]]);
-            expect(wrapper.state('currentSortByField')).toEqual('name');
-            expect(wrapper.state('currentSortByOrder')).toEqual('desc');
+            mockedTable.find('th.name-header a').simulate('click');
+            expect(wrapper.state.recipes).toEqual([
+                recipeFixtures()[1],
+                recipeFixtures()[0]
+            ]);
+            expect(wrapper.state.currentSortByField).toEqual('name');
+            expect(wrapper.state.currentSortByOrder).toEqual('desc');
         })
     })
 });

@@ -27,7 +27,7 @@ ${props => props.theme.oldSchool && css`
  ${props => !props.theme.oldSchool && css`
 && {
         background: ${props => props.theme.newSchoolOptions.recipeButtonBlue};
-        color: ${props.theme.oldSchoolOptions.white};
+        color: ${props => props.theme.oldSchoolOptions.white};
       :hover {
         background: ${props => props.theme.newSchoolOptions.recipeButtonHover};
        }`

@@ -98,21 +98,21 @@ export default class RecipeListTable extends Component {
                     <Row className="row">
                         <HeaderCell
                             col={7}
-                            className="table-header">
+                            className="table-header name-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
                         </HeaderCell>
                         <HeaderCell
                             col={3}
-                            className="table-header">
+                            className="table-header cat-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
                         </HeaderCell>
                         <HeaderCell
                             col={2}
-                            className="table-header">
+                            className="table-header servings-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
