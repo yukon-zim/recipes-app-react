@@ -59,3 +59,4 @@ const UpdateRecipe = props => {
     )};
 
 export default UpdateRecipe;
+export { GET_RECIPE_QUERY };
