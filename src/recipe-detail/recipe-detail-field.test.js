@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { mount } from 'enzyme';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeDetailField from './recipe-detail-field';
 
@@ -25,7 +25,8 @@ describe('component tests', () => {
         beforeEach(() => {
             // assign spy a return value
             spyIsFieldInEditMode.mockImplementation(() => {return false});
-            wrapper = shallow(<RecipeDetailField
+            wrapper = mount(
+                <RecipeDetailField
                 recipe={recipeFixtures()[0]}
                 isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                 isFieldInEditMode={spyIsFieldInEditMode}
@@ -37,14 +38,19 @@ describe('component tests', () => {
                 fieldName="notes"
                 label="Notes: Test"
                 required={true}
-            />);
+                />
+            );
         });
-        it('renders label and span tag correctly when field is not in edit mode', () => {
-            const testLabel = <label>Notes: Test&nbsp;</label>;
+        it('renders span tags correctly when field is not in edit mode', () => {
             const pageSpans = wrapper.find('span');
-            const notesSpan = pageSpans.filterWhere((span) => {return span.text() === recipeFixtures()[0].notes});
+            const notesSpan = pageSpans.filterWhere((span) => {
+                return span.text() === recipeFixtures()[0].notes
+            });
+            const notesLabel = pageSpans.filterWhere((span) => {
+                return span.text().trim() === 'Notes: Test';
+            });
             // should render correct label text
-            expect(wrapper.contains(testLabel)).toEqual(true);
+            expect(notesLabel).toHaveLength(1);
             // should call isFieldInEditMode
             expect(spyIsFieldInEditMode).toHaveBeenCalled();
             // isFieldInEditMode === false, so span should appear instead of InputType component
@@ -65,7 +71,7 @@ describe('component tests', () => {
         });
     });
     describe('renders input element when field is in edit mode', () => {
-        describe('where input element is text input', () => {
+        describe('where input element is an "input" element', () => {
             let wrapper;
             function findTestField(input) {
                 return input.prop('id') === 'name' &&
@@ -80,7 +86,7 @@ describe('component tests', () => {
                 spyIsFieldInEditMode.mockImplementation(() => {return true});
                 spyIsFieldInEditAndFocus.mockImplementation(() => {return true});
 
-                wrapper = shallow(<RecipeDetailField
+                wrapper = mount(<RecipeDetailField
                     recipe={recipeFixtures()[0]}
                     isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                     isFieldInEditMode={spyIsFieldInEditMode}
@@ -105,7 +111,7 @@ describe('component tests', () => {
                 // should render correct input element
                 expect(nameInput).toHaveLength(1);
                 expect(wrapper.exists('textarea')).toEqual(false);
-                expect(wrapper.exists('span')).toEqual(false);
+                expect(wrapper.exists('span.read-only-field')).toEqual(false);
                 // visible alert triggered by css and form validity -
                 // not by value of bound data
                 expect(wrapper.exists('div.alert')).toEqual(true);
@@ -135,7 +141,7 @@ describe('component tests', () => {
                 expect(spyUnfocusField).toHaveBeenCalled();
             })
         });
-        describe('where input element is textarea input', () => {
+        describe('where input element is "textarea" element', () => {
             let wrapper;
 
             function findTestField(input) {
@@ -156,7 +162,7 @@ describe('component tests', () => {
                     return true
                 });
 
-                wrapper = shallow(<RecipeDetailField
+                wrapper = mount(<RecipeDetailField
                     recipe={recipeFixtures()[0]}
                     isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                     isFieldInEditMode={spyIsFieldInEditMode}
@@ -179,7 +185,7 @@ describe('component tests', () => {
                 // should render correct input element
                 expect(notesInput).toHaveLength(1);
                 expect(wrapper.exists('text')).toEqual(false);
-                expect(wrapper.exists('span')).toEqual(false);
+                expect(wrapper.exists('span.read-only-field')).toEqual(false);
                 // visible alert triggered by css and form validity -
                 // not by value of bound data
                 expect(wrapper.exists('div.alert')).toEqual(false);

@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
-import Button from '../style/Button';
+import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
+import Button from '../../style/Button';
 
 const DELETE_RECIPE_MUTATION = gql`
     mutation DELETE_RECIPE_MUTATION($id: ID!) {

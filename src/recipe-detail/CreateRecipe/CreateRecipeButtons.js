@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
-import Button from '../style/Button';
+import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
+import Button from '../../style/Button';
 
 const CREATE_RECIPE_MUTATION = gql`
     mutation CREATE_RECIPE_MUTATION($name: String!, $category: String, $numberOfServings: String, $ingredients: [String!]!, $instructions: [String!]!, $notes: String) {

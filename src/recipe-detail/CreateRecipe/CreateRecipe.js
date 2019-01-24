@@ -1,5 +1,5 @@
 import React from 'react';
-import recipeDetail from './recipe-detail';
+import recipeDetail from '../recipe-detail';
 import CreateRecipeButtons from './CreateRecipeButtons';
 
 const CreateRecipeDetail = recipeDetail(CreateRecipeButtons);

@@ -1,8 +1,9 @@
 import React from 'react';
-import recipeDetail from './recipe-detail';
-import UpdateRecipeButtons from './UpdateRecipeButtons';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo'
+import { Query } from 'react-apollo';
+import { cloneDeep } from 'lodash';
+import recipeDetail from '../recipe-detail';
+import UpdateRecipeButtons from './UpdateRecipeButtons';
 
 const GET_RECIPE_QUERY = gql`
     query GET_RECIPE_QUERY($id: ID!) {
@@ -24,7 +25,7 @@ function deepCopy(data) {
     if (data === undefined) {
         return data;
     }
-    return JSON.parse(JSON.stringify(data));
+    return cloneDeep(data);
 }
 
 const UpdateRecipeDetail = recipeDetail(UpdateRecipeButtons);

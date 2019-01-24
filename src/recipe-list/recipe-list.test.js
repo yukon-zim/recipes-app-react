@@ -69,7 +69,7 @@ describe('component tests', () => {
             const noUserHeader = <h5>Sign in to add new recipes!</h5>;
 
             it('should have add new recipe button when a user is signed in', async () => {
-                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{username:'steve'}}/></MockedProvider></MemoryRouter></ThemeProvider>);
+                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{username:'steve tester'}}/></MockedProvider></MemoryRouter></ThemeProvider>);
                 expect(wrapper.contains('RecipeListTable')).toEqual(true);
                 expect(wrapper.contains(noUserHeader)).toEqual(false);
                 // have to include including tag type (Link) in the check in order to narrow down which element

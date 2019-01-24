@@ -88,7 +88,7 @@ export default class RecipeListTable extends Component {
     render() {
         const loading = this.props.loading;
         const noRecipesFound = this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
-        const noRecipesOnUser = !this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
+        const noRecipes = !this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
         const blankUrl = '#';
 
         return(
@@ -169,7 +169,7 @@ export default class RecipeListTable extends Component {
                             </td>
                         </tr>
                     )}
-                    {noRecipesOnUser && !loading && (
+                    {noRecipes && !loading && (
                         <tr>
                             <td>
                                 <span className="span-no-user-recipes">

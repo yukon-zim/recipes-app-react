@@ -23,7 +23,9 @@ export default class RecipeDetailField extends Component {
                 <FormFieldRow onClick={(event) => event.preventDefault()}>
                     <FormFieldLabel>{this.props.label}&nbsp;</FormFieldLabel>
                     {!this.props.isFieldInEditMode(this.props.fieldName) && (
-                        <FormField onClick={() => {
+                        <FormField
+                            className='read-only-field'
+                            onClick={() => {
                             this.props.editField(this.props.fieldName)
                         }}>{recipe[this.props.fieldName]}</FormField>
                     )}
