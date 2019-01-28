@@ -19,7 +19,7 @@ const RecipeId = styled.div`
 `;
 
 export default function recipeDetail (FormButtons) {
-    return class extends Component {
+    return class RecipeDetail extends Component {
         constructor(props) {
             super(props);
             this.state = {
@@ -188,6 +188,10 @@ export default function recipeDetail (FormButtons) {
             })
         };
 
+        setFormRef = form => {
+            this.recipeForm = form;
+        };
+
         async componentDidMount() {
             this.loadRecipeIdFromProps(this.props);
             window.scrollTo(0, 0)
@@ -215,7 +219,7 @@ export default function recipeDetail (FormButtons) {
             return (
                 <div>
                     <div className="container-fluid">
-                        <Form ref={form => this.recipeForm = form}
+                        <Form ref={this.setFormRef}
                               onSubmit={this.handleSubmit}>
                             <Prompt
                                 when={this.state.formIsDirty}

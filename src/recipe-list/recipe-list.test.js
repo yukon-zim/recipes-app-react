@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MockedProvider } from "react-apollo/test-utils";
 import { ThemeProvider } from 'styled-components';
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeList, {ALL_RECIPES_QUERY} from './recipe-list';
 
@@ -69,7 +69,7 @@ describe('component tests', () => {
             const noUserHeader = <h5>Sign in to add new recipes!</h5>;
 
             it('should have add new recipe button when a user is signed in', async () => {
-                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{username:'steve tester'}}/></MockedProvider></MemoryRouter></ThemeProvider>);
+                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{username:'steven anita tester'}}/></MockedProvider></MemoryRouter></ThemeProvider>);
                 expect(wrapper.contains('RecipeListTable')).toEqual(true);
                 expect(wrapper.contains(noUserHeader)).toEqual(false);
                 // have to include including tag type (Link) in the check in order to narrow down which element

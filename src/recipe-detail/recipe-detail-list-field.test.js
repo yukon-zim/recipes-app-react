@@ -36,7 +36,7 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                    user={{username:'steve tester'}}
+                    user={{username:'steven anita tester'}}
                 recipe={recipeFixtures()[2]}
                 isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                 isFieldInEditMode={spyIsFieldInEditMode}
@@ -82,7 +82,7 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                user={{username:'steve tester'}}
+                user={{username:'steven anita tester'}}
                 recipe={recipeFixtures()[3]}
                 isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                 isFieldInEditMode={spyIsFieldInEditMode}

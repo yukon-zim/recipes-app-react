@@ -1,46 +1,65 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import { ThemeProvider } from 'styled-components';
+import { MemoryRouter } from 'react-router-dom';
 import recipeFixtures from '../testing/recipe-fixtures.js';
-import RecipeDetail from './recipe-detail';
+import recipeDetail from './recipe-detail';
 import RecipeDetailField from './recipe-detail-field';
 
-describe('component tests', () => {
-    describe('render scenarios', () => {
-        it('should render an empty component for route /detail/new', () => {
-            const wrapper = shallow(<RecipeDetail
-                match={{params: {id: 'new'}}}
-            />);
-            expect(wrapper.state('recipe')).toEqual({
-                ingredients: [],
-                instructions: [],
-                name: ''
-            });
-            expect(wrapper.state('newRecipeMode')).toEqual(true);
-            expect(wrapper.find('RecipeDetailField')).toHaveLength(4);
-            expect(wrapper.find('RecipeDetailListField')).toHaveLength(2);
-            expect(wrapper.find('button.btn-update-recipe')).toHaveLength(0);
-            expect(wrapper.find('button.btn-delete-recipe')).toHaveLength(0);
-            expect(wrapper.find('button.btn-save-new-recipe')).toHaveLength(1);
-        });
-        it('should render a recipe when given an existing ID', async () => {
-            const jsonstring = JSON.stringify(recipeFixtures()[0]);
-            fetch.mockResponseOnce(jsonstring);
+const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+jest.mock('./CreateRecipe/CreateRecipeButtons', () => () => 'CreateRecipeButtons');
+jest.mock('./UpdateRecipe/UpdateRecipeButtons', () => () => 'UpdateRecipeButtons');
 
-            const wrapper = shallow(<RecipeDetail
-                match={{params: {id: 1}}}
-            />);
-            expect(wrapper.state('recipe')).toEqual({
-                ingredients: [],
-                instructions: [],
-                name: ''
-            });
-            await wrapper.instance().getRecipePromise;
-            expect(wrapper.state('recipe')).toEqual(expect.objectContaining({
-                name: recipeFixtures()[0].name,
-                ingredients: recipeFixtures()[0].ingredients,
-                instructions: recipeFixtures()[0].instructions
-            }));
-            expect(wrapper.state('newRecipeMode')).toEqual(false);
+describe('component tests', () => {
+    let spyCheckValidity = jest.fn();
+    spyCheckValidity.mockImplementation(() => {return true});
+    function mockSetFormRef() {
+        this.recipeForm = { checkValidity: spyCheckValidity };
+    }
+    describe('render scenarios', () => {
+        // it('should render an empty component for route /detail/new', () => {
+        //     const NewRecipeDetail = recipeDetail('CreateRecipeButtons');
+        //     const wrapper = mount(<ThemeProvider theme={theme}>
+        //         <MemoryRouter>
+        //             <NewRecipeDetail
+        //                 id={'new'}
+        //                 newRecipeMode={true}
+        //             />
+        //         </MemoryRouter>
+        //     </ThemeProvider>);
+        //     const mockedDetail = wrapper.find('RecipeDetail').instance();
+        //     expect(mockedDetail.state.recipe).toEqual({
+        //         ingredients: [],
+        //         instructions: [],
+        //         name: ''
+        //     });
+        //     expect(mockedDetail.state.recipeId).toEqual(undefined);
+        //     expect(wrapper.find('RecipeDetailField')).toHaveLength(4);
+        //     expect(wrapper.find('RecipeDetailListField')).toHaveLength(2);
+        //     expect(wrapper.find('CreateRecipeButtons')).toHaveLength(0);
+        // });
+        it('should render a recipe when given an existing ID', async () => {
+
+            const EditRecipeDetail = recipeDetail('UpdateRecipeButtons');
+            jest.spyOn(EditRecipeDetail.prototype, 'setFormRef').mockImplementation(mockSetFormRef);
+            const wrapper = mount(<ThemeProvider theme={theme}>
+                <MemoryRouter>
+                    <EditRecipeDetail
+                        recipe={recipeFixtures()[0]}
+                        newRecipeMode={false}
+                    />
+                </MemoryRouter>
+            </ThemeProvider>);
+            const mockedDetail = wrapper.find('RecipeDetail').instance();
+            mockedDetail.recipeForm = {
+                checkValidity: spyCheckValidity,
+            };
+            expect(mockedDetail.state.recipe).toEqual(recipeFixtures()[0])
+            // expect(wrapper.state('recipe')).toEqual(expect.objectContaining({
+            //     name: recipeFixtures()[0].name,
+            //     ingredients: recipeFixtures()[0].ingredients,
+            //     instructions: recipeFixtures()[0].instructions
+            // }));
         });
         it('should render a blank recipe when given a null ID', () => {
             const wrapper = shallow(<RecipeDetail
