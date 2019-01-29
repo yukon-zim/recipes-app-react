@@ -93,19 +93,19 @@ describe('component tests', () => {
     describe('method tests', () => {
         let wrapper;
         it('should set searchInProgress and searchTerm property correctly with setter', async () => {
-            const mockedProvider = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
-            wrapper = mockedProvider.find('RecipeList').instance();
+            const wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+            const mockedProvider = wrapper.find('RecipeList').instance();
 
-            expect(wrapper.state.searchTerm).toEqual('');
-            expect(wrapper.state.searchInProgress).toEqual(false);
+            expect(mockedProvider.state.searchTerm).toEqual('');
+            expect(mockedProvider.state.searchInProgress).toEqual(false);
 
-            wrapper.setSearchTerm('test');
-            expect(wrapper.state.searchTerm).toEqual('test');
-            expect(wrapper.state.searchInProgress).toEqual(true);
+            mockedProvider.setSearchTerm('test');
+            expect(mockedProvider.state.searchTerm).toEqual('test');
+            expect(mockedProvider.state.searchInProgress).toEqual(true);
 
-            wrapper.setSearchTerm('');
-            expect(wrapper.state.searchTerm).toEqual('');
-            expect(wrapper.state.searchInProgress).toEqual(false);
+            mockedProvider.setSearchTerm('');
+            expect(mockedProvider.state.searchTerm).toEqual('');
+            expect(mockedProvider.state.searchInProgress).toEqual(false);
         })
     })
 });

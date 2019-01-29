@@ -32,7 +32,7 @@ describe('component tests', () => {
             expect(wrapper.find('button.btn-cancel-import')).toHaveLength(1);
             expect(wrapper.state('csvImportError')).toEqual('');
             // simulate click on cancel button
-            wrapper.find('button.btn-cancel-import').simulate('click');
+            wrapper.find('button.btn-cancel-import').simulate('mouseDown');
             expect(wrapper.state('csvImportEnabled')).toEqual(false);
             expect(wrapper.find('button.btn-import-recipe')).toHaveLength(0);
             expect(wrapper.find('button.btn-cancel-import')).toHaveLength(0);
@@ -50,11 +50,10 @@ describe('component tests', () => {
             const importResponse = JSON.stringify({message: 'successful test'});
             fetch.mockResponseOnce(importResponse, {status: 200});
             // simulate click on import button
-            wrapper.find('button.btn-import-recipe').simulate('click');
-            // await import and getRecipes promises
+            wrapper.find('button.btn-import-recipe').simulate('mouseDown');
+            // await import promise
             await wrapper.instance().importRecipesPromise;
-            await wrapper.instance().getRecipesPromise;
-            expect(spyGetRecipes).toHaveBeenCalledWith();
+            expect(wrapper.state('csvImportError')).toEqual('successful test. Refresh the page to see all recipes.');
         })
     })
 });

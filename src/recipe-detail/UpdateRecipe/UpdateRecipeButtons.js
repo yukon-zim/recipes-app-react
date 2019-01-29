@@ -119,3 +119,4 @@ class UpdateRecipeButtons extends Component {
 }
 
 export default withRouter(UpdateRecipeButtons)
+export { UPDATE_RECIPE_MUTATION, DELETE_RECIPE_MUTATION }

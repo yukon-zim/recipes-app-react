@@ -21,7 +21,7 @@ export default class ImportUrl extends Component {
         }
     }
     async importRecipeByUrl(importUrlMutation) {
-        try {
+        // try {
             const res = await importUrlMutation({
                 variables: {url: this.urlToImportInput.value}
             });
@@ -30,9 +30,9 @@ export default class ImportUrl extends Component {
                 urlImportMessage: 'Successfully imported recipe from URL!'
             });
             return res;
-        } catch (err) {
-            console.error(err);
-        }
+        // } catch (err) {
+        //     console.error(err);
+        // }
     }
 
     cancelUrlImport() {
@@ -106,3 +106,5 @@ export default class ImportUrl extends Component {
         )
     }
 }
+
+export {URL_IMPORT_MUTATION}

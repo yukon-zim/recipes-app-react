@@ -34,6 +34,7 @@ export default function recipeDetail (FormButtons) {
                 formIsValid: false,
                 errorRecipeMode: false
             };
+            this.setFormRef = this.setFormRef.bind(this);
         }
 
         createEmptyRecipe() {
@@ -188,7 +189,7 @@ export default function recipeDetail (FormButtons) {
             })
         };
 
-        setFormRef = form => {
+        setFormRef(form) {
             this.recipeForm = form;
         };
 

@@ -1,58 +1,76 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { mount } from 'enzyme';
+import { MockedProvider } from "react-apollo/test-utils";
+import { ThemeProvider } from 'styled-components';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import ImportUrl from './import-url';
+import { URL_IMPORT_MUTATION } from './import-url';
+import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
+
+const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
 
 describe('component tests', () => {
+    const mockMutation = {
+        query: URL_IMPORT_MUTATION,
+        variables: {url: 'www.google.com'}
+    };
+    const mockQuery = {
+        query: ALL_RECIPES_QUERY,
+        variables: {
+            searchTerm: ''
+        }
+    };
+    const mocks = [{
+        request: mockMutation,
+        result: {data: {name: 'Test Recipe'}}
+    },{
+        request: mockQuery,
+        result: {data: {recipe: recipeFixtures()[0]}}
+    }];
+    const errorMocks = [{
+        request: mockMutation,
+        result: {error: "Bad Request"}
+    }];
     let wrapper;
+    let mockedComponent;
     let spyGetRecipes;
     let spySetRecipes;
     beforeEach(() => {
-        spyGetRecipes = jest.fn();
-        spySetRecipes = jest.fn();
-        wrapper = shallow(<ImportUrl
-            getRecipes={spyGetRecipes}
-            setRecipes={spySetRecipes}
-        />)
+        wrapper = mount(<ThemeProvider theme={theme}>
+            <MockedProvider mocks={mocks} addTypename={false}>
+            <ImportUrl/>
+        </MockedProvider>
+        </ThemeProvider>);
+        mockedComponent = wrapper.find('ImportUrl').instance();
     });
     describe('render tests', () => {
 
         it('initial render prior to file selection', () => {
-            expect(wrapper.state('urlInputValid')).toEqual(false);
+            expect(mockedComponent.state.urlInputValid).toEqual(false);
             expect(wrapper.find('button.btn-import-url[disabled=true]')).toHaveLength(1);
-            expect(wrapper.state('urlImportError')).toEqual('');
+            expect(mockedComponent.state.urlImportMessage).toEqual('');
         });
     });
     describe('method tests', () => {
         it('event when selecting a URL', () => {
             // simulate onChange event (entering url)
             wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
-            expect(wrapper.state('urlInputValid')).toEqual(true);
+            expect(mockedComponent.state.urlInputValid).toEqual(true);
             expect(wrapper.find('button.btn-import-url[disabled=false]')).toHaveLength(1);
-            expect(wrapper.state('urlImportError')).toEqual('');
+            expect(mockedComponent.state.urlImportMessage).toEqual('');
         });
         it('event when clicking import button', async () => {
-            // set up spy return values
-            spyGetRecipes.mockImplementation(async () => {
-                return [recipeFixtures()[0], recipeFixtures()[1]]
-            });
             // simulate onChange event (entering url)
             wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
-            // set up import fetch request
-            const importResponse = JSON.stringify({message: 'successful test'});
-            fetch.mockResponseOnce(importResponse);
             // simulate click on import button
             wrapper.instance().urlToImportInput = {value: 'www.google.com'};
-            wrapper.find('button.btn-import-url').simulate('click');
-            // await import and getRecipes promises
-            await wrapper.instance().importUrlRequestPromise;
-            await wrapper.instance().getRecipesPromise;
-            expect(spyGetRecipes).toHaveBeenCalledWith();
-            expect(spySetRecipes).toHaveBeenCalledWith([recipeFixtures()[0], recipeFixtures()[1]]);
+            wrapper.find('button.btn-import-url').simulate('mouseDown');
+            await new Promise(resolve => setTimeout(resolve, 10));
+            wrapper.update();
             // url input/state should reset
-            expect(wrapper.state('urlInputValid')).toEqual(false);
+            expect(mockedComponent.state.urlInputValid).toEqual(false);
             expect(wrapper.find('button.btn-import-url[disabled=true]')).toHaveLength(1);
-            expect(wrapper.state('urlImportError')).toEqual('successful test');
+            expect(mockedComponent.state.urlImportMessage).toEqual('Succccess!');
         })
     })
 });

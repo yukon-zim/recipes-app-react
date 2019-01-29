@@ -80,3 +80,4 @@ class CreateRecipeButtons extends Component {
 }
 
 export default withRouter(CreateRecipeButtons);
+export { CREATE_RECIPE_MUTATION };
