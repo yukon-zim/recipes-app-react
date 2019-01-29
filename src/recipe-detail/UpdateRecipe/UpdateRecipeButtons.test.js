@@ -2,7 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils'
 import { ThemeProvider } from 'styled-components';
-import { MemoryRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import recipeFixtures from '../../testing/recipe-fixtures';
 import UpdateRecipeButtons, { UPDATE_RECIPE_MUTATION, DELETE_RECIPE_MUTATION } from './UpdateRecipeButtons'
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
@@ -58,13 +59,12 @@ describe('component tests', () => {
             spyConfirmDelete.mockImplementation(() => {return true});
             global.confirm = spyConfirmDelete;
             spyReset = jest.fn();
-            history = [];
+            history = createMemoryHistory();
             // load mocked recipe
             wrapper = mount(<ThemeProvider theme={theme}>
-                <MemoryRouter>
+                <Router history={history}>
                     <MockedProvider mocks={mocks} addTypename={false}>
                         <UpdateRecipeButtons
-                            history={history}
                             recipe={mockTestRecipe}
                             user={{username:'steven anita tester'}}
                             formIsDirty={true}
@@ -72,7 +72,7 @@ describe('component tests', () => {
                             resetForm={spyReset}
                         />
                     </MockedProvider>
-                </MemoryRouter>
+                </Router>
             </ThemeProvider>);
         });
         it('should apply click from \'update recipe\' button', async () => {
@@ -85,13 +85,16 @@ describe('component tests', () => {
             expect(spyReset).toHaveBeenCalled();
         });
         it('should apply click from \'delete recipe\' button', async () => {
+
             const mockedButton = wrapper.find('UpdateRecipeButtons').find('button.btn-delete-recipe');
+            // history has 1 entry on creation
+            expect(history).toHaveLength(1);
             // apply click to 'save new' button
             mockedButton.simulate('mouseDown');
             // wait for delete mutation
             await new Promise(resolve => setTimeout(resolve, 10));
             wrapper.update();
-          expect(history).toHaveLength(1);
+          expect(history).toHaveLength(2);
         });
     })
 });

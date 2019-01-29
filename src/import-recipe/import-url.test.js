@@ -63,14 +63,14 @@ describe('component tests', () => {
             // simulate onChange event (entering url)
             wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
             // simulate click on import button
-            wrapper.instance().urlToImportInput = {value: 'www.google.com'};
+            mockedComponent.urlToImportInput = {value: 'www.google.com'};
             wrapper.find('button.btn-import-url').simulate('mouseDown');
             await new Promise(resolve => setTimeout(resolve, 10));
             wrapper.update();
             // url input/state should reset
             expect(mockedComponent.state.urlInputValid).toEqual(false);
             expect(wrapper.find('button.btn-import-url[disabled=true]')).toHaveLength(1);
-            expect(mockedComponent.state.urlImportMessage).toEqual('Succccess!');
+            expect(mockedComponent.state.urlImportMessage).toEqual('Successfully imported recipe from URL!');
         })
     })
 });
