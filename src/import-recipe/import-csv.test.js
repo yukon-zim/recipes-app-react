@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { shallow } from 'enzyme';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import ImportCsv from './import-csv';
 
@@ -45,10 +45,10 @@ describe('component tests', () => {
             // simulate onChange event (selecting csv file)
             wrapper.find('input#csv-file-upload').simulate('change', {});
             // must also simulate ref on input element
-            wrapper.instance().csvFileInput = {files: ['']};
+            wrapper.instance().csvFileInput = { files: [''] };
             // set up import fetch request
-            const importResponse = JSON.stringify({message: 'successful test'});
-            fetch.mockResponseOnce(importResponse, {status: 200});
+            const importResponse = JSON.stringify({ message: 'successful test' });
+            fetch.mockResponseOnce(importResponse, { status: 200 });
             // simulate click on import button
             wrapper.find('button.btn-import-recipe').simulate('mouseDown');
             // await import promise

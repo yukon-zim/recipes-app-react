@@ -1,13 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 export default class ImportCsv extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            csvImportEnabled: false,
-            csvImportError: ''
-        }
-    }
+    state = {
+        csvImportEnabled: false,
+        csvImportError: ''
+    };
 
     async importRecipe(fileData) {
         const formData = new FormData();

@@ -35,9 +35,9 @@ const UpdateRecipe = props => {
     return(
         <Query
             query={GET_RECIPE_QUERY}
-            variables={{id}}
+            variables={{ id }}
         >
-            {({data, error, loading}) => {
+            {({ data, error, loading }) => {
                 if (error) {
                     console.error(error);
                     return <p className="error-message">Couldn't find the recipe with ID {id}</p>;

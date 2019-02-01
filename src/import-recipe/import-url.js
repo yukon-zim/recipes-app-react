@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
@@ -13,26 +13,24 @@ const URL_IMPORT_MUTATION = gql`
 `;
 
 export default class ImportUrl extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            urlInputValid: false,
-            urlImportMessage: ''
-        }
-    }
+    state = {
+        urlInputValid: false,
+        urlImportMessage: ''
+    };
+
     async importRecipeByUrl(importUrlMutation) {
-        // try {
-            const res = await importUrlMutation({
-                variables: {url: this.urlToImportInput.value}
-            });
-            this.cancelUrlImport();
-            this.setState({
-                urlImportMessage: 'Successfully imported recipe from URL!'
-            });
-            return res;
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        try {
+        const res = await importUrlMutation({
+            variables: { url: this.urlToImportInput.value }
+        });
+        this.cancelUrlImport();
+        this.setState({
+            urlImportMessage: 'Successfully imported recipe from URL!'
+        });
+        return res;
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     cancelUrlImport() {
@@ -65,12 +63,12 @@ export default class ImportUrl extends Component {
             <div>
                 <div>
                     <Mutation mutation={URL_IMPORT_MUTATION}
-                              refetchQueries={[{query: ALL_RECIPES_QUERY, variables: {searchTerm: ''}}]}>
-                        {(importUrl, {error, loading}) => (
+                              refetchQueries={[{ query: ALL_RECIPES_QUERY, variables: { searchTerm: '' } }]}>
+                        {(importUrl, { error, loading }) => (
                             <form onSubmit={this.handleSubmit}>
                                 <div>
                                     <label htmlFor="url-file-upload">
-                                        Import recipes by URL if you dare! This MAY support URLs from: <br/>
+                                        Import recipes by URL if you dare! This is in beta but MAY support URLs from: <br/>
                                         <ul>
                                             <li>TheKitchn</li>
                                             <li>Food52</li>
@@ -95,7 +93,7 @@ export default class ImportUrl extends Component {
                                 </div>
                                 <div>
                                     {error && (
-                                        <p className="error-message">An error ocurred while importing the recipe. Check the console.</p>
+                                        <p className="error-message">An error ocurred while importing the recipe. Check the browser console.</p>
                                     )}
                                 </div>
                             </form>
@@ -107,4 +105,4 @@ export default class ImportUrl extends Component {
     }
 }
 
-export {URL_IMPORT_MUTATION}
+export { URL_IMPORT_MUTATION }

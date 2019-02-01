@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import RecipeSearch from '../recipe-search/recipe-search';
@@ -25,14 +25,10 @@ const ALL_RECIPES_QUERY = gql`
 `;
 
 export default class RecipeList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            recipeUrl: 'http://localhost:1337/recipes',
-            searchTerm: '',
-            searchInProgress: false
-        };
-
+    state = {
+        recipeUrl: 'http://localhost:1337/recipes',
+        searchTerm: '',
+        searchInProgress: false
     };
 
     setSearchTerm = searchTerm => {
@@ -43,10 +39,12 @@ export default class RecipeList extends Component {
     };
 
     render() {
-        // const isImportUrlInvalid = this.urlToImportInput === undefined || this.urlToImportInput.validity === undefined || !this.urlToImportInput.validity.valid;
+        const { user } = this.props;
         return (
-            <Query query={ALL_RECIPES_QUERY} variables={{searchTerm: this.state.searchTerm}}>
-                {({data, error, loading}) => {
+            <Query query={ALL_RECIPES_QUERY} variables={{ searchTerm: this.state.searchTerm }}>
+                {({ data, error, loading }) => {
+                    if (loading) return  <h4>Loading recipes...</h4>;
+                    if (error) return <h4 className="network-error">Encountered an error while loading recipes. Are the GraphQL and API servers running?</h4>;
                     const recipes = data.recipes || [];
                     const commonRecipeListProps = {
                         loading,
@@ -55,41 +53,45 @@ export default class RecipeList extends Component {
                         recipes
                     };
                     return (
-                        <div className="container-fluid">
-                            <RecipeSearch
-                                {...commonRecipeListProps}
-                                setSearchTerm={this.setSearchTerm}
-                            />
-                            <div>
-                                <RecipeListTable
-                                    {...commonRecipeListProps}
-                                />
-                            </div>
-                            <div>
-                                {!this.props.user && (
+                        <React.Fragment>
+                            {!error && !loading && (
+                                <div className="container-fluid">
+                                    <RecipeSearch
+                                        {...commonRecipeListProps}
+                                        setSearchTerm={this.setSearchTerm}
+                                    />
                                     <div>
-                                        <h5>Sign in to add new recipes!</h5>
+                                        <RecipeListTable
+                                            {...commonRecipeListProps}
+                                        />
                                     </div>
-                                )}
-                                {this.props.user && (
-                                    <React.Fragment>
-                                        <div className="mb-4">
-                                            <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
-                                        </div>
-                                        <div className="mb-4">
-                                            {false &&
-                                            <ImportCsv
-                                                {...commonRecipeListProps}
-                                            />
-                                            }
-                                            <ImportUrl
-                                                {...commonRecipeListProps}
-                                            />
-                                        </div>
-                                    </React.Fragment>
-                                )}
-                            </div>
-                        </div>
+                                    <div>
+                                        {!user && (
+                                            <div>
+                                                <h5>Sign in to add new recipes!</h5>
+                                            </div>
+                                        )}
+                                        {user && (
+                                            <React.Fragment>
+                                                <div className="mb-4">
+                                                    <Button as={Link} className="btn btn-primary" id="add-new-recipe" to="/detail/new">Add new recipe!</Button>
+                                                </div>
+                                                <div className="mb-4">
+                                                    {false &&
+                                                    <ImportCsv
+                                                        {...commonRecipeListProps}
+                                                    />
+                                                    }
+                                                    <ImportUrl
+                                                        {...commonRecipeListProps}
+                                                    />
+                                                </div>
+                                            </React.Fragment>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </React.Fragment>
                     )}}
             </Query>
         )

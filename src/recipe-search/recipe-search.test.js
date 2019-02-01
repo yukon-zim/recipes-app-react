@@ -1,11 +1,10 @@
 import React from 'react';
-import { shallow, render } from 'enzyme';
+import { shallow } from 'enzyme';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeSearch from './recipe-search';
 
 describe('component tests', () => {
     let spySetSearchTerm;
-    const fullRecipeList = [recipeFixtures()[0], recipeFixtures()[1]];
     beforeEach(() => {
         spySetSearchTerm = jest.fn();
     });
@@ -38,7 +37,7 @@ describe('component tests', () => {
                 setSearchTerm={spySetSearchTerm}
             />);
             // simulate onKeyUp event (entering search term)
-            wrapper.find('input#search-recipes-field').simulate('keyUp', {target:{value: 'test'}});
+            wrapper.find('input#search-recipes-field').simulate('keyUp', { target:{ value: 'test' } });
             expect(spySetSearchTerm).toHaveBeenCalledWith('test');
         });
         it('empty search term', async () => {
@@ -48,7 +47,7 @@ describe('component tests', () => {
                 setSearchTerm={spySetSearchTerm}
             />);
             // simulate onKeyUp event (entering search term)
-            wrapper.find('input#search-recipes-field').simulate('keyUp', {target:{value: ''}});
+            wrapper.find('input#search-recipes-field').simulate('keyUp', { target:{ value: '' } });
             expect(spySetSearchTerm).toHaveBeenCalledWith('');
         })
     })

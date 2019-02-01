@@ -49,17 +49,19 @@ class Signin extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.setState({ name: '', email: '', password: ''})
+        this.setState({ name: '', email: '', password: '' })
     }
 
     render() {
+        const { email, password } = this.state;
         const formIsValid = FormValidHelper.isFormValid(this.signinForm);
         return (
             <Mutation
                 mutation={SIGNIN_MUTATION}
+                //todo: check variables
                 variables={this.state}
-                refetchQueries={[{query: CURRENT_USER_QUERY}]}>
-                {(signin, {error, loading}) => (
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+                {(signin, { error, loading }) => (
 
                     <Form ref={form => this.signinForm = form}
                           onSubmit={this.handleSubmit}
@@ -75,7 +77,7 @@ class Signin extends Component {
                                     type="email"
                                     name="email"
                                     placeholder="email"
-                                    value={this.state.email}
+                                    value={ email }
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>
@@ -86,7 +88,7 @@ class Signin extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="password"
-                                    value={this.state.password}
+                                    value={ password }
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>

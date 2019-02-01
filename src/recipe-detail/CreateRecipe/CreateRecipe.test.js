@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { isEqual } from 'lodash';
 import CreateRecipe from '../CreateRecipe/CreateRecipe';
 
 jest.mock('../recipe-detail', () => () => () => 'RecipeDetail');

@@ -3,11 +3,12 @@ import { mount } from 'enzyme';
 import { MockedProvider } from "react-apollo/test-utils";
 import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
+import wait from 'waait';
 import recipeFixtures from '../testing/recipe-fixtures.js';
-import RecipeList, {ALL_RECIPES_QUERY} from './recipe-list';
+import RecipeList, { ALL_RECIPES_QUERY } from './recipe-list';
 
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 //
 // Consistent unit tests with Enzyme and Jest
 // To get consistency, always use mount
@@ -43,33 +44,43 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockRequest,
-        result: {data: recipeFixtures()}
+        result: { data: recipeFixtures() }
     }];
     const errorMocks = [{
         request: mockRequest,
-        result: {error: "Bad Request"}
+        result: { error: "Bad Request" }
     }];
 
     describe('render tests', () => {
         let wrapper;
-        it('should render the basic page elements', () => {
+        it('should render the basic page elements', async () => {
             wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+            // advance wrapper past GQL query loading state
+            await wait(500);
+            wrapper.update();
             // with RecipeListTable mocked
             expect(wrapper.contains('RecipeListTable')).toEqual(true);
             // without RecipeListTable mocked
             // expect(wrapper.find('RecipeListTable')).toHaveLength(1);
             expect(wrapper.contains('RecipeSearch')).toEqual(true);
         });
-        it('should handle payload with no data and an error', () => {
+        it('should handle payload with no data and an error', async () => {
             wrapper = mount(<MockedProvider mocks={errorMocks}><RecipeList/></MockedProvider>);
-            expect(wrapper.contains('RecipeListTable')).toEqual(true);
-            expect(wrapper.contains('RecipeSearch')).toEqual(true);
+            // advance wrapper past GQL query loading state
+            await wait(500);
+            wrapper.update();
+            expect(wrapper.contains('RecipeListTable')).toEqual(false);
+            expect(wrapper.contains('RecipeSearch')).toEqual(false);
+            expect(wrapper.exists('h4.network-error')).toEqual(true);
         });
         describe("sign in/out", () => {
             const noUserHeader = <h5>Sign in to add new recipes!</h5>;
 
-            it('should have add new recipe button when a user is signed in', async () => {
-                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{username:'steven anita tester'}}/></MockedProvider></MemoryRouter></ThemeProvider>);
+            it('should show add new recipe button when a user is signed in', async () => {
+                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{ username:'steven anita tester' }}/></MockedProvider></MemoryRouter></ThemeProvider>);
+                // advance wrapper past GQL query loading state
+                await wait(500);
+                wrapper.update();
                 expect(wrapper.contains('RecipeListTable')).toEqual(true);
                 expect(wrapper.contains(noUserHeader)).toEqual(false);
                 // have to include including tag type (Link) in the check in order to narrow down which element
@@ -81,8 +92,11 @@ describe('component tests', () => {
                 expect(wrapper.find('Link#add-new-recipe')).toHaveLength(1);
                 expect(wrapper.contains('ImportUrl')).toEqual(true);
             });
-            it('should not have add new recipe button when a user is not signed in', () => {
-                wrapper = mount(<MockedProvider mocks={errorMocks}><RecipeList/></MockedProvider>);
+            it('should not show add new recipe button when a user is not signed in', async () => {
+                wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+                // advance wrapper past GQL query loading state
+                await wait(500);
+                wrapper.update();
                 expect(wrapper.contains('RecipeListTable')).toEqual(true);
                 expect(wrapper.contains(noUserHeader)).toEqual(true);
                 expect(wrapper.find('#add-new-recipe')).toHaveLength(0);
@@ -91,9 +105,11 @@ describe('component tests', () => {
         });
     });
     describe('method tests', () => {
-        let wrapper;
         it('should set searchInProgress and searchTerm property correctly with setter', async () => {
             const wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+            // advance wrapper past GQL query loading state
+            await wait(500);
+            wrapper.update();
             const mockedProvider = wrapper.find('RecipeList').instance();
 
             expect(mockedProvider.state.searchTerm).toEqual('');

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { orderBy, differenceBy } from 'lodash';
 import styled, { css } from 'styled-components'
 
@@ -31,14 +31,11 @@ const Cell = styled.td`
 
 
 export default class RecipeListTable extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            recipes: props.recipes,
-            currentSortByOrder: null,
-            currentSortByField: null,
-        }
-    }
+    state = {
+        recipes: this.props.recipes,
+        currentSortByOrder: null,
+        currentSortByField: null,
+    };
 
     sortByColumnHeader(field) {
         let recipes = this.state.recipes;
@@ -86,9 +83,9 @@ export default class RecipeListTable extends Component {
     }
 
     render() {
-        const loading = this.props.loading;
-        const noRecipesFound = this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
-        const noRecipes = !this.props.searchInProgress && this.props.recipes !== undefined && this.props.recipes.length === 0;
+        const { recipes, loading, searchInProgress } = this.props;
+        const noRecipesFound = searchInProgress && recipes !== undefined && recipes.length === 0;
+        const noRecipes = !searchInProgress && recipes !== undefined && recipes.length === 0;
         const blankUrl = '#';
 
         return(

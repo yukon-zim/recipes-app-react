@@ -47,7 +47,7 @@ class Signin extends Component {
             <Mutation
                 mutation={REQUEST_RESET_MUTATION}
                 variables={this.state}>
-                {(reset, {error, loading, called}) => (
+                {(reset, { error, loading, called }) => (
                     <Form ref={form => this.requestResetForm = form}
                           onSubmit={this.handleSubmit}
                           className="user-form">

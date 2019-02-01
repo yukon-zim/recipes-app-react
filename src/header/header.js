@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components'
 import Signout from '../login/Signout'
 import Button from '../style/Button';
@@ -17,8 +17,7 @@ const Nav = styled.nav`
 `;
 
 // "functional component" (only has render function); can use shorthand notation
-const Header = (props) => {
-    const user = props.user;
+const Header = ({ user }) => {
     let userName;
     if (!user || !user.name) {
         userName = '';

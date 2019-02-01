@@ -27,7 +27,7 @@ class Signup extends Component {
         signupCode: ''
     };
     saveToState = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     signup = async (signupMutation) => {
@@ -50,16 +50,17 @@ class Signup extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.setState({ name: '', email: '', password: ''})
+        this.setState({ name: '', email: '', password: '' })
     }
 
     render() {
+        const { email, name, password, signupCode } = this.state;
         const formIsValid = FormValidHelper.isFormValid(this.signupForm);
         return (
             <Mutation
                 mutation={SIGNUP_MUTATION}
-                refetchQueries={[{query: CURRENT_USER_QUERY}]}>
-                {(signup, {error, loading}) => (
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+                {(signup, { error, loading }) => (
                     <Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}
                           className="user-form">
@@ -74,7 +75,7 @@ class Signup extends Component {
                                     type="email"
                                     name="email"
                                     placeholder="email"
-                                    value={this.state.email}
+                                    value={email}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>
@@ -84,7 +85,7 @@ class Signup extends Component {
                                     type="text"
                                     name="name"
                                     placeholder="name"
-                                    value={this.state.name}
+                                    value={name}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>
@@ -95,7 +96,7 @@ class Signup extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="password"
-                                    value={this.state.password}
+                                    value={password}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>
@@ -106,7 +107,7 @@ class Signup extends Component {
                                     type="password"
                                     name="signupCode"
                                     placeholder="seeeecret code!"
-                                    value={this.state.signupCode}
+                                    value={signupCode}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>

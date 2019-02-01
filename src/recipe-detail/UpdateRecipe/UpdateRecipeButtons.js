@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -56,7 +56,7 @@ class UpdateRecipeButtons extends Component {
                 this.goToListView();
                 return res;
             } catch (err) {
-                console.error(err.message);
+                console.error(err);
             }
         }
     };
@@ -67,38 +67,39 @@ class UpdateRecipeButtons extends Component {
 
 
     render() {
+        const { user, formIsDirty, formIsValid } = this.props;
         return (
             <div>
-                {!this.props.user && (
+                {!user && (
                     <div>
                         <h5>Sign in to edit recipes!</h5>
                     </div>
                 )}
-                {this.props.user && (
+                {user && (
                     <div className="recipe-form-buttons">
                         <Mutation
                             mutation={UPDATE_RECIPE_MUTATION}
                         >
-                            {(updateRecipe, {error}) => (
+                            {(updateRecipe, { error }) => (
                                 <React.Fragment>
                                     {error && (
-                                        <p className="error-message">{error}</p>
+                                        <p className="error-message">{error.message}</p>
                                     )}
                                     <Button
                                         update
                                         type="button"
                                         className="btn btn-primary btn-update-recipe"
                                         onMouseDown={async () => this.updateRecipe(updateRecipe)}
-                                        disabled={!this.props.formIsDirty || !this.props.formIsValid}>Update
+                                        disabled={!formIsDirty || !formIsValid}>Update
                                         recipe</Button>
                                 </React.Fragment>
                             )}
                         </Mutation>
                         <Mutation
                             mutation={DELETE_RECIPE_MUTATION}
-                            refetchQueries={[{query: ALL_RECIPES_QUERY, variables: {searchTerm: ''}}]}
+                            refetchQueries={[{ query: ALL_RECIPES_QUERY, variables: { searchTerm: '' } }]}
                         >
-                            {(deleteRecipe, {error}) => (
+                            {(deleteRecipe, { error }) => (
                                 <React.Fragment>
                                     {error && (
                                         <p className="error-message">{error.message}</p>

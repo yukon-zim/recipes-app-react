@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { ThemeProvider } from 'styled-components';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeDetailListField from './recipe-detail-list-field';
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 
 describe('component tests', () => {
     let spyIsFieldInEditAndFocus;
@@ -36,7 +36,7 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                    user={{username:'steven anita tester'}}
+                    user={{ username:'steven anita tester' }}
                 recipe={recipeFixtures()[2]}
                 isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                 isFieldInEditMode={spyIsFieldInEditMode}
@@ -82,7 +82,7 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                user={{username:'steven anita tester'}}
+                user={{ username:'steven anita tester' }}
                 recipe={recipeFixtures()[3]}
                 isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
                 isFieldInEditMode={spyIsFieldInEditMode}

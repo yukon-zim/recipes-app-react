@@ -4,9 +4,8 @@ import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import recipeDetail from './recipe-detail';
-import RecipeDetailField from './recipe-detail-field';
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 jest.mock('./CreateRecipe/CreateRecipeButtons', () => () => 'CreateRecipeButtons');
 jest.mock('./UpdateRecipe/UpdateRecipeButtons', () => () => 'UpdateRecipeButtons');
 

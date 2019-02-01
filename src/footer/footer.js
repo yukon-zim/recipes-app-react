@@ -6,13 +6,13 @@ const FooterDiv = styled.div`
 padding-top: 0.5rem;
 `;
 
-const Footer = (props) => (
+const Footer = ({ changeTheme }) => (
     <FooterDiv>
         <Button
             className="btn btn-primary"
             id="change-theme"
             type="button"
-            onClick={() => props.changeTheme()}
+            onClick={() => changeTheme()}
         > Change theme</Button>
     </FooterDiv>
 );

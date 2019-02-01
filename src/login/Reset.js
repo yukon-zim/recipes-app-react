@@ -54,20 +54,22 @@ class Reset extends Component {
         this.setState({ password: '', confirmPassword: '' })
     }
     render() {
+        const { resetToken } = this.props;
+        const { password, confirmPassword } = this.state;
         const formIsValid = FormValidHelper.isFormValid(this.resetForm);
         return (
             <Mutation
-                mutation={RESET_MUTATION}
+                mutation={ RESET_MUTATION }
                 variables={{
-                    resetToken: this.props.resetToken,
-                    password: this.state.password,
-                    confirmPassword: this.state.confirmPassword
+                    resetToken,
+                    password,
+                    confirmPassword
                 }}
-                refetchQueries={[{query: CURRENT_USER_QUERY}]}
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
-                {(reset, {error, loading, called}) => (
-                    <Form ref={form => this.resetForm = form}
-                          onSubmit={this.handleSubmit}
+                {(reset, { error, loading }) => (
+                    <Form ref={ form => this.resetForm = form }
+                          onSubmit={ this.handleSubmit }
                           className="reset-form">
                         <fieldset disabled={loading} aria-busy={loading}>
                             <HeaderLabel className="header-label reset-form">
@@ -80,7 +82,7 @@ class Reset extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="password"
-                                    value={this.state.password}
+                                    value={password}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>
@@ -91,7 +93,7 @@ class Reset extends Component {
                                     type="password"
                                     name="confirmPassword"
                                     placeholder="confirmPassword"
-                                    value={this.state.confirmPassword}
+                                    value={confirmPassword}
                                     onChange={this.saveToState}
                                 />
                             </UserFormLabel>

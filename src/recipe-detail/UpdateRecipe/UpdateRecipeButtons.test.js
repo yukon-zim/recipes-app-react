@@ -8,7 +8,7 @@ import recipeFixtures from '../../testing/recipe-fixtures';
 import UpdateRecipeButtons, { UPDATE_RECIPE_MUTATION, DELETE_RECIPE_MUTATION } from './UpdateRecipeButtons'
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 
 describe('component tests', () => {
     const mockTestRecipe = {
@@ -26,7 +26,7 @@ describe('component tests', () => {
     };
     const mockDeleteMutation = {
         query: DELETE_RECIPE_MUTATION,
-        variables: {id: '1'}
+        variables: { id: '1' }
     };
     const mockQuery = {
         query: ALL_RECIPES_QUERY,
@@ -36,17 +36,17 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockUpdateMutation,
-        result: {data: {addRecipe: recipeFixtures()[0]}}
+        result: { data: { addRecipe: recipeFixtures()[0] } }
     }, {
         request: mockDeleteMutation,
-        result: {data: {message:'success'}}
+        result: { data: { message:'success' } }
     }, {
         request: mockQuery,
-        result: {data: {recipe: recipeFixtures()[0]}}
+        result: { data: { recipe: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockUpdateMutation,
-        result: {error: "Bad Request"}
+        result: { error: "Bad Request" }
     }];
 
     describe('testing event handlers', async () => {
@@ -66,7 +66,7 @@ describe('component tests', () => {
                     <MockedProvider mocks={mocks} addTypename={false}>
                         <UpdateRecipeButtons
                             recipe={mockTestRecipe}
-                            user={{username:'steven anita tester'}}
+                            user={{ username:'steven anita tester' }}
                             formIsDirty={true}
                             formIsValid={true}
                             resetForm={spyReset}

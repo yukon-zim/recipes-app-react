@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom'
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import RecipeListTable from './recipe-list-table';

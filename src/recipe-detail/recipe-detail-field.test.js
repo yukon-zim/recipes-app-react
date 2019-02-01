@@ -121,7 +121,7 @@ describe('component tests', () => {
                 const nameInput = pageInputs.filterWhere(findTestField);
                 spySetRecipeField.mockClear();
                 // simulate entering test data into name field
-                nameInput.simulate('change', {target: {value: 'testName'}});
+                nameInput.simulate('change', { target: { value: 'testName' } });
                 expect(spySetRecipeField).toHaveBeenCalledWith('name', 'testName');
             });
             it('unfocuses field on enter', () => {

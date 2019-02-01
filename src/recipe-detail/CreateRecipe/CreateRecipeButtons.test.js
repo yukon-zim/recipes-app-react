@@ -4,10 +4,10 @@ import { MockedProvider } from 'react-apollo/test-utils'
 import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
 import recipeFixtures from '../../testing/recipe-fixtures';
-import CreateRecipeButtons, {CREATE_RECIPE_MUTATION} from './CreateRecipeButtons'
+import CreateRecipeButtons, { CREATE_RECIPE_MUTATION } from './CreateRecipeButtons'
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 
 describe('component tests', () => {
     const mockTestRecipe = {
@@ -30,13 +30,13 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockMutation,
-        result: {data: {addRecipe: recipeFixtures()[0]}}},
-        {request: mockQuery,
-        result: {data: {recipe: recipeFixtures()[0]}}
+        result: { data: { addRecipe: recipeFixtures()[0] } } },
+        { request: mockQuery,
+        result: { data: { recipe: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockMutation,
-        result: {error: "Bad Request"}
+        result: { error: "Bad Request" }
     }];
 
     describe('testing event handlers', async () => {
@@ -48,7 +48,7 @@ describe('component tests', () => {
                     <MockedProvider mocks={mocks} addTypename={false}>
                         <CreateRecipeButtons
                             recipe={mockTestRecipe}
-                            user={{username:'steven anita tester'}}
+                            user={{ username:'steven anita tester' }}
                             formIsDirty={true}
                             formIsValid={true}
                             resetForm={spyReset}

@@ -7,12 +7,12 @@ import ImportUrl from './import-url';
 import { URL_IMPORT_MUTATION } from './import-url';
 import { ALL_RECIPES_QUERY } from '../recipe-list/recipe-list';
 
-const theme = {newSchoolOptions: {}, oldSchoolOptions: {}};
+const theme = { newSchoolOptions: {}, oldSchoolOptions: {} };
 
 describe('component tests', () => {
     const mockMutation = {
         query: URL_IMPORT_MUTATION,
-        variables: {url: 'www.google.com'}
+        variables: { url: 'www.google.com' }
     };
     const mockQuery = {
         query: ALL_RECIPES_QUERY,
@@ -22,19 +22,17 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockMutation,
-        result: {data: {name: 'Test Recipe'}}
+        result: { data: { name: 'Test Recipe' } }
     },{
         request: mockQuery,
-        result: {data: {recipe: recipeFixtures()[0]}}
+        result: { data: { recipe: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockMutation,
-        result: {error: "Bad Request"}
+        result: { error: "Bad Request" }
     }];
     let wrapper;
     let mockedComponent;
-    let spyGetRecipes;
-    let spySetRecipes;
     beforeEach(() => {
         wrapper = mount(<ThemeProvider theme={theme}>
             <MockedProvider mocks={mocks} addTypename={false}>
@@ -54,16 +52,16 @@ describe('component tests', () => {
     describe('method tests', () => {
         it('event when selecting a URL', () => {
             // simulate onChange event (entering url)
-            wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
+            wrapper.find('input#url-file-upload').simulate('change', { target:{ value: 'www.google.com' } });
             expect(mockedComponent.state.urlInputValid).toEqual(true);
             expect(wrapper.find('button.btn-import-url[disabled=false]')).toHaveLength(1);
             expect(mockedComponent.state.urlImportMessage).toEqual('');
         });
         it('event when clicking import button', async () => {
             // simulate onChange event (entering url)
-            wrapper.find('input#url-file-upload').simulate('change', {target:{value: 'www.google.com'}});
+            wrapper.find('input#url-file-upload').simulate('change', { target:{ value: 'www.google.com' } });
             // simulate click on import button
-            mockedComponent.urlToImportInput = {value: 'www.google.com'};
+            mockedComponent.urlToImportInput = { value: 'www.google.com' };
             wrapper.find('button.btn-import-url').simulate('mouseDown');
             await new Promise(resolve => setTimeout(resolve, 10));
             wrapper.update();

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
@@ -34,9 +34,7 @@ class CreateRecipeButtons extends Component {
             this.goToId(res.data.addRecipe.id);
             return res;
         } catch (err) {
-            this.setState({
-                formError: err.message
-            });
+            console.error(err);
         }
     };
 
@@ -45,18 +43,19 @@ class CreateRecipeButtons extends Component {
     };
 
     render() {
+        const { user, formIsDirty, formIsValid } = this.props;
         return (
             <div>
-                {!this.props.user && (
+                {!user && (
                     <div>
                         <h5>Sign in to create recipes!</h5>
                     </div>
                 )}
-                {this.props.user && (
+                {user && (
                     <div className="recipe-form-buttons">
                         <Mutation
                             mutation={CREATE_RECIPE_MUTATION}
-                            refetchQueries={[{query: ALL_RECIPES_QUERY, variables:{searchTerm: ''}}]}
+                            refetchQueries={[{ query: ALL_RECIPES_QUERY, variables:{ searchTerm: '' } }]}
                         >
                             {(createRecipe, { error }) => (
                                 <React.Fragment>
@@ -66,9 +65,9 @@ class CreateRecipeButtons extends Component {
                                     <Button
                                         create
                                         className="btn btn-primary btn-save-new-recipe"
-                                            type="button"
-                                            disabled={!this.props.formIsDirty || !this.props.formIsValid}
-                                            onMouseDown={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</Button>
+                                        type="button"
+                                        disabled={!formIsDirty || !formIsValid}
+                                        onMouseDown={async () => this.saveNewRecipe(createRecipe)}>Save new recipe</Button>
                                 </React.Fragment>
                             )}
                         </Mutation>

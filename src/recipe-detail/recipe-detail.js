@@ -1,7 +1,7 @@
 /* eslint no-restricted-globals: 0 */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Moment from 'moment';
-import {Prompt} from 'react-router-dom';
+import { Prompt } from 'react-router-dom';
 import styled, { css } from 'styled-components'
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
@@ -34,6 +34,7 @@ export default function recipeDetail (FormButtons) {
                 formIsValid: false,
                 errorRecipeMode: false
             };
+            // for unit testing
             this.setFormRef = this.setFormRef.bind(this);
         }
 
@@ -199,7 +200,14 @@ export default function recipeDetail (FormButtons) {
         }
 
         render() {
-            const recipe = this.state.recipe;
+            const { user } = this.props;
+            const {
+                recipe,
+                formIsDirty,
+                formIsValid,
+                formError,
+                errorRecipeMode
+            } = this.state;
             const commonProps = {
                 recipe,
                 isFieldInEditAndFocus: this.isFieldInEditAndFocus,
@@ -223,7 +231,7 @@ export default function recipeDetail (FormButtons) {
                         <Form ref={this.setFormRef}
                               onSubmit={this.handleSubmit}>
                             <Prompt
-                                when={this.state.formIsDirty}
+                                when={formIsDirty}
                                 message="Unsaved changes - are you sure you want to leave this page?"
                             />
                             <div className="spacer"></div>
@@ -237,9 +245,9 @@ export default function recipeDetail (FormButtons) {
                             </HeaderLabel>
                             <fieldset>
                                 <div>
-                                    <span className="error-message">{this.state.formError}</span>
+                                    <span className="error-message">{formError}</span>
                                 </div>
-                                {!this.state.errorRecipeMode && (
+                                {!errorRecipeMode && (
                                     <div>
                                         <RecipeDetailField
                                             {...commonProps}
@@ -266,7 +274,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
-                                            user={this.props.user}
+                                            user={user}
                                             type='text'
                                             listType='unordered'
                                             addListItemLabel="Add ingredient"
@@ -278,7 +286,7 @@ export default function recipeDetail (FormButtons) {
                                         <RecipeDetailListField
                                             {...commonProps}
                                             {...commonListProps}
-                                            user={this.props.user}
+                                            user={user}
                                             type='textarea'
                                             rows='3'
                                             listType='ordered'
@@ -307,10 +315,10 @@ export default function recipeDetail (FormButtons) {
                                             required={false}
                                         />
                                         <FormButtons
-                                            recipe={this.state.recipe}
-                                            user={this.props.user}
-                                            formIsDirty={this.state.formIsDirty}
-                                            formIsValid={this.state.formIsValid}
+                                            recipe={recipe}
+                                            user={user}
+                                            formIsDirty={formIsDirty}
+                                            formIsValid={formIsValid}
                                             resetForm={this.resetForm}
                                         >
                                         </FormButtons>

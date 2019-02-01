@@ -48,35 +48,31 @@ ${props => !props.theme.oldSchool && css`
 `;
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            theme: {
-                oldSchool: true,
-                oldSchoolOptions: {
-                    darkPurple: 'rgb(103, 103, 151)',
-                    lightPurple: 'rgb(154, 154, 202)',
-                    white: 'rgb(238, 238, 238)',
-                    black: 'rgb(17, 17, 17)',
-                    darkGrey: 'rgb(85, 85, 85)',
-                    updatePurple: 'rgb(114, 102, 255)',
-                    deletePurple: 'rgb(34, 34, 74)'
-                },
-                newSchoolOptions: {
-                    gray: 'rgba(3,12,25,0.65)',
-                    listBreakGray:'#dee2e6',
-                    recipeButtonBlue:'#2196F3',
-                    recipeButtonHover: 'rgb(30, 135, 226)'
-                }
+    state = {
+        theme: {
+            oldSchool: true,
+            oldSchoolOptions: {
+                darkPurple: 'rgb(103, 103, 151)',
+                lightPurple: 'rgb(154, 154, 202)',
+                white: 'rgb(238, 238, 238)',
+                black: 'rgb(17, 17, 17)',
+                darkGrey: 'rgb(85, 85, 85)',
+                updatePurple: 'rgb(114, 102, 255)',
+                deletePurple: 'rgb(34, 34, 74)'
             },
-        };
-
+            newSchoolOptions: {
+                gray: 'rgba(3,12,25,0.65)',
+                listBreakGray:'#dee2e6',
+                recipeButtonBlue:'#2196F3',
+                recipeButtonHover: 'rgb(30, 135, 226)'
+            }
+        },
     };
     changeTheme = () => {
-        this.setState({
-            theme: {...this.state.theme,
-                oldSchool: !this.state.theme.oldSchool}
-        });
+        this.setState(prevState => ({
+            theme: { ...prevState.theme,
+                oldSchool: !prevState.theme.oldSchool }
+        }));
     };
     render() {
         const themeProps = {
@@ -89,36 +85,47 @@ class App extends Component {
                     <div>
                         <ApolloProvider client={client}>
                             <User>
-                                {({data}) => (
+                                {({ data, error, loading }) => (
                                     <React.Fragment>
-                                        <Header user={data.whoAmI}/>
-                                        <Switch>
-                                            <Redirect exact from='/' to='/recipes'/>
-                                            <Route exact path='/recipes'
-                                                   render={(props) => (
-                                                       <RecipeList
-                                                           {...props}
-                                                           user={data.whoAmI}
-                                                       />)}
-                                            />
-                                            <Route exact path='/detail/new' key="add"
-                                                   render={(props) => (
-                                                       <CreateRecipe
-                                                           {...props}
-                                                           user={data.whoAmI}
-                                                       />)}
-                                            />
-                                            <Route exact path='/detail/:id' key="update"
-                                                   render={(props) => (
-                                                       <UpdateRecipe
-                                                           {...props}
-                                                           user={data.whoAmI}
-                                                       />
-                                                   )}
-                                            />
-                                            <Route exact path='/signin' component={Signin}/>
-                                            <Route exact path='/reset' component={Reset}/>
-                                        </Switch>
+                                        {loading && (
+                                            <h4>Loading recipes...</h4>
+                                        )}
+                                        {error && (
+                                            <h4>Encountered an error while loading recipes.
+                                                Is the GraphQL server running?</h4>
+                                        )}
+                                        {!error && !loading && (
+                                            <React.Fragment>
+                                                <Header user={data.whoAmI}/>
+                                                <Switch>
+                                                    <Redirect exact from='/' to='/recipes'/>
+                                                    <Route exact path='/recipes'
+                                                           render={(props) => (
+                                                               <RecipeList
+                                                                   {...props}
+                                                                   user={data.whoAmI}
+                                                               />)}
+                                                    />
+                                                    <Route exact path='/detail/new' key="add"
+                                                           render={(props) => (
+                                                               <CreateRecipe
+                                                                   {...props}
+                                                                   user={data.whoAmI}
+                                                               />)}
+                                                    />
+                                                    <Route exact path='/detail/:id' key="update"
+                                                           render={(props) => (
+                                                               <UpdateRecipe
+                                                                   {...props}
+                                                                   user={data.whoAmI}
+                                                               />
+                                                           )}
+                                                    />
+                                                    <Route exact path='/signin' component={Signin}/>
+                                                    <Route exact path='/reset' component={Reset}/>
+                                                </Switch>
+                                            </React.Fragment>
+                                        )}
                                     </React.Fragment>
                                 )}
                             </User>
