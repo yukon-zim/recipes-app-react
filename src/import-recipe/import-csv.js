@@ -35,12 +35,12 @@ export default class ImportCsv extends Component {
         throw new Error(jsonData.message)
     }
 
-    onSelectFile() {
+    onSelectFile = () => {
         this.setState({
             csvImportEnabled: true,
             csvImportError: ''
         })
-    }
+    };
 
     cancelCsvImport() {
         this.csvFileInput.value = null;
@@ -58,7 +58,7 @@ export default class ImportCsv extends Component {
                 </div>
                 <div>
                     <input id="csv-file-upload" type="file" ref={csv => this.csvFileInput = csv}
-                           onChange={() => this.onSelectFile()}/>
+                           onChange={this.onSelectFile}/>
                 </div>
                 {this.state.csvImportEnabled && (
                     <div>

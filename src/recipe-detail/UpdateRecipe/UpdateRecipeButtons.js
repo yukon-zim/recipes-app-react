@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import RecipePropType from '../RecipePropType';
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
 import Button from '../../style/Button';
-import PropTypes from 'prop-types';
 
 const DELETE_RECIPE_MUTATION = gql`
     mutation DELETE_RECIPE_MUTATION($id: ID!) {
@@ -121,17 +122,7 @@ class UpdateRecipeButtons extends Component {
 }
 
 UpdateRecipeButtons.propTypes = {
-    recipe: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        category: PropTypes.string,
-        numberOfServings: PropTypes.string,
-        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-        instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-        dateCreated: PropTypes.string,
-        dateModified: PropTypes.string,
-        notes: PropTypes.string,
-    }).isRequired,
+    recipe: RecipePropType.isRequired,
     formIsDirty: PropTypes.bool.isRequired,
     formIsValid: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,

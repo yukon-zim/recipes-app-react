@@ -192,7 +192,7 @@ export default function recipeDetail (FormButtons) {
 
         setFormRef(form) {
             this.recipeForm = form;
-        };
+        }
 
         async componentDidMount() {
             this.loadRecipeIdFromProps(this.props);

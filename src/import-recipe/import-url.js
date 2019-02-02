@@ -41,14 +41,15 @@ export default class ImportUrl extends Component {
         })
     }
 
-    onAddUrl(urlInput) {
+    onAddUrl = (e) => {
+        const urlInput = e.target;
         if (urlInput.value) {
             this.setState({
                 urlInputValid: true,
                 urlImportMessage: ''
             })
         }
-    }
+    };
 
     handleSubmit(event) {
         event.preventDefault();
@@ -78,7 +79,7 @@ export default class ImportUrl extends Component {
                                 <div>
                                     <input id="url-file-upload" type="url" required
                                            ref={textInput => this.urlToImportInput = textInput}
-                                           onChange={(event) => this.onAddUrl(event.target)}/>
+                                           onChange={this.onAddUrl}/>
                                 </div>
                                 <div>
                                     <Button className="btn btn-primary btn-sm btn-import-url"
