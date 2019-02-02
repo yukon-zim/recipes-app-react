@@ -1,7 +1,9 @@
 import React from 'react';
 import QueryString from 'query-string';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Reset from './Reset';
+
 
 const ResetLayout = styled.div`
   display: flex;
@@ -19,5 +21,9 @@ const ResetPage = ({ location }) => {
                 <Reset resetToken={resetToken}/>
         </ResetLayout>
     )
+};
+
+ResetPage.propTypes = {
+    resetToken: PropTypes.string.isRequired
 };
 export default ResetPage;

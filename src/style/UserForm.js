@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
+import Button from './Button';
 
-
-const Form = styled.form`
+export const Form = styled.form`
 ${props => props.theme.oldSchool && css`
 &&{
   label {
@@ -45,7 +45,7 @@ ${props => !props.theme.oldSchool && css`
   }
   label {
     display: block;
-    margin-bottom: 0rem;
+    margin-bottom: 0;
     color: ${props => props.theme.newSchoolOptions.gray};
   }
   div.spacer {
@@ -58,4 +58,35 @@ ${props => !props.theme.oldSchool && css`
 `}
     `;
 
-export default Form;
+
+export const HeaderLabel = styled.label`
+ &&& { margin-right: -15px;
+  margin-left: -15px;
+  padding-top: 1rem;
+  font-size: 1rem;
+  ${props => props.theme.oldSchool && css`
+    background: ${props => props.theme.oldSchoolOptions.darkPurple};
+    border: 5px ${props => props.theme.oldSchoolOptions.darkPurple};
+  `}
+  ${props => !props.theme.oldSchool && css`
+    color: ${props => props.theme.newSchoolOptions.gray};
+   `}
+  }
+  &&&.user-form,&&&.reset-form {
+  margin-right: 0;
+  margin-left: 0;
+  }
+`;
+
+export const UserFormLabel = styled(HeaderLabel)` 
+  &&&& {  margin: 0;
+    margin-bottom: 1rem;
+    flex-basis: auto;
+    ${props => props.theme.oldSchool && css`
+    background: ${props => props.theme.oldSchoolOptions.white};
+    border: 5px ${props => props.theme.oldSchoolOptions.white};
+    `}
+    }
+`;
+
+export const UserFormButton = styled(Button)``;

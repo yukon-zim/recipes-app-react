@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import RecipePropType from '../recipe-detail/RecipePropType';
 
 export default class RecipeSearch extends Component {
 
@@ -30,3 +32,9 @@ export default class RecipeSearch extends Component {
         )
     }
 }
+
+RecipeSearch.propTypes = {
+    recipes: PropTypes.arrayOf(RecipePropType).isRequired,
+    loading: PropTypes.bool,
+    searchInProgress: PropTypes.bool,
+};

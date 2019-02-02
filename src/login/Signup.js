@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { CURRENT_USER_QUERY } from './User';
-import Form from '../style/UserFormStyle';
-import UserFormLabel from '../style/UserFormLabel';
-import UserFormButton from '../style/UserFormButton';
-import HeaderLabel from '../style/UserFormHeaderLabel';
+import * as Styled from '../style/UserForm';
 import FormValidHelper from './FormValidHelper';
+
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!, $signupCode: String!) {
@@ -61,14 +60,14 @@ class Signup extends Component {
                 mutation={SIGNUP_MUTATION}
                 refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
                 {(signup, { error, loading }) => (
-                    <Form ref={form => this.signupForm = form}
+                    <Styled.Form ref={form => this.signupForm = form}
                           onSubmit={this.handleSubmit}
                           className="user-form">
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <HeaderLabel className="header-label user-form">
+                            <Styled.HeaderLabel className="header-label user-form">
                                 <h2> Sign up for an account! </h2>
-                            </HeaderLabel>
-                            <UserFormLabel htmlFor="email">
+                            </Styled.HeaderLabel>
+                            <Styled.UserFormLabel htmlFor="email">
                                 Email:
                                 <input
                                     required
@@ -78,8 +77,8 @@ class Signup extends Component {
                                     value={email}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormLabel htmlFor="name">
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormLabel htmlFor="name">
                                 Name:
                                 <input
                                     type="text"
@@ -88,8 +87,8 @@ class Signup extends Component {
                                     value={name}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormLabel htmlFor="password">
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormLabel htmlFor="password">
                                 Password:
                                 <input
                                     required
@@ -99,8 +98,8 @@ class Signup extends Component {
                                     value={password}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormLabel htmlFor="signupCode">
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormLabel htmlFor="signupCode">
                                 Signup code:
                                 <input
                                     required
@@ -110,19 +109,26 @@ class Signup extends Component {
                                     value={signupCode}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormButton className="btn btn-primary btn-update-recipe"
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormButton className="btn btn-primary btn-update-recipe"
                                     type="submit"
                                             disabled={!formIsValid}
-                                            onClick={async () => this.signup(signup)}>Sign Up</UserFormButton>
+                                            onClick={async () => this.signup(signup)}>Sign Up</Styled.UserFormButton>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
                         </fieldset>
-                    </Form>
+                    </Styled.Form>
                 )}
             </Mutation>
         )
     }
 }
+
+Signup.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired
+};
+
 export default withRouter(Signup);

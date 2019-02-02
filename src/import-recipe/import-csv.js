@@ -50,10 +50,6 @@ export default class ImportCsv extends Component {
         })
     }
 
-    async componentDidMount() {
-
-    }
-
     render() {
         return(
             <div>

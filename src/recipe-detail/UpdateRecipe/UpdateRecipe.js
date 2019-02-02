@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import { cloneDeep } from 'lodash';
 import recipeDetail from '../recipe-detail';
 import UpdateRecipeButtons from './UpdateRecipeButtons';
+import PropTypes from 'prop-types';
 
 const GET_RECIPE_QUERY = gql`
     query GET_RECIPE_QUERY($id: ID!) {
@@ -58,6 +59,15 @@ const UpdateRecipe = props => {
             }}
         </Query>
     )};
+
+UpdateRecipe.propTypes = {
+    user: PropTypes.object,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.string.isRequired
+        }).isRequired
+    }).isRequired
+};
 
 export default UpdateRecipe;
 export { GET_RECIPE_QUERY };

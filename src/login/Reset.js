@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { CURRENT_USER_QUERY } from './User'
-import Form from '../style/UserFormStyle';
-import HeaderLabel from '../style/UserFormHeaderLabel';
-import UserFormLabel from '../style/UserFormLabel';
-import UserFormButton from '../style/UserFormButton';
+import * as Styled from '../style/UserForm';
 import FormValidHelper from './FormValidHelper';
 
 const RESET_MUTATION = gql`
@@ -21,9 +18,6 @@ const RESET_MUTATION = gql`
 `;
 
 class Reset extends Component {
-    static propTypes = {
-        resetToken: propTypes.string.isRequired
-    };
     state = {
         password: '',
         confirmPassword: ''
@@ -68,14 +62,14 @@ class Reset extends Component {
                 refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
                 {(reset, { error, loading }) => (
-                    <Form ref={ form => this.resetForm = form }
+                    <Styled.Form ref={ form => this.resetForm = form }
                           onSubmit={ this.handleSubmit }
                           className="reset-form">
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <HeaderLabel className="header-label reset-form">
+                            <Styled.HeaderLabel className="header-label reset-form">
                                 <h2> Reset your PW: </h2>
-                            </HeaderLabel>
-                            <UserFormLabel className="reset-form" htmlFor="password">
+                            </Styled.HeaderLabel>
+                            <Styled.UserFormLabel className="reset-form" htmlFor="password">
                                 New PW:
                                 <input
                                     // required
@@ -85,8 +79,8 @@ class Reset extends Component {
                                     value={password}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormLabel className="reset-form" htmlFor="confirmPassword">
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormLabel className="reset-form" htmlFor="confirmPassword">
                                 Confirm your new PW:
                                 <input
                                     // required
@@ -96,21 +90,25 @@ class Reset extends Component {
                                     value={confirmPassword}
                                     onChange={this.saveToState}
                                 />
-                            </UserFormLabel>
-                            <UserFormButton className="btn btn-primary btn-reset-password"
+                            </Styled.UserFormLabel>
+                            <Styled.UserFormButton className="btn btn-primary btn-reset-password"
                                             type="submit"
                                             disabled={!formIsValid}
-                                            onClick={async () => this.resetPassword(reset)}>Reset your PW</UserFormButton>
+                                            onClick={async () => this.resetPassword(reset)}>Reset your PW</Styled.UserFormButton>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
                         </fieldset>
-                    </Form>
+                    </Styled.Form>
                 )}
             </Mutation>
         )
     }
 
 }
+
+Reset.propTypes = {
+    resetToken: PropTypes.string.isRequired
+};
 
 export default withRouter(Reset);

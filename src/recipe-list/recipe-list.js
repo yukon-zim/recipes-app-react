@@ -7,6 +7,7 @@ import ImportCsv from '../import-recipe/import-csv';
 import ImportUrl from '../import-recipe/import-url';
 import RecipeListTable from './recipe-list-table';
 import Button from '../style/Button';
+import PropTypes from 'prop-types';
 
 const ALL_RECIPES_QUERY = gql`
     query ALL_RECIPES_QUERY($searchTerm: String) {
@@ -37,6 +38,10 @@ export default class RecipeList extends Component {
             searchInProgress: !!searchTerm
         })
     };
+
+    async componentDidMount() {
+        window.scrollTo(0, 0)
+    }
 
     render() {
         const { user } = this.props;
@@ -97,5 +102,9 @@ export default class RecipeList extends Component {
         )
     }
 }
+
+RecipeList.propTypes = {
+    user: PropTypes.object
+};
 
 export { ALL_RECIPES_QUERY };

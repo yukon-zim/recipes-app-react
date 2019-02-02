@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
 import Button from '../../style/Button';
+import PropTypes from 'prop-types';
 
 const DELETE_RECIPE_MUTATION = gql`
     mutation DELETE_RECIPE_MUTATION($id: ID!) {
@@ -118,6 +119,24 @@ class UpdateRecipeButtons extends Component {
         )
     }
 }
+
+UpdateRecipeButtons.propTypes = {
+    recipe: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        category: PropTypes.string,
+        numberOfServings: PropTypes.string,
+        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+        instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
+        dateCreated: PropTypes.string,
+        dateModified: PropTypes.string,
+        notes: PropTypes.string,
+    }).isRequired,
+    formIsDirty: PropTypes.bool.isRequired,
+    formIsValid: PropTypes.bool.isRequired,
+    resetForm: PropTypes.func.isRequired,
+    user: PropTypes.object
+};
 
 export default withRouter(UpdateRecipeButtons)
 export { UPDATE_RECIPE_MUTATION, DELETE_RECIPE_MUTATION }

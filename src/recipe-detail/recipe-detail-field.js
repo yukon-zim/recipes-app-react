@@ -1,7 +1,7 @@
 import React from 'react';
-import FormFieldRow from '../style/FormFieldRow';
-import FormFieldLabel from '../style/FormFieldLabel';
-import FormField from '../style/FormField';
+import PropTypes from 'prop-types';
+import RecipePropType from './RecipePropType';
+import * as Styled from '../style/RecipeForm';
 
 const RecipeDetailField = (
     {
@@ -23,17 +23,17 @@ const RecipeDetailField = (
     let InputType = type === 'textarea' ? 'textarea' : 'input';
     return (
         <div>
-            <FormFieldRow onClick={(event) => event.preventDefault()}>
-                <FormFieldLabel>{label}&nbsp;</FormFieldLabel>
+            <Styled.FormFieldRow onClick={(event) => event.preventDefault()}>
+                <Styled.FormFieldLabel>{label}&nbsp;</Styled.FormFieldLabel>
                 {!isFieldInEditMode(fieldName) && (
-                    <FormField
+                    <Styled.FormField
                         className='read-only-field'
                         onClick={() => {
                             editField(fieldName)
-                        }}>{recipe[fieldName]}</FormField>
+                        }}>{recipe[fieldName]}</Styled.FormField>
                 )}
                 {isFieldInEditMode(fieldName) && (
-                    <FormField as={InputType} id={fieldName}
+                    <Styled.FormField as={InputType} id={fieldName}
                                className="recipe-detail-field"
                                autoFocus={isAutoFocused}
                         // pass a value:string even if fieldName is null/undefined to avoid controlled component error
@@ -56,8 +56,23 @@ const RecipeDetailField = (
                         {requiredErrorText}
                     </div>
                 )}
-            </FormFieldRow>
+            </Styled.FormFieldRow>
         </div>
     )
+};
+
+RecipeDetailField.propTypes = {
+    recipe: RecipePropType.isRequired,
+    type: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    requiredErrorText: PropTypes.string,
+    isFieldInEditAndFocus: PropTypes.func.isRequired,
+    isFieldInEditMode: PropTypes.func.isRequired,
+    editField: PropTypes.func.isRequired,
+    unfocusField: PropTypes.func.isRequired,
+    unfocusFieldOnEnter: PropTypes.func.isRequired,
+    setRecipeField: PropTypes.func.isRequired,
 };
 export default RecipeDetailField;

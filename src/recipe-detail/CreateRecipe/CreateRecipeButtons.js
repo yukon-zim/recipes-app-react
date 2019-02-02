@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
 import Button from '../../style/Button';
+import PropTypes from 'prop-types';
 
 const CREATE_RECIPE_MUTATION = gql`
     mutation CREATE_RECIPE_MUTATION($name: String!, $category: String, $numberOfServings: String, $ingredients: [String!]!, $instructions: [String!]!, $notes: String) {
@@ -77,6 +78,12 @@ class CreateRecipeButtons extends Component {
         )
     }
 }
+
+CreateRecipeButtons.propTypes = {
+    formIsDirty: PropTypes.bool.isRequired,
+    formIsValid: PropTypes.bool.isRequired,
+    user: PropTypes.object
+};
 
 export default withRouter(CreateRecipeButtons);
 export { CREATE_RECIPE_MUTATION };

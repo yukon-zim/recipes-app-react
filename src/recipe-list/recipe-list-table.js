@@ -1,34 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { orderBy, differenceBy } from 'lodash';
-import styled, { css } from 'styled-components'
-
-const Row = styled.tr`
- display: flex;
-  flex-direction: row;
-  margin-right: -15px;
-    margin-left: -15px;
-`;
-const HeaderCell = styled.th`
-  flex-basis: ${props => `${(props.col * 100 / 12)}%`};
-  ${props => props.theme.oldSchool && css`
-      && { border-bottom-color: ${props => props.theme.oldSchoolOptions.darkPurple};
-      border-top-color: ${props => props.theme.oldSchoolOptions.darkPurple};
-      background: ${props => props.theme.oldSchoolOptions.darkPurple};
-      font-size: 1rem;
-      }
-  `}
-`;
-const Cell = styled.td`
-  flex-basis: ${props => `${(props.col * 100 / 12)}%`};
-  ${props => props.theme.oldSchool && css`
-      && { border: 10px solid ${props => props.theme.oldSchoolOptions.lightPurple};
-      background: ${props => props.theme.oldSchoolOptions.white};
-      font-size: 1rem;
-      }
-   `}
-`;
-
+import PropTypes from 'prop-types';
+import RecipePropType from '../recipe-detail/RecipePropType';
+import * as Styled from '../style/RecipeTable';
 
 export default class RecipeListTable extends Component {
     state = {
@@ -92,59 +67,59 @@ export default class RecipeListTable extends Component {
             <div>
                 <table className="recipes table">
                     <thead className="table-header">
-                    <Row className="row">
-                        <HeaderCell
+                    <Styled.Row className="row">
+                        <Styled.HeaderCell
                             col={7}
                             className="table-header name-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('name')
                             }}>Name</a>
-                        </HeaderCell>
-                        <HeaderCell
+                        </Styled.HeaderCell>
+                        <Styled.HeaderCell
                             col={3}
                             className="table-header cat-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('category')
                             }}>Category</a>
-                        </HeaderCell>
-                        <HeaderCell
+                        </Styled.HeaderCell>
+                        <Styled.HeaderCell
                             col={2}
                             className="table-header servings-header">
                             <a href={blankUrl} onClick={(event) => {
                                 this.sortByColumnHeader('numberOfServings')
                             }}>Servings</a>
-                        </HeaderCell>
-                    </Row>
+                        </Styled.HeaderCell>
+                    </Styled.Row>
                     </thead>
                     <tbody>
                     {this.state.recipes.map(recipe => {
                             return (
-                                <Row className="data-row" key={recipe.id}>
-                                    <Cell col={7}
+                                <Styled.Row className="data-row" key={recipe.id}>
+                                    <Styled.Cell col={7}
                                           className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span name-span">
                                                 {recipe.name}
                                                 </span>
                                         </Link>
-                                    </Cell>
-                                    <Cell col={3}
+                                    </Styled.Cell>
+                                    <Styled.Cell col={3}
                                           className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span category-span">
                                                 {recipe.category}
                                                 </span>
                                         </Link>
-                                    </Cell>
-                                    <Cell col={2}
+                                    </Styled.Cell>
+                                    <Styled.Cell col={2}
                                           className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span servings-span">
                                                 {recipe.numberOfServings}
                                                 </span>
                                         </Link>
-                                    </Cell>
-                                </Row>
+                                    </Styled.Cell>
+                                </Styled.Row>
                             )
                         }
                     )}
@@ -181,3 +156,9 @@ export default class RecipeListTable extends Component {
         )
     }
 }
+
+RecipeListTable.propTypes = {
+    recipes: PropTypes.arrayOf(RecipePropType).isRequired,
+    loading: PropTypes.bool,
+    searchInProgress: PropTypes.bool,
+};

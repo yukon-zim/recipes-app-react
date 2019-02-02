@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
+import PropTypes from 'prop-types';
 import Button from '../style/Button';
+
 
 const FooterDiv = styled.div`
 padding-top: 0.5rem;
@@ -16,5 +18,9 @@ const Footer = ({ changeTheme }) => (
         > Change theme</Button>
     </FooterDiv>
 );
+
+Footer.propTypes = {
+    changeTheme: PropTypes.func.isRequired
+};
 
 export default Footer;

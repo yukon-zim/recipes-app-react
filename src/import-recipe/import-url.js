@@ -54,17 +54,13 @@ export default class ImportUrl extends Component {
         event.preventDefault();
     }
 
-    async componentDidMount() {
-
-    }
-
     render() {
         return(
             <div>
                 <div>
                     <Mutation mutation={URL_IMPORT_MUTATION}
                               refetchQueries={[{ query: ALL_RECIPES_QUERY, variables: { searchTerm: '' } }]}>
-                        {(importUrl, { error, loading }) => (
+                        {(importUrl, { error }) => (
                             <form onSubmit={this.handleSubmit}>
                                 <div>
                                     <label htmlFor="url-file-upload">

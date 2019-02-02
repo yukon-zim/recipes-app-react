@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import RecipePropType from './RecipePropType';
 import Button from '../style/Button';
-import FormFieldRow from '../style/FormFieldRow';
-import FormFieldLabel from '../style/FormFieldLabel';
-import FormField from '../style/FormField';
+import * as Styled from '../style/RecipeForm';
 
 const RecipeDetailListField = (
     {
@@ -38,23 +38,23 @@ const RecipeDetailListField = (
     return (
         <div>
             <label onClick={(event) => event.preventDefault()}>
-                <FormFieldLabel>{label}&nbsp;</FormFieldLabel>
+                <Styled.FormFieldLabel>{label}&nbsp;</Styled.FormFieldLabel>
                 <ListType>
                     {recipe[fieldName].map((listItem, index) => {
                         const isAutoFocused = isFieldInEditAndFocus(fieldName, index);
                         return (
                             <li key={index}>
-                                <FormFieldRow className="list-item" as="div">
+                                <Styled.FormFieldRow className="list-item" as="div">
                                     {!isFieldInEditMode(fieldName, index) && (
-                                        <FormField
+                                        <Styled.FormField
                                             className="recipe-detail-list-field"
                                             onClick={() => {
                                                 editField(fieldName, index)
                                             }}>{listItem}
-                                        </FormField>
+                                        </Styled.FormField>
                                     )}
                                     {isFieldInEditMode(fieldName, index) && (
-                                        <FormField
+                                        <Styled.FormField
                                             as={InputType}
                                             id={`${fieldName}-${index}`}
                                             className="recipe-detail-list-field"
@@ -108,7 +108,7 @@ const RecipeDetailListField = (
                                             {requiredErrorText}
                                         </div>
                                     )}
-                                </FormFieldRow>
+                                </Styled.FormFieldRow>
                             </li>
                         )
                     })}
@@ -123,5 +123,27 @@ const RecipeDetailListField = (
             </label>
         </div>
     )
+};
+
+RecipeDetailListField.propTypes = {
+    recipe: RecipePropType.isRequired,
+    user: PropTypes.object,
+    type: PropTypes.string.isRequired,
+    listType: PropTypes.string.isRequired,
+    addListItemLabel: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    requiredErrorText: PropTypes.string,
+    isFieldInEditAndFocus: PropTypes.func.isRequired,
+    isFieldInEditMode: PropTypes.func.isRequired,
+    editField: PropTypes.func.isRequired,
+    unfocusField: PropTypes.func.isRequired,
+    unfocusFieldOnEnter: PropTypes.func.isRequired,
+    setRecipeField: PropTypes.func.isRequired,
+    moveListItemUp: PropTypes.func.isRequired,
+    moveListItemDown: PropTypes.func.isRequired,
+    addListItem: PropTypes.func.isRequired,
+    removeListItem: PropTypes.func.isRequired
 };
 export default RecipeDetailListField;

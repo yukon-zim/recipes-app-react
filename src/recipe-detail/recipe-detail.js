@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import Moment from 'moment';
 import { Prompt } from 'react-router-dom';
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
+import RecipePropType from './RecipePropType';
 import RecipeDetailField from './recipe-detail-field';
 import RecipeDetailListField from './recipe-detail-list-field';
-import Form from '../style/UserFormStyle';
-import HeaderLabel from '../style/UserFormHeaderLabel';
-
+import * as Styled from '../style/UserForm';
 
 const RecipeId = styled.div`
   font-size: 0.75rem;
@@ -228,21 +228,21 @@ export default function recipeDetail (FormButtons) {
             return (
                 <div>
                     <div className="container-fluid">
-                        <Form ref={this.setFormRef}
+                        <Styled.Form ref={this.setFormRef}
                               onSubmit={this.handleSubmit}>
                             <Prompt
                                 when={formIsDirty}
                                 message="Unsaved changes - are you sure you want to leave this page?"
                             />
                             <div className="spacer"></div>
-                            <HeaderLabel className="header-label">
+                            <Styled.HeaderLabel className="header-label">
                                 <h3>{recipe.name}</h3>
 
                                 <RecipeId className="recipe-id">
                                     <span>ID: </span>
                                     {recipe.id}
                                 </RecipeId>
-                            </HeaderLabel>
+                            </Styled.HeaderLabel>
                             <fieldset>
                                 <div>
                                     <span className="error-message">{formError}</span>
@@ -288,7 +288,6 @@ export default function recipeDetail (FormButtons) {
                                             {...commonListProps}
                                             user={user}
                                             type='textarea'
-                                            rows='3'
                                             listType='ordered'
                                             addListItemLabel="Add instruction"
                                             fieldName="instructions"
@@ -325,10 +324,19 @@ export default function recipeDetail (FormButtons) {
                                     </div>
                                 )}
                             </fieldset>
-                        </Form>
+                        </Styled.Form>
                     </div>
                 </div>
             )
         }
     }
 }
+
+recipeDetail.propTypes = {
+    recipe: RecipePropType.isRequired,
+    newRecipeMode: PropTypes.bool.isRequired,
+    formIsDirty: PropTypes.bool.isRequired,
+    formIsValid: PropTypes.bool.isRequired,
+    resetForm: PropTypes.func.isRequired,
+    user: PropTypes.object
+};
