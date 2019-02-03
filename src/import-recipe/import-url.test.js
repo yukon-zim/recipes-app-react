@@ -22,10 +22,10 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockMutation,
-        result: { data: { name: 'Test Recipe' } }
+        result: { data: { importRecipeFromUrl: { name: 'Test Recipe' } } }
     },{
         request: mockQuery,
-        result: { data: { recipe: recipeFixtures()[0] } }
+        result: { data: { recipes: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockMutation,

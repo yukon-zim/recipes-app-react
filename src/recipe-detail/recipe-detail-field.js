@@ -62,7 +62,7 @@ const RecipeDetailField = (
 };
 
 RecipeDetailField.propTypes = {
-    recipe: RecipePropType.isRequired,
+    recipe: RecipePropType,
     type: PropTypes.string.isRequired,
     fieldName: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,

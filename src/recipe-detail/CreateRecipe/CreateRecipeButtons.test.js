@@ -32,7 +32,7 @@ describe('component tests', () => {
         request: mockMutation,
         result: { data: { addRecipe: recipeFixtures()[0] } } },
         { request: mockQuery,
-        result: { data: { recipe: recipeFixtures()[0] } }
+        result: { data: { recipes: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockMutation,

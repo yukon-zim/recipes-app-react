@@ -37,24 +37,25 @@ describe('component tests', () => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
                     user={{ username:'steven anita tester' }}
-                recipe={recipeFixtures()[2]}
-                isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
-                isFieldInEditMode={spyIsFieldInEditMode}
-                editField={spyEditField}
-                unfocusField={spyUnfocusField}
-                unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
-                setRecipeField={spySetRecipeField}
-                moveListItemUp={spyMoveListItemUp}
-                moveListItemDown={spyMoveListItemDown}
-                addListItem={spyAddListItem}
-                removeListItem={spyRemoveListItem}
-                listType='unordered'
-                addListItemLabel="Add Test ingredient"
-                fieldName="ingredients"
-                label="Ingredients: Test"
-                required={true}
-                requiredErrorText="Test Ingredient required error"
-            />
+                    recipe={recipeFixtures()[2]}
+                    isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
+                    isFieldInEditMode={spyIsFieldInEditMode}
+                    editField={spyEditField}
+                    unfocusField={spyUnfocusField}
+                    unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
+                    setRecipeField={spySetRecipeField}
+                    moveListItemUp={spyMoveListItemUp}
+                    moveListItemDown={spyMoveListItemDown}
+                    addListItem={spyAddListItem}
+                    removeListItem={spyRemoveListItem}
+                    type='text'
+                    listType='unordered'
+                    addListItemLabel="Add Test ingredient"
+                    fieldName="ingredients"
+                    label="Ingredients: Test"
+                    required={true}
+                    requiredErrorText="Test Ingredient required error"
+                />
             </ThemeProvider>);
         });
         it('should render with no list items', () => {
@@ -82,25 +83,26 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                user={{ username:'steven anita tester' }}
-                recipe={recipeFixtures()[3]}
-                isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
-                isFieldInEditMode={spyIsFieldInEditMode}
-                editField={spyEditField}
-                unfocusField={spyUnfocusField}
-                unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
-                setRecipeField={spySetRecipeField}
-                moveListItemUp={spyMoveListItemUp}
-                moveListItemDown={spyMoveListItemDown}
-                addListItem={spyAddListItem}
-                removeListItem={spyRemoveListItem}
-                listType='unordered'
-                addListItemLabel="Add Test ingredient"
-                fieldName="ingredients"
-                label="Ingredients: Test"
-                required={true}
-                requiredErrorText="Test Ingredient required error"
-            />
+                    user={{ username:'steven anita tester' }}
+                    recipe={recipeFixtures()[3]}
+                    isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
+                    isFieldInEditMode={spyIsFieldInEditMode}
+                    editField={spyEditField}
+                    unfocusField={spyUnfocusField}
+                    unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
+                    setRecipeField={spySetRecipeField}
+                    moveListItemUp={spyMoveListItemUp}
+                    moveListItemDown={spyMoveListItemDown}
+                    addListItem={spyAddListItem}
+                    removeListItem={spyRemoveListItem}
+                    type='text'
+                    listType='unordered'
+                    addListItemLabel="Add Test ingredient"
+                    fieldName="ingredients"
+                    label="Ingredients: Test"
+                    required={true}
+                    requiredErrorText="Test Ingredient required error"
+                />
             </ThemeProvider>);
         });
         it('should render with list items', () => {
@@ -127,26 +129,26 @@ describe('component tests', () => {
         beforeEach(() => {
             wrapper = mount(<ThemeProvider theme={theme}>
                 <RecipeDetailListField
-                recipe={recipeFixtures()[0]}
-                isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
-                isFieldInEditMode={spyIsFieldInEditMode}
-                editField={spyEditField}
-                unfocusField={spyUnfocusField}
-                unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
-                setRecipeField={spySetRecipeField}
-                moveListItemUp={spyMoveListItemUp}
-                moveListItemDown={spyMoveListItemDown}
-                addListItem={spyAddListItem}
-                removeListItem={spyRemoveListItem}
-                type='textarea'
-                rows='3'
-                listType='ordered'
-                addListItemLabel="Add Test instruction"
-                fieldName="instructions"
-                label="Instructions: Test"
-                required={true}
-                requiredErrorText="Test Instructions required error"
-            />
+                    recipe={recipeFixtures()[0]}
+                    isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
+                    isFieldInEditMode={spyIsFieldInEditMode}
+                    editField={spyEditField}
+                    unfocusField={spyUnfocusField}
+                    unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
+                    setRecipeField={spySetRecipeField}
+                    moveListItemUp={spyMoveListItemUp}
+                    moveListItemDown={spyMoveListItemDown}
+                    addListItem={spyAddListItem}
+                    removeListItem={spyRemoveListItem}
+                    type='textarea'
+                    rows='3'
+                    listType='ordered'
+                    addListItemLabel="Add Test instruction"
+                    fieldName="instructions"
+                    label="Instructions: Test"
+                    required={true}
+                    requiredErrorText="Test Instructions required error"
+                />
             </ThemeProvider>);
         });
         it('should render with list items', () => {
@@ -188,26 +190,26 @@ describe('component tests', () => {
                 spyIsFieldInEditAndFocus.mockImplementation(narrowSpy);
                 wrapper = mount(<ThemeProvider theme={theme}>
                     <RecipeDetailListField
-                    recipe={recipeFixtures()[0]}
-                    isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
-                    isFieldInEditMode={spyIsFieldInEditMode}
-                    editField={spyEditField}
-                    unfocusField={spyUnfocusField}
-                    unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
-                    setRecipeField={spySetRecipeField}
-                    moveListItemUp={spyMoveListItemUp}
-                    moveListItemDown={spyMoveListItemDown}
-                    addListItem={spyAddListItem}
-                    removeListItem={spyRemoveListItem}
-                    type='textarea'
-                    rows='3'
-                    listType='ordered'
-                    addListItemLabel="Add Test instruction"
-                    fieldName="instructions"
-                    label="Instructions: Test"
-                    required={true}
-                    requiredErrorText="Test Instructions required error"
-                />
+                        recipe={recipeFixtures()[0]}
+                        isFieldInEditAndFocus={spyIsFieldInEditAndFocus}
+                        isFieldInEditMode={spyIsFieldInEditMode}
+                        editField={spyEditField}
+                        unfocusField={spyUnfocusField}
+                        unfocusFieldOnEnter={spyUnfocusFieldOnEnter}
+                        setRecipeField={spySetRecipeField}
+                        moveListItemUp={spyMoveListItemUp}
+                        moveListItemDown={spyMoveListItemDown}
+                        addListItem={spyAddListItem}
+                        removeListItem={spyRemoveListItem}
+                        type='textarea'
+                        rows='3'
+                        listType='ordered'
+                        addListItemLabel="Add Test instruction"
+                        fieldName="instructions"
+                        label="Instructions: Test"
+                        required={true}
+                        requiredErrorText="Test Instructions required error"
+                    />
                 </ThemeProvider>);
             });
             it('should render an input field when in edit mode', () => {

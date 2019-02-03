@@ -19,13 +19,14 @@ describe('component tests', () => {
     let EditRecipeDetail;
     beforeEach(() =>{
         // setup HOCs for mounting where needed; setup spyCheckValidity for use on Update form
-        NewRecipeDetail = recipeDetail('CreateRecipeButtons');
-        EditRecipeDetail = recipeDetail('UpdateRecipeButtons');
+        NewRecipeDetail = recipeDetail(() => 'CreateRecipeButtons' );
+        EditRecipeDetail = recipeDetail(() => 'UpdateRecipeButtons' );
         jest.spyOn(EditRecipeDetail.prototype, 'setFormRef').mockImplementation(mockSetFormRef);
     });
     describe('render scenarios', () => {
         it('should render an empty component for route /detail/new', () => {
-            const wrapper = mount(<ThemeProvider theme={theme}>
+            const wrapper = mount(
+                <ThemeProvider theme={theme}>
                 <MemoryRouter>
                     <NewRecipeDetail
                         id={'new'}
@@ -42,7 +43,7 @@ describe('component tests', () => {
             expect(mockedDetail.state.recipeId).toEqual(undefined);
             expect(wrapper.find('RecipeDetailField')).toHaveLength(4);
             expect(wrapper.find('RecipeDetailListField')).toHaveLength(2);
-            expect(wrapper.find('CreateRecipeButtons')).toHaveLength(1);
+            expect(wrapper.contains('CreateRecipeButtons')).toEqual(true);
         });
         it('should render a recipe when given an existing recipe', async () => {
             const wrapper = mount(<ThemeProvider theme={theme}>

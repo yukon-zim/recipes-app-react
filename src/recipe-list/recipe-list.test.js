@@ -44,7 +44,7 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockRequest,
-        result: { data: recipeFixtures() }
+        result: { data: { recipes: recipeFixtures() } }
     }];
     const errorMocks = [{
         request: mockRequest,
@@ -54,7 +54,10 @@ describe('component tests', () => {
     describe('render tests', () => {
         let wrapper;
         it('should render the basic page elements', async () => {
-            wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+            wrapper = mount(
+                <MockedProvider mocks={mocks} addTypename={false}>
+                    <RecipeList/>
+                </MockedProvider>);
             // advance wrapper past GQL query loading state
             await wait(500);
             wrapper.update();
@@ -65,7 +68,10 @@ describe('component tests', () => {
             expect(wrapper.contains('RecipeSearch')).toEqual(true);
         });
         it('should handle payload with no data and an error', async () => {
-            wrapper = mount(<MockedProvider mocks={errorMocks}><RecipeList/></MockedProvider>);
+            wrapper = mount(
+                <MockedProvider mocks={errorMocks} addTypename={false}>
+                    <RecipeList/>
+                </MockedProvider>);
             // advance wrapper past GQL query loading state
             await wait(500);
             wrapper.update();
@@ -77,7 +83,14 @@ describe('component tests', () => {
             const noUserHeader = <h5>Sign in to add new recipes!</h5>;
 
             it('should show add new recipe button when a user is signed in', async () => {
-                wrapper = mount(<ThemeProvider theme={theme}><MemoryRouter><MockedProvider mocks={mocks}><RecipeList user={{ username:'steven anita tester' }}/></MockedProvider></MemoryRouter></ThemeProvider>);
+                wrapper = mount(
+                    <ThemeProvider theme={theme}>
+                        <MemoryRouter>
+                            <MockedProvider mocks={mocks} addTypename={false}>
+                                <RecipeList user={{ username:'steven anita tester' }}/>
+                            </MockedProvider>
+                        </MemoryRouter>
+                    </ThemeProvider>);
                 // advance wrapper past GQL query loading state
                 await wait(500);
                 wrapper.update();
@@ -93,7 +106,10 @@ describe('component tests', () => {
                 expect(wrapper.contains('ImportUrl')).toEqual(true);
             });
             it('should not show add new recipe button when a user is not signed in', async () => {
-                wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+                wrapper = mount(
+                    <MockedProvider mocks={mocks} addTypename={false}>
+                        <RecipeList/>
+                    </MockedProvider>);
                 // advance wrapper past GQL query loading state
                 await wait(500);
                 wrapper.update();
@@ -106,7 +122,10 @@ describe('component tests', () => {
     });
     describe('method tests', () => {
         it('should set searchInProgress and searchTerm property correctly with setter', async () => {
-            const wrapper = mount(<MockedProvider mocks={mocks}><RecipeList/></MockedProvider>);
+            const wrapper = mount(
+                <MockedProvider mocks={mocks} addTypename={false}>
+                    <RecipeList/>
+                </MockedProvider>);
             // advance wrapper past GQL query loading state
             await wait(500);
             wrapper.update();

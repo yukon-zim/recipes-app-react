@@ -333,7 +333,7 @@ export default function recipeDetail (FormButtons) {
 }
 
 recipeDetail.propTypes = {
-    recipe: RecipePropType.isRequired,
+    recipe: RecipePropType,
     newRecipeMode: PropTypes.bool.isRequired,
     formIsDirty: PropTypes.bool.isRequired,
     formIsValid: PropTypes.bool.isRequired,

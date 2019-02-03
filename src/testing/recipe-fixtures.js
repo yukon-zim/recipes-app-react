@@ -1,7 +1,7 @@
 
 export default function recipeFixtures () {
     return [{
-        id: 1,
+        id: '1',
         name: 'Bacon and cheese omelet ala Bob',
         category: 'eggs',
         ingredients: [
@@ -25,7 +25,7 @@ export default function recipeFixtures () {
         dateModified: new Date('1/6/2004'),
         notes: 'This is a test of the recipe entry system.'
     }, {
-        id: 2,
+        id: '2',
         name: 'Red Beans and Rice',
         category: 'vegetarian',
         ingredients: [
@@ -56,7 +56,7 @@ export default function recipeFixtures () {
         dateModified: new Date('1/28/2001'),
         notes: 'red beans and rice, that\'s nice'
     }, {
-        id: 3,
+        id: '3',
         name: null,
         category: null,
         ingredients: [],
@@ -66,7 +66,7 @@ export default function recipeFixtures () {
         dateModified: null,
         notes: null
     }, {
-        id: 4,
+        id: '4',
         name: null,
         category: null,
         ingredients: ['test ingredient'],

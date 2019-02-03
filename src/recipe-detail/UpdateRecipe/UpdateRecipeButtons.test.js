@@ -36,13 +36,13 @@ describe('component tests', () => {
     };
     const mocks = [{
         request: mockUpdateMutation,
-        result: { data: { addRecipe: recipeFixtures()[0] } }
+        result: { data: { editRecipe: recipeFixtures()[0] } }
     }, {
         request: mockDeleteMutation,
-        result: { data: { message:'success' } }
+        result: { data: { deleteRecipe: { message:'success' } } }
     }, {
         request: mockQuery,
-        result: { data: { recipe: recipeFixtures()[0] } }
+        result: { data: { recipes: recipeFixtures()[0] } }
     }];
     const errorMocks = [{
         request: mockUpdateMutation,

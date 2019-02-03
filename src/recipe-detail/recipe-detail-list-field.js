@@ -126,7 +126,7 @@ const RecipeDetailListField = (
 };
 
 RecipeDetailListField.propTypes = {
-    recipe: RecipePropType.isRequired,
+    recipe: RecipePropType,
     user: PropTypes.object,
     type: PropTypes.string.isRequired,
     listType: PropTypes.string.isRequired,
