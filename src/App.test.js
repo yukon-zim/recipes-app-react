@@ -1,10 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import ReactDOM from 'react-dom';
+import { mount } from 'enzyme';
+import { ThemeProvider } from 'styled-components';
+import wait from 'waait';
 import App from './App';
 import recipeFixtures from './testing/recipe-fixtures.js';
 
-it('renders without crashing', () => {
+
+it('renders without crashing', async () => {
+    const wrapper = mount(<App user={{ username:'steven anita tester' }}/>);
+    await wait(500);
+    wrapper.update();
+    // expect(wrapper.find('Header')).toHaveLength(1);
+    expect(wrapper.find('Footer')).toHaveLength(1);
     // const div = document.createElement('div');
     // fetch.mockResponseOnce(JSON.stringify(recipeFixtures()));
     // ReactDOM.render(<App />, div);
