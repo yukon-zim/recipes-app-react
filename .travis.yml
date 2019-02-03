@@ -11,3 +11,5 @@ deploy:
     secure: gwoX4098UO+5MEjKz2sMwplCRa2AhiLkegCHu9Pn+a/6EB/Xn2NLtBfVVR6aaLlPx65UT+U8izy+E/euhvRTOKWNuaz2VjSBF96KqR9e0jtJEkyYlbQxIbtXfpspVEeLfzkt2JPZLAwRsLMNeDvWU5vshExzc6xZtPCxp7SRc+hefDni2vc+WlonBaefsRtaQ+bY89WDLCIfo1pskR7AZ629CU85BpPlrI+nJ6Bn8q1dyYKoe2+lguvDqQ5B+fXcTQ59r6Wn4Bb7PLwY+5fbBmsPd0ZFzgUvNDIoaBVGIBGJlstRFum8bhjlD95DkEV/teMjwfd61aGOX/pfIXgnrhhYn9zUubcnAtWW2pfiJ7LBnJiT41CDfam1THuxTFpgMefEdQec5NglMhJIF/JVzA3yESGseljJR1aiJbIl3aBabZaOWgq+9TxI1G/+wDKmEXn49Hu9ebEI3aHGzcx2XBF/wxY+GL4cuIa8/ZXeT6iw/acYw+23Yjzv8WmnivdsDV9zdqV6jUZyjoTxZ4tC9ypCIzw/fdt36R6Js1xuQOwJXFT2s+6zkddrbcxU9KqaMcIa0GnRQcMr3NwbzjHB3uHO8p09ijB9+EwrATC3abAHBoVBcfFYzhLRA3aCAA/Zi3jhdfc7pgt7Bsg+u9d9G3NlZiHL6JIvgMxnTxhPoqk=
   upload_dir: "stage"
   local_dir: "build"
+  on:
+    branch: deploy-settings
