@@ -13,4 +13,4 @@ deploy:
   upload_dir: "stage"
   local_dir: "build"
   on:
-    branch: deploy-settings
+    branch: master
