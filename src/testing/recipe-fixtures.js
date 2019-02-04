@@ -21,8 +21,8 @@ export default function recipeFixtures () {
             'Immediately add cheese.',
             'Stir and flip until eggs are done as you like it'
         ],
-        dateCreated: new Date('1/28/2001'),
-        dateModified: new Date('1/6/2004'),
+        dateCreated: '1/28/2001',
+        dateModified: '1/6/2004',
         notes: 'This is a test of the recipe entry system.'
     }, {
         id: '2',
@@ -52,8 +52,8 @@ export default function recipeFixtures () {
             'Mash some of the beans against the side of the pan, if desired, and stir until the mixture thickens.',
             'Taste and adjust seasonings. Serve over hot rice. Pass additional Tabasco.'
         ],
-        dateCreated: new Date('1/28/2001'),
-        dateModified: new Date('1/28/2001'),
+        dateCreated: '1/28/2001',
+        dateModified: '1/28/2001',
         notes: 'red beans and rice, that\'s nice'
     }, {
         id: '3',

@@ -8,7 +8,7 @@ export default PropTypes.shape({
     numberOfServings: PropTypes.string,
     ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
     instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    dateCreated: PropTypes.instanceOf(Date),
-    dateModified: PropTypes.instanceOf(Date),
+    dateCreated: PropTypes.string,
+    dateModified: PropTypes.string,
     notes: PropTypes.string,
 })

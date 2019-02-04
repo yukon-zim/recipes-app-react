@@ -158,7 +158,7 @@ export default class RecipeListTable extends Component {
 }
 
 RecipeListTable.propTypes = {
-    recipes: PropTypes.arrayOf(RecipePropType).isRequired,
+    recipes: PropTypes.arrayOf(RecipePropType),
     loading: PropTypes.bool,
     searchInProgress: PropTypes.bool,
 };

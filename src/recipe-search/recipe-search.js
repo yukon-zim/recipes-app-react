@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RecipePropType from '../recipe-detail/RecipePropType';
 
 export default class RecipeSearch extends Component {
 
@@ -9,7 +8,6 @@ export default class RecipeSearch extends Component {
     }
 
     render() {
-        const { recipes, loading, searchInProgress } = this.props;
         return (
             <div>
                 <div className="mb-4">
@@ -19,22 +17,11 @@ export default class RecipeSearch extends Component {
                            }}
                            placeholder="Search recipes"/>
                 </div>
-                {loading && (
-                 <h2>Loading recipes...</h2>
-                )}
-                {!searchInProgress && !loading && (
-                    <h2>My {recipes.length} Recipes</h2>
-                )}
-                {searchInProgress && !loading && (
-                    <h2>Search results: {recipes.length} recipe(s)</h2>
-                )}
             </div>
         )
     }
 }
 
 RecipeSearch.propTypes = {
-    recipes: PropTypes.arrayOf(RecipePropType).isRequired,
-    loading: PropTypes.bool,
-    searchInProgress: PropTypes.bool,
+setSearchTerm: PropTypes.func.isRequired
 };
