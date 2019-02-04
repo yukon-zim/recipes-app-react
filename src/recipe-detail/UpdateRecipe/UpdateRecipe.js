@@ -31,7 +31,7 @@ function deepCopy(data) {
 
 const UpdateRecipeDetail = recipeDetail(UpdateRecipeButtons);
 
-const UpdateRecipe = props => {
+function UpdateRecipe(props) {
     const id = props.match.params.id;
     return(
         <Query

@@ -18,7 +18,7 @@ const Nav = styled.nav`
 `;
 
 // "functional component" (only has render function); can use shorthand notation
-const Header = ({ user }) => {
+function Header({ user }) {
     const userName = user ? user.name: '';
     return (
         <Nav className="nav">
@@ -45,7 +45,7 @@ const Header = ({ user }) => {
             </ul>
         </Nav>
     )
-};
+}
 
 Header.propTypes = {
     user: PropTypes.shape({

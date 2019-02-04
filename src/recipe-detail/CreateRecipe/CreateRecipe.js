@@ -5,13 +5,15 @@ import CreateRecipeButtons from './CreateRecipeButtons';
 
 const CreateRecipeDetail = recipeDetail(CreateRecipeButtons);
 
-const CreateRecipe = props => (
-    <CreateRecipeDetail
-        {...props}
-        newRecipeMode={true}
-        user={props.user}>
-    </CreateRecipeDetail>
-);
+function CreateRecipe(props) {
+    return (
+        <CreateRecipeDetail
+            {...props}
+            newRecipeMode={true}
+            user={props.user}>
+        </CreateRecipeDetail>
+    )
+}
 
 CreateRecipe.propTypes = {
     user: PropTypes.object

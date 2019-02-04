@@ -4,7 +4,7 @@ import RecipePropType from './RecipePropType';
 import Button from '../style/Button';
 import * as Styled from '../style/RecipeForm';
 
-const RecipeDetailListField = (
+function RecipeDetailListField(
     {
         recipe,
         user,
@@ -26,7 +26,7 @@ const RecipeDetailListField = (
         addListItem,
         removeListItem
     }
-) => {
+) {
     const ListType = listType === 'unordered' ? 'ul' : 'ol';
     let InputType = type === 'textarea' ? 'textarea' : 'input';
     if (!recipe) {
