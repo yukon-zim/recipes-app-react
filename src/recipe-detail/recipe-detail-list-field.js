@@ -32,7 +32,7 @@ function RecipeDetailListField(
     if (!recipe) {
         return '';
     }
-    if(!recipe[fieldName]) {
+    if (!recipe[fieldName]) {
         return '';
     }
     return (
@@ -93,7 +93,7 @@ function RecipeDetailListField(
                                             <i className="fas fa-arrow-down"><i className="fas fa-arrow-down"></i></i>
                                         </Button>
                                     )}
-                                    {(recipe[fieldName].length > 1 ) && (
+                                    {(recipe[fieldName].length > 1) && (
                                         <Button
                                             disabled={!user}
                                             className="btn btn-light btn-sm btn-remove-item"
@@ -123,7 +123,7 @@ function RecipeDetailListField(
             </label>
         </div>
     )
-};
+}
 
 RecipeDetailListField.propTypes = {
     recipe: RecipePropType,
