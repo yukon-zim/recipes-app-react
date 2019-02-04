@@ -17,6 +17,9 @@ ${props => props.theme.oldSchool && css`
    ${props => props.delete && css`
       && {
         background: ${props => props.theme.oldSchoolOptions.deletePurple};
+        &&:active {
+      background: ${props => props.theme.oldSchoolOptions.deletePurple};
+    }
        }
   `};
 `}
