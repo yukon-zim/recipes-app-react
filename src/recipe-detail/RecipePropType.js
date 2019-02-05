@@ -6,9 +6,9 @@ export default PropTypes.shape({
     name: PropTypes.string.isRequired,
     category: PropTypes.string,
     numberOfServings: PropTypes.string,
-    ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-    instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    dateCreated: PropTypes.instanceOf(Date),
-    dateModified: PropTypes.instanceOf(Date),
+    ingredients: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    instructions: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    dateCreated: PropTypes.string,
+    dateModified: PropTypes.string,
     notes: PropTypes.string,
 })

@@ -14,14 +14,14 @@ const ResetLayout = styled.div`
   form {flex-basis: 33%}
 `;
 
-const ResetPage = ({ location }) => {
+function ResetPage({ location }) {
     const { resetToken } = QueryString.parse(location.search);
     return (
         <ResetLayout>
                 <Reset resetToken={resetToken}/>
         </ResetLayout>
     )
-};
+}
 
 ResetPage.propTypes = {
     resetToken: PropTypes.string.isRequired

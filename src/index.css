@@ -36,3 +36,6 @@ div.form-field-invalid {
   font-size: 0.875rem;
   margin-left: 0.125rem;
 }
+td.table-message {
+  border-top: 0;
+}

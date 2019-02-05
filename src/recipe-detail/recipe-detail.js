@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Moment from 'moment';
 import { Prompt } from 'react-router-dom';
+import { cloneDeep } from 'lodash';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import RecipePropType from './RecipePropType';
@@ -110,13 +111,12 @@ export default function recipeDetail (FormButtons) {
         };
 
         addListItem = (fieldName) => {
-            const recipe = this.state.recipe;
-            recipe[fieldName].push('');
-            this.editField(`${fieldName}`, recipe[fieldName].length - 1);
+            const recipeCopy = cloneDeep(this.state.recipe);
+            recipeCopy[fieldName].push('');
+            this.editField(`${fieldName}`, recipeCopy[fieldName].length - 1);
             this.setState({
-                recipe,
-                formIsDirty: true,
-                formIsValid: this.isFormValid()
+                recipe: recipeCopy,
+                formIsDirty: true
             });
         };
 
@@ -141,21 +141,20 @@ export default function recipeDetail (FormButtons) {
         };
 
         deleteListItem = (index, fieldName) => {
-            const recipe = this.state.recipe;
-            recipe[fieldName].splice(index, 1);
+            const recipeCopy = cloneDeep(this.state.recipe);
+            recipeCopy[fieldName].splice(index, 1);
             this.setState({
-                recipe,
-                formIsDirty: true,
-                formIsValid: this.isFormValid()
+                recipe: recipeCopy,
+                formIsDirty: true
             });
         };
 
         isFormValid = () => {
             return (this.recipeForm
-                && this.recipeForm.checkValidity()
                 && this.state.recipe
                 && this.state.recipe.instructions.length >= 1
                 && this.state.recipe.ingredients.length >= 1
+                && this.recipeForm.checkValidity()
             );
         };
 
@@ -197,6 +196,16 @@ export default function recipeDetail (FormButtons) {
         async componentDidMount() {
             this.loadRecipeIdFromProps(this.props);
             window.scrollTo(0, 0)
+        }
+
+        componentDidUpdate(prevProps, prevState) {
+            if (this.state.recipe.ingredients.length !== prevState.recipe.ingredients.length ||
+                this.state.recipe.instructions.length !== prevState.recipe.instructions.length) {
+                // state has changed - recheck form validity
+                this.setState({
+                    formIsValid: this.isFormValid()
+                })
+            }
         }
 
         render() {

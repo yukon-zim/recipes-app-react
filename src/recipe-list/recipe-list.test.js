@@ -76,7 +76,7 @@ describe('component tests', () => {
             await wait(500);
             wrapper.update();
             expect(wrapper.contains('RecipeListTable')).toEqual(false);
-            expect(wrapper.contains('RecipeSearch')).toEqual(false);
+            expect(wrapper.contains('RecipeSearch')).toEqual(true);
             expect(wrapper.exists('h4.network-error')).toEqual(true);
         });
         describe("sign in/out", () => {

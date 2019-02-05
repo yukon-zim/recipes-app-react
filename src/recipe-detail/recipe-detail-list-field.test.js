@@ -219,10 +219,10 @@ describe('component tests', () => {
                     expect(spyIsFieldInEditAndFocus).toHaveBeenCalledWith('instructions', i);
                 }
                 const pageText = wrapper.find('textarea');
-                const notesText = pageText.filterWhere(findTestField);
+                const instructionText = pageText.filterWhere(findTestField);
                 // should render correct textarea element
                 expect(pageText).toHaveLength(1);
-                expect(notesText).toHaveLength(1);
+                expect(instructionText).toHaveLength(1);
             })
         })
     })

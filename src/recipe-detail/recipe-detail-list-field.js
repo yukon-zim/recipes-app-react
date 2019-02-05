@@ -4,7 +4,7 @@ import RecipePropType from './RecipePropType';
 import Button from '../style/Button';
 import * as Styled from '../style/RecipeForm';
 
-const RecipeDetailListField = (
+function RecipeDetailListField(
     {
         recipe,
         user,
@@ -26,13 +26,13 @@ const RecipeDetailListField = (
         addListItem,
         removeListItem
     }
-) => {
+) {
     const ListType = listType === 'unordered' ? 'ul' : 'ol';
     let InputType = type === 'textarea' ? 'textarea' : 'input';
     if (!recipe) {
         return '';
     }
-    if(!recipe[fieldName]) {
+    if (!recipe[fieldName]) {
         return '';
     }
     return (
@@ -93,7 +93,7 @@ const RecipeDetailListField = (
                                             <i className="fas fa-arrow-down"><i className="fas fa-arrow-down"></i></i>
                                         </Button>
                                     )}
-                                    {(recipe[fieldName].length > 1 ) && (
+                                    {(recipe[fieldName].length > 1) && (
                                         <Button
                                             disabled={!user}
                                             className="btn btn-light btn-sm btn-remove-item"
@@ -123,7 +123,7 @@ const RecipeDetailListField = (
             </label>
         </div>
     )
-};
+}
 
 RecipeDetailListField.propTypes = {
     recipe: RecipePropType,

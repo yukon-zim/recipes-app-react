@@ -18,6 +18,7 @@ describe('component tests', () => {
     let NewRecipeDetail;
     let EditRecipeDetail;
     beforeEach(() =>{
+        spyCheckValidity.mockClear();
         // setup HOCs for mounting where needed; setup spyCheckValidity for use on Update form
         NewRecipeDetail = recipeDetail(() => 'CreateRecipeButtons' );
         EditRecipeDetail = recipeDetail(() => 'UpdateRecipeButtons' );
@@ -75,6 +76,7 @@ describe('component tests', () => {
         });
         it('should correctly add an item to a list', async () => {
             expect(mockedDetail.state.recipe).toEqual(recipeFixtures()[0]);
+            spyCheckValidity.mockClear();
             // add new ingredient
             mockedDetail.addListItem('ingredients');
             // check that ingredients have changed
@@ -82,9 +84,12 @@ describe('component tests', () => {
             // check that instructions have not changed
             expect(mockedDetail.state.recipe.instructions).toEqual(recipeFixtures()[0].instructions);
             expect(mockedDetail.state.formIsDirty).toEqual(true);
+            expect(spyCheckValidity).toHaveBeenCalled();
+            // cannot fully check form validity in unit test - this relies on HTML5's checkValidity
         });
         it('should correctly remove an item from a list', async () => {
             expect(mockedDetail.state.recipe).toEqual(recipeFixtures()[0]);
+            spyCheckValidity.mockClear();
             // remove instruction
             mockedDetail.deleteListItem(0, 'instructions');
             // check that instructions have changed
@@ -92,6 +97,8 @@ describe('component tests', () => {
             // check that ingredients have not changed
             expect(mockedDetail.state.recipe.ingredients).toEqual(recipeFixtures()[0].ingredients);
             expect(mockedDetail.state.formIsDirty).toEqual(true);
+            expect(spyCheckValidity).toHaveBeenCalled();
+            // cannot fully check form validity in unit test - this relies on HTML5's checkValidity
         });
         it('should correctly move an item up/down a list', async () => {
             expect(mockedDetail.state.recipe).toEqual(recipeFixtures()[0]);
@@ -105,6 +112,8 @@ describe('component tests', () => {
             mockedDetail.moveListItemUp(1, 'instructions');
             // recipe should now match fixtures again
             expect(mockedDetail.state.recipe).toEqual(recipeFixtures()[0]);
+            expect(mockedDetail.state.formIsDirty).toEqual(true);
+            // cannot fully check form validity in unit test - this relies on HTML5's checkValidity
         })
     });
 });

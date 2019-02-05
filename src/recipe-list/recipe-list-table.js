@@ -124,31 +124,31 @@ export default class RecipeListTable extends Component {
                         }
                     )}
                     {loading && (
-                        <tr>
-                            <td>
+                        <Styled.Row>
+                            <td className="table-message">
                                 <span className="span-loading">
                                     Loading recipes...
                                 </span>
                             </td>
-                        </tr>
+                        </Styled.Row>
                     )}
                     {noRecipesFound && !loading && (
-                        <tr>
-                            <td>
+                        <Styled.Row>
+                            <td className="table-message">
                                 <span className="span-no-recipes-found">
                                     No recipes found
                                 </span>
                             </td>
-                        </tr>
+                        </Styled.Row>
                     )}
                     {noRecipes && !loading && (
-                        <tr>
-                            <td>
+                        <Styled.Row>
+                            <td className="table-message">
                                 <span className="span-no-user-recipes">
                                     Why not add/import some recipes?
                                 </span>
                             </td>
-                        </tr>
+                        </Styled.Row>
                     )}
                     </tbody>
                 </table>
@@ -158,7 +158,7 @@ export default class RecipeListTable extends Component {
 }
 
 RecipeListTable.propTypes = {
-    recipes: PropTypes.arrayOf(RecipePropType).isRequired,
+    recipes: PropTypes.arrayOf(RecipePropType),
     loading: PropTypes.bool,
     searchInProgress: PropTypes.bool,
 };

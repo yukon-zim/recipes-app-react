@@ -1,5 +1,5 @@
 export default class FormValidHelper {
-   static isFormValid = (form) => {
+    static isFormValid = (form) => {
         return form && form.checkValidity();
     };
 }

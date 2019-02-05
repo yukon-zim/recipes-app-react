@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RecipePropType from './RecipePropType';
 import * as Styled from '../style/RecipeForm';
 
-const RecipeDetailField = (
+function RecipeDetailField(
     {
         recipe,
         type,
@@ -17,8 +17,7 @@ const RecipeDetailField = (
         unfocusField,
         unfocusFieldOnEnter,
         setRecipeField
-    }
-    ) => {
+    }) {
     const isAutoFocused = isFieldInEditAndFocus(fieldName);
     let InputType = type === 'textarea' ? 'textarea' : 'input';
     return (
@@ -34,21 +33,21 @@ const RecipeDetailField = (
                 )}
                 {isFieldInEditMode(fieldName) && (
                     <Styled.FormField as={InputType} id={fieldName}
-                               className="recipe-detail-field"
-                               autoFocus={isAutoFocused}
+                                      className="recipe-detail-field"
+                                      autoFocus={isAutoFocused}
                         // pass a value:string even if fieldName is null/undefined to avoid controlled component error
-                               value={recipe[fieldName] || ''}
-                               onChange={event => {
-                                   setRecipeField(fieldName, event.target.value)
-                               }}
-                               onBlur={() => unfocusField()}
-                               onKeyUp={(event) => unfocusFieldOnEnter(event)}
-                               onFocus={() => editField(fieldName)}
-                               type={type}
-                               rows='3'
-                               placeholder={fieldName}
-                               name={fieldName}
-                               required={required}
+                                      value={recipe[fieldName] || ''}
+                                      onChange={event => {
+                                          setRecipeField(fieldName, event.target.value)
+                                      }}
+                                      onBlur={() => unfocusField()}
+                                      onKeyUp={(event) => unfocusFieldOnEnter(event)}
+                                      onFocus={() => editField(fieldName)}
+                                      type={type}
+                                      rows='3'
+                                      placeholder={fieldName}
+                                      name={fieldName}
+                                      required={required}
                     />
                 )}
                 {isFieldInEditMode(fieldName) && required && (
