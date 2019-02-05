@@ -16,7 +16,7 @@ import User from './login/User';
 import background from './background.svg';
 
 const client = new ApolloClient({
-    uri: "http://localhost:4000",
+    uri: process.env.REACT_APP_GRAPHQL_URL,
     request: operation => {
         operation.setContext({
             fetchOptions: {
