@@ -80,7 +80,7 @@ class App extends Component {
             currentTheme: this.state.theme
         };
         return (
-            <Router>
+            <Router basename={process.env.REACT_APP_BASE_URL}>
                 <ThemeProvider theme={this.state.theme}>
                     <div>
                         <ApolloProvider client={client}>
