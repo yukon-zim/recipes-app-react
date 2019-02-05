@@ -58,7 +58,7 @@ function UpdateRecipe(props) {
                 }
             }}
         </Query>
-    )};
+    )}
 
 UpdateRecipe.propTypes = {
     user: PropTypes.object,
