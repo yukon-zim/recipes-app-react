@@ -1,6 +1,7 @@
 {
   "name": "recipes-app-react",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.1.22",
