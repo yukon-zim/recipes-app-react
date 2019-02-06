@@ -15,7 +15,7 @@ body {
 .recipe-detail-field:valid ~ .form-field-invalid {
   display: none;
 }
-.flex-container {
+.header.flex-container {
   display: flex;
   flex-direction: row;
   padding: 5px;

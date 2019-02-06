@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const Row = styled.tr`
  display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   margin-right: -15px;
     margin-left: -15px;
 `;

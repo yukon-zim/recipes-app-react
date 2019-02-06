@@ -67,7 +67,7 @@ export default class RecipeListTable extends Component {
             <div>
                 <table className="recipes table">
                     <thead className="table-header">
-                    <Styled.Row className="row">
+                    <Styled.Row className="row flex-container">
                         <Styled.HeaderCell
                             col={7}
                             className="table-header name-header">
@@ -94,9 +94,9 @@ export default class RecipeListTable extends Component {
                     <tbody>
                     {this.state.recipes.map(recipe => {
                             return (
-                                <Styled.Row className="data-row" key={recipe.id}>
+                                <Styled.Row className="data-row flex-container" key={recipe.id}>
                                     <Styled.Cell col={7}
-                                          className="table-cell">
+                                                 className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span name-span">
                                                 {recipe.name}
@@ -104,7 +104,7 @@ export default class RecipeListTable extends Component {
                                         </Link>
                                     </Styled.Cell>
                                     <Styled.Cell col={3}
-                                          className="table-cell">
+                                                 className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span category-span">
                                                 {recipe.category}
@@ -112,7 +112,7 @@ export default class RecipeListTable extends Component {
                                         </Link>
                                     </Styled.Cell>
                                     <Styled.Cell col={2}
-                                          className="table-cell">
+                                                 className="table-cell">
                                         <Link to={`/detail/${recipe.id}`}>
                                             <span className="table-span servings-span">
                                                 {recipe.numberOfServings}

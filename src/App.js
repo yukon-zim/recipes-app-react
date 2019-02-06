@@ -96,7 +96,7 @@ class App extends Component {
                                         )}
                                         {!error && !loading && (
                                             <React.Fragment>
-                                                <Header user={data.whoAmI}/>
+                                                <Header className="header" user={data.whoAmI}/>
                                                 <Switch>
                                                     <Redirect exact from='/' to='/recipes'/>
                                                     <Route exact path='/recipes'

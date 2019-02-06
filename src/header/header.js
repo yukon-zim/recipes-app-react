@@ -22,13 +22,13 @@ function Header({ user }) {
     const userName = user ? user.name: '';
     return (
         <Nav className="nav">
-            <ul className="navbar-nav flex-container">
+            <ul className="navbar-nav header flex-container">
                 <li className="welcome-header">
                     <h1> Welcome {userName} to the FilePro Recipe Graveyard! </h1>
                 </li>
             </ul>
 
-            <ul className="ml-lg-auto mt-0 navbar-nav flex-container">
+            <ul className="ml-lg-auto mt-0 navbar-nav header flex-container">
                 <li>
                     <Button as={Link} className="btn btn-primary mr-2 mt-2" to="/recipes">Recipe List</Button>
                 </li>

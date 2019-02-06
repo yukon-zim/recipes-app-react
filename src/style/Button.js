@@ -8,10 +8,16 @@ ${props => props.theme.oldSchool && css`
    && {
     background: ${props => props.theme.oldSchoolOptions.darkGrey};
     color: ${props => props.theme.oldSchoolOptions.white};
+    &&:active {
+      background: ${props => props.theme.oldSchoolOptions.darkGrey};
+    }
    };
   ${props => (props.update || props.create) && css`
     && {
       background: ${props => props.theme.oldSchoolOptions.updatePurple};
+      &&:active {
+      background: ${props => props.theme.oldSchoolOptions.updatePurple};
+    }
     }
   `};
    ${props => props.delete && css`
