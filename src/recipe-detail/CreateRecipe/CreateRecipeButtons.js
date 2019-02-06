@@ -33,7 +33,7 @@ class CreateRecipeButtons extends Component {
             });
             this.props.resetForm();
             this.goToId(res.data.addRecipe.id);
-            return res;
+            return res.data.addRecipe;
         } catch (err) {
             console.error(err);
         }
@@ -82,6 +82,7 @@ class CreateRecipeButtons extends Component {
 CreateRecipeButtons.propTypes = {
     formIsDirty: PropTypes.bool.isRequired,
     formIsValid: PropTypes.bool.isRequired,
+    setRecipe: PropTypes.func,
     user: PropTypes.object
 };
 

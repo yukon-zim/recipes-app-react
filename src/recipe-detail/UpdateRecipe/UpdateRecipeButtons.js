@@ -41,7 +41,8 @@ class UpdateRecipeButtons extends Component {
                 }
             });
             this.props.resetForm();
-            return res;
+            this.props.setRecipe(res.data.editRecipe);
+            return res.data.editRecipe;
         } catch (err) {
             console.error(err);
         }
@@ -56,7 +57,7 @@ class UpdateRecipeButtons extends Component {
                     }
                 });
                 this.goToListView();
-                return res;
+                return res.data.deleteRecipe;
             } catch (err) {
                 console.error(err);
             }
@@ -126,6 +127,7 @@ UpdateRecipeButtons.propTypes = {
     formIsDirty: PropTypes.bool.isRequired,
     formIsValid: PropTypes.bool.isRequired,
     resetForm: PropTypes.func.isRequired,
+    setRecipe: PropTypes.func.isRequired,
     user: PropTypes.object
 };
 

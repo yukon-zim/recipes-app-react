@@ -47,6 +47,13 @@ export default function recipeDetail (FormButtons) {
             }
         }
 
+        // props to UpdateRecipeButtons - triggers render to show API res from updated recipe
+        setRecipe = (savedRecipe) => {
+            this.setState({
+                recipe: savedRecipe
+            })
+        };
+
         setRecipeField = (fieldName, fieldValue, index) => {
             const recipe = this.state.recipe;
             if (index === null || index === undefined) {
@@ -238,7 +245,7 @@ export default function recipeDetail (FormButtons) {
                 <div>
                     <div className="container-fluid">
                         <Styled.Form ref={this.setFormRef}
-                              onSubmit={this.handleSubmit}>
+                                     onSubmit={this.handleSubmit}>
                             <Prompt
                                 when={formIsDirty}
                                 message="Unsaved changes - are you sure you want to leave this page?"
@@ -328,6 +335,7 @@ export default function recipeDetail (FormButtons) {
                                             formIsDirty={formIsDirty}
                                             formIsValid={formIsValid}
                                             resetForm={this.resetForm}
+                                            setRecipe={this.setRecipe}
                                         >
                                         </FormButtons>
                                     </div>
