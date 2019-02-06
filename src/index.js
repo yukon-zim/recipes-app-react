@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 // const RECIPE_QUERY = gql`
 //     query RECIPE_QUERY($id: ID!) {
@@ -17,4 +17,4 @@ import registerServiceWorker from './registerServiceWorker';
 // client.query({query: RECIPE_QUERY, variables: {id: 3}}).then(result => console.log(result));
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();
