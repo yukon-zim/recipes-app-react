@@ -28,8 +28,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build:stage": "env-cmd .env.stage npm run build",
+    "build": "PUBLIC_URL=/jz-portfolio/recipes-app/ react-scripts build",
+    "build:stage": "PUBLIC_URL=/jz-portfolio/recipes-app-stage/ env-cmd .env.stage npm run build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
