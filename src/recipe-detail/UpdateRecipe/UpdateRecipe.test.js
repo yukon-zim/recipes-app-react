@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MockedProvider } from "react-apollo/test-utils";
 import { isEqual } from 'lodash';
+import wait from 'waait';
 import recipeFixtures from '../../testing/recipe-fixtures.js';
 import UpdateRecipe, { GET_RECIPE_QUERY } from './UpdateRecipe';
 
@@ -20,7 +21,7 @@ describe('component tests', () => {
     }];
     const errorMocks = [{
         request: mockRequest,
-        result: { error: "Bad Request" }
+        result: { errors: ["Bad Request"] }
     }];
 
     describe('render tests', () => {
@@ -30,7 +31,7 @@ describe('component tests', () => {
             // will not recognize mocked query as identical to GET_RECIPE_QUERY run by component
             wrapper = mount(<MockedProvider mocks={mocks} addTypename={false}><UpdateRecipe match={{ params: { id: '1' } }}/></MockedProvider>);
             // advance query and update wrapper to see mocked data instead of loading state
-            await new Promise(resolve => setTimeout(resolve));
+            await wait(100);
             wrapper.update();
             expect(wrapper.contains('RecipeDetail')).toEqual(true);
             // locate the element within the wrapper that's displaying the recipe

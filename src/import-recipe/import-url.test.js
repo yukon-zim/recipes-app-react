@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MockedProvider } from "react-apollo/test-utils";
 import { ThemeProvider } from 'styled-components';
+import wait from 'waait';
 import recipeFixtures from '../testing/recipe-fixtures.js';
 import ImportUrl from './import-url';
 import { URL_IMPORT_MUTATION } from './import-url';
@@ -29,7 +30,7 @@ describe('component tests', () => {
     }];
     const errorMocks = [{
         request: mockMutation,
-        result: { error: "Bad Request" }
+        result: { errors: ["Bad Request"] }
     }];
     let wrapper;
     let mockedComponent;
@@ -63,7 +64,7 @@ describe('component tests', () => {
             // simulate click on import button
             mockedComponent.urlToImportInput = { value: 'www.google.com' };
             wrapper.find('button.btn-import-url').simulate('mouseDown');
-            await new Promise(resolve => setTimeout(resolve, 10));
+            await wait(100);
             wrapper.update();
             // url input/state should reset
             expect(mockedComponent.state.urlInputValid).toEqual(false);

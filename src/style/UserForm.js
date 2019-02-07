@@ -90,3 +90,6 @@ export const UserFormLabel = styled(HeaderLabel)`
 `;
 
 export const UserFormButton = styled(Button)``;
+UserFormButton.displayName = 'UserFormButton';
+HeaderLabel.displayName = 'HeaderLabel';
+UserFormLabel.displayName = 'UserFormLabel';

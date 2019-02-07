@@ -48,7 +48,7 @@ describe('component tests', () => {
     }];
     const errorMocks = [{
         request: mockRequest,
-        result: { error: "Bad Request" }
+        result: { errors: ["Bad Request"] }
     }];
 
     describe('render tests', () => {

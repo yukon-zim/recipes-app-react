@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils'
 import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
+import wait from 'waait';
 import recipeFixtures from '../../testing/recipe-fixtures';
 import CreateRecipeButtons, { CREATE_RECIPE_MUTATION } from './CreateRecipeButtons'
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
@@ -36,7 +37,7 @@ describe('component tests', () => {
     }];
     const errorMocks = [{
         request: mockMutation,
-        result: { error: "Bad Request" }
+        result: { errors: ["Bad Request"] }
     }];
 
     describe('testing event handlers', async () => {
@@ -61,7 +62,7 @@ describe('component tests', () => {
             // apply click to 'save new' button
             mockedButton.simulate('mouseDown');
             // wait for create mutation
-            await new Promise(resolve => setTimeout(resolve, 10));
+            await wait(100);
             wrapper.update();
             expect(spyReset).toHaveBeenCalled();
         });

@@ -66,35 +66,35 @@ describe('component tests', () => {
            // no spy needed for non-props method?
             // let spySortRecipes = jest.fn();
             const validRecipes = [recipeFixtures()[0], recipeFixtures()[1]];
-            const mockedTable = mount(<MemoryRouter><RecipeListTable
+             wrapper = mount(<MemoryRouter><RecipeListTable
                 recipes={validRecipes}
                 searchInProgress={false}
             /></MemoryRouter>);
-            // setup wrapper instance so state can be accessed
-            wrapper = mockedTable.find('RecipeListTable').instance();
+            // setup component instance so state can be accessed
+            const mockedTable = wrapper.find('RecipeListTable').instance();
             // compare text of name cells to fixture data to test order
-            expect(mockedTable.find('span.name-span').map(nodeText)).toEqual([
+            expect(wrapper.find('span.name-span').map(nodeText)).toEqual([
                 recipeFixtures()[0].name,
                 recipeFixtures()[1].name
             ]);
-            expect(wrapper.state.currentSortByField).toEqual(null);
-            expect(wrapper.state.currentSortByOrder).toEqual(null);
+            expect(mockedTable.state.currentSortByField).toEqual(null);
+            expect(mockedTable.state.currentSortByOrder).toEqual(null);
             // click name header to sort by name asc
-            mockedTable.find('th.name-header a').simulate('click');
-            expect(wrapper.state.recipes).toEqual([
+            wrapper.find('th.name-header a').simulate('click');
+            expect(mockedTable.state.recipes).toEqual([
                 recipeFixtures()[0],
                 recipeFixtures()[1]
             ]);
-            expect(wrapper.state.currentSortByField).toEqual('name');
-            expect(wrapper.state.currentSortByOrder).toEqual('asc');
+            expect(mockedTable.state.currentSortByField).toEqual('name');
+            expect(mockedTable.state.currentSortByOrder).toEqual('asc');
             // click name header to sort by name desc
-            mockedTable.find('th.name-header a').simulate('click');
-            expect(wrapper.state.recipes).toEqual([
+            wrapper.find('th.name-header a').simulate('click');
+            expect(mockedTable.state.recipes).toEqual([
                 recipeFixtures()[1],
                 recipeFixtures()[0]
             ]);
-            expect(wrapper.state.currentSortByField).toEqual('name');
-            expect(wrapper.state.currentSortByOrder).toEqual('desc');
+            expect(mockedTable.state.currentSortByField).toEqual('name');
+            expect(mockedTable.state.currentSortByOrder).toEqual('desc');
         })
     })
 });

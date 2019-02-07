@@ -4,6 +4,7 @@ import { MockedProvider } from 'react-apollo/test-utils'
 import { ThemeProvider } from 'styled-components';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import wait from 'waait';
 import recipeFixtures from '../../testing/recipe-fixtures';
 import UpdateRecipeButtons, { UPDATE_RECIPE_MUTATION, DELETE_RECIPE_MUTATION } from './UpdateRecipeButtons'
 import { ALL_RECIPES_QUERY } from '../../recipe-list/recipe-list';
@@ -46,7 +47,7 @@ describe('component tests', () => {
     }];
     const errorMocks = [{
         request: mockUpdateMutation,
-        result: { error: "Bad Request" }
+        result: { errors: ["Bad Request"] }
     }];
 
     describe('testing event handlers', async () => {
@@ -80,7 +81,7 @@ describe('component tests', () => {
             // apply click to 'save new' button
             mockedButton.simulate('mouseDown');
             // wait for update mutation
-            await new Promise(resolve => setTimeout(resolve, 10));
+            await wait(100);
             wrapper.update();
             expect(spyReset).toHaveBeenCalled();
         });

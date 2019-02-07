@@ -10,6 +10,7 @@ jest.mock('./CreateRecipe/CreateRecipeButtons', () => () => 'CreateRecipeButtons
 jest.mock('./UpdateRecipe/UpdateRecipeButtons', () => () => 'UpdateRecipeButtons');
 
 describe('component tests', () => {
+    // mock out form validity checks
     let spyCheckValidity = jest.fn();
     spyCheckValidity.mockImplementation(() => {return true});
     function mockSetFormRef() {
@@ -22,6 +23,7 @@ describe('component tests', () => {
         // setup HOCs for mounting where needed; setup spyCheckValidity for use on Update form
         NewRecipeDetail = recipeDetail(() => 'CreateRecipeButtons' );
         EditRecipeDetail = recipeDetail(() => 'UpdateRecipeButtons' );
+        // mock out form validity checks
         jest.spyOn(EditRecipeDetail.prototype, 'setFormRef').mockImplementation(mockSetFormRef);
     });
     describe('render scenarios', () => {

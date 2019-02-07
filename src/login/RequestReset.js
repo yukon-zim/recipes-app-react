@@ -46,8 +46,8 @@ class RequestReset extends Component {
                 variables={this.state}>
                 {(reset, { error, loading, called }) => (
                     <Styled.Form ref={form => this.requestResetForm = form}
-                          onSubmit={this.handleSubmit}
-                          className="user-form">
+                                 onSubmit={this.handleSubmit}
+                                 className="user-form">
                         <fieldset disabled={loading} aria-busy={loading}>
                             <Styled.HeaderLabel className="header-label user-form">
                                 <h2> Request a PW reset </h2>
@@ -55,6 +55,7 @@ class RequestReset extends Component {
                             <Styled.UserFormLabel htmlFor="email">
                                 Email:
                                 <input
+                                    className="email"
                                     type="email"
                                     name="email"
                                     placeholder="email"
@@ -63,9 +64,9 @@ class RequestReset extends Component {
                                 />
                             </Styled.UserFormLabel>
                             <Styled.UserFormButton className="btn btn-primary btn-request-reset"
-                                            disabled={!formIsValid}
-                                            type="submit"
-                                            onClick={async () => this.requestReset(reset)}>Request Reset</Styled.UserFormButton>
+                                                   disabled={!formIsValid}
+                                                   type="submit"
+                                                   onClick={async () => this.requestReset(reset)}>Request Reset</Styled.UserFormButton>
                             {error && (
                                 <p className="error-message">{error.message}</p>
                             )}
@@ -79,3 +80,4 @@ class RequestReset extends Component {
 }
 
 export default RequestReset;
+export { REQUEST_RESET_MUTATION }
